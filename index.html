@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Training Suite Dashboard</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn-tailwindcss.vercel.app/"></script>
   <style>
     .page { display: none; opacity: 0; transform: translateX(20px); transition: opacity 0.35s ease, transform 0.35s ease; }
     .page.active { display: block; opacity: 1; transform: translateX(0); }
@@ -47,10 +47,38 @@
       max-width: 92%; max-height: 92%;
       border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.6);
     }
-    .dot {
-      display: inline-block;
-      width: 0.5rem; height: 0.5rem;
-      border-radius: 50%; background-color: white;
+
+    /* --- 1. GLOBAL SCROLLBAR STYLES --- */
+    /* These styles now apply to the ENTIRE app for a uniform look. */
+
+    /* WebKit browsers (Chrome, Safari, Edge) */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 116, 139, 0.5); /* slate-500 with opacity */
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(100, 116, 139, 0.8); /* darker on hover */
+    }
+
+    ::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    /* --- 2. SIDEBAR-SPECIFIC OVERRIDE --- */
+    /* This rule applies the negative margin trick ONLY to the sidebar nav. */
+    aside nav {
+      overflow-y: auto;
+      margin-right: -1rem; /* Pull scrollbar to the edge */
+      padding-right: 1rem; /* Add padding to keep content from being cut off */
     }
   </style>
 </head>
@@ -58,7 +86,7 @@
   <div class="flex h-screen">
     <aside class="w-72 bg-slate-800 text-white p-4 flex flex-col text-base hidden">
       
-      <div class="flex items-center space-x-4 mb-6">
+      <div class="flex items-center space-x-4 mb-6 px-4">
         <button onclick="showPage('dashboard-main', 'tab-dashboard-main')" class="p-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-700 transition-colors" aria-label="Back to dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -66,31 +94,24 @@
         </button>
         <img src="./images/Xtime Logo Vector.svg .png" alt="Xtime Logo" class="h-4">
       </div>
-      <nav class="flex-1 space-y-2">
+
+      <nav class="flex-1 space-y-1">
         <button id="tab-dashboard-main" class="hidden"></button> 
-        <button id="tab-home" onclick="showPage('home','tab-home')" class="tab-btn block w-full text-left px-3 py-2 rounded hover:bg-slate-700">🏠 Introduction</button>
+        <button id="tab-home" onclick="showPage('home','tab-home')" class="tab-btn block w-full text-left px-4 py-2 rounded hover:bg-slate-700">🏠 Introduction</button>
 
-        <h2 class="mt-4 mb-2 text-sm uppercase tracking-wide text-slate-400">Chapter 1 — Dashboard Basics</h2>
-        <button onclick="showPage('chapter1-intro','tab-ch1intro')" id="tab-ch1intro" class="tab-btn flex items-center w-full text-left px-3 py-2 rounded hover:bg-slate-700 pl-5">Introduction
-        </button>
-        <button onclick="showPage('login','tab-login')" id="tab-login" class="tab-btn flex items-center w-full text-left px-3 py-2 rounded hover:bg-slate-700 pl-5">Logging In
-        </button>
-        <button onclick="showPage('dashboard','tab-dashboard')" id="tab-dashboard" class="tab-btn flex items-center w-full text-left px-3 py-2 rounded hover:bg-slate-700 pl-5">Navigating the Dashboard
-        </button>
+        <h2 class="mt-4 mb-2 text-sm uppercase tracking-wide text-slate-400 px-4 pt-2">Chapter 1 — Dashboard Basics</h2>
+        <button onclick="showPage('chapter1-intro','tab-ch1intro')" id="tab-ch1intro" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Introduction</button>
+        <button onclick="showPage('login','tab-login')" id="tab-login" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Logging In</button>
+        <button onclick="showPage('dashboard','tab-dashboard')" id="tab-dashboard" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Navigating the Dashboard</button>
 
-        <h2 class="mt-4 mb-2 text-sm uppercase tracking-wide text-slate-400">Chapter 2 — Appointments & Customers</h2>
-        <button onclick="showPage('chapter2-intro','tab-ch2intro')" id="tab-ch2intro" class="tab-btn flex items-center w-full text-left px-3 py-2 rounded hover:bg-slate-700 pl-5">Introduction
-        </button>
-        <button onclick="showPage('newappt','tab-newappt')" id="tab-newappt" class="tab-btn flex items-center w-full text-left px-3 py-2 rounded hover:bg-slate-700 pl-5">Booking a New Appointment
-        </button>
-        <button onclick="showPage('reschedule','tab-reschedule')" id="tab-reschedule" class="tab-btn flex items-center w-full text-left px-3 py-2 rounded hover:bg-slate-700 pl-5">Rescheduling an Appointment
-        </button>
-        <button onclick="showPage('cancel','tab-cancel')" id="tab-cancel" class="tab-btn flex items-center w-full text-left px-3 py-2 rounded hover:bg-slate-700 pl-5">Cancelling an Appointment
-        </button>
-        <button onclick="showPage('newcustomer','tab-newcustomer')" id="tab-newcustomer" class="tab-btn flex items-center w-full text-left px-3 py-2 rounded hover:bg-slate-700 pl-5">Creating a New Customer
-        </button>
+        <h2 class="mt-4 mb-2 text-sm uppercase tracking-wide text-slate-400 px-4 pt-2">Chapter 2 — Appointments & Customers</h2>
+        <button onclick="showPage('chapter2-intro','tab-ch2intro')" id="tab-ch2intro" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Introduction</button>
+        <button onclick="showPage('newappt','tab-newappt')" id="tab-newappt" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Booking a New Appointment</button>
+        <button onclick="showPage('reschedule','tab-reschedule')" id="tab-reschedule" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Rescheduling an Appointment</button>
+        <button onclick="showPage('cancel','tab-cancel')" id="tab-cancel" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Cancelling an Appointment</button>
+        <button onclick="showPage('newcustomer','tab-newcustomer')" id="tab-newcustomer" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Creating a New Customer</button>
       </nav>
-      <footer class="text-xs text-slate-400 mt-auto">© Training Reference</footer>
+      <footer class="text-xs text-slate-400 mt-auto pt-4 px-4">© Training Reference</footer>
     </aside>
 
     <main class="flex-1 p-6 overflow-y-auto relative bg-slate-100">
@@ -120,17 +141,15 @@
               </div>
           </div>
       </section>
-
+      
       <section id="home" class="page">
         <h2 class="text-3xl font-bold mb-4">Welcome to the Xtime Scheduler Training</h2>
         <p class="mb-4">This guide summarizes the training video and breaks it into clear, easy-to-follow chapters. Each chapter begins with an introduction describing what you will learn.</p>
       </section>
-
       <section id="chapter1-intro" class="page">
         <h2 class="text-3xl font-bold mb-4">Chapter 1 — Dashboard Basics</h2>
         <p>This chapter introduces the foundation: <strong>logging in</strong> to Xtime and understanding the <strong>dashboard</strong>. You’ll learn how to log in securely, locate your dealerships quickly, and use the <mark>Launch</mark> button to open the scheduler.</p>
       </section>
-
       <section id="login" class="page" aria-labelledby="login-title">
         <h2 id="login-title" class="text-3xl font-bold mb-4">1 — Logging In</h2>
         <div class="illustration" onclick="openModal('Xtime Login Page')">[Illustration: Xtime Login Page — click to enlarge]</div>
@@ -145,7 +164,6 @@
           <p>If the page is slow, wait a few seconds — do not repeatedly click <strong>Login</strong>.</p>
         </div>
       </section>
-
       <section id="dashboard" class="page" aria-labelledby="dashboard-title">
         <h2 id="dashboard-title" class="text-3xl font-bold mb-4">2 — Navigating the Dashboard</h2>
         <div class="illustration" onclick="openModal('Xtime Dashboard')">[Illustration: Xtime Dashboard — click to enlarge]</div>
@@ -159,12 +177,10 @@
           <p>Clicking the dealership name <strong>won't</strong> open the scheduler — use <strong>Launch</strong>.</p>
         </div>
       </section>
-
       <section id="chapter2-intro" class="page">
         <h2 class="text-3xl font-bold mb-4">Chapter 2 — Appointments & Customers</h2>
         <p>This chapter focuses on the daily tasks of working with customers. You will learn how to <strong>book new appointments</strong>, <strong>reschedule</strong> or <strong>cancel</strong> existing ones, and create new customer records when needed.</p>
       </section>
-
       <section id="newappt" class="page" aria-labelledby="newappt-title">
         <h2 id="newappt-title" class="text-3xl font-bold mb-4">3 — Booking a New Appointment</h2>
         <div class="illustration" onclick="openModal('New Appointment')">[Illustration: New Appointment — click to enlarge]</div>
@@ -183,7 +199,6 @@
           <p><strong>VIN</strong> is important for recalls and certain packages — include it when possible.</p>
         </div>
       </section>
-
       <section id="reschedule" class="page" aria-labelledby="reschedule-title">
         <h2 id="reschedule-title" class="text-3xl font-bold mb-4">4 — Rescheduling an Appointment</h2>
         <div class="illustration" onclick="openModal('Reschedule Appointment')">[Illustration: Reschedule Appointment — click to enlarge]</div>
@@ -198,7 +213,6 @@
           <p>Ask the customer for any constraints (e.g., "No morning appointments") before confirming.</p>
         </div>
       </section>
-
       <section id="cancel" class="page" aria-labelledby="cancel-title">
         <h2 id="cancel-title" class="text-3xl font-bold mb-4">5 — Cancelling an Appointment</h2>
         <div class="illustration" onclick="openModal('Cancel Appointment')">[Illustration: Cancel Appointment — click to enlarge]</div>
@@ -213,7 +227,6 @@
           <p>When cancelling, always suggest alternate dates/times — it reduces no-shows.</p>
         </div>
       </section>
-
       <section id="newcustomer" class="page" aria-labelledby="newcustomer-title">
         <h2 id="newcustomer-title" class="text-3xl font-bold mb-4">6 — Creating a New Customer</h2>
         <div class="illustration" onclick="openModal('Add New Customer')">[Illustration: Add New Customer — click to enlarge]</div>
@@ -228,14 +241,12 @@
           <p>Use <strong>Quick Add</strong> for speed. Keep customer name spelling correct — avoid changing names later.</p>
         </div>
       </section>
-      
-    </main>
+  </main>
   </div>
 
   <div id="imageModal" class="flex" onclick="closeModal()"><img id="modalImage" src="" alt=""></div>
 
   <script>
-    // MODIFIED: Initial page is now the main dashboard
     let currentPage = document.getElementById('dashboard-main');
     let currentActiveTab = document.getElementById('tab-dashboard-main');
     currentActiveTab.classList.add('active-main');
@@ -244,7 +255,6 @@
     function showPage(id, tabId) {
       if (currentPage.id === id) return;
 
-      // ADDED: Logic to show/hide the sidebar
       if (id === 'dashboard-main') {
         sidebar.classList.add('hidden');
       } else {

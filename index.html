@@ -112,21 +112,19 @@
 
       <nav class="flex-1 space-y-1">
         <button id="tab-dashboard-main" class="hidden"></button> 
-        <button id="tab-home" onclick="showPage('home','tab-home')" class="tab-btn block w-full text-left px-4 py-2 rounded hover:bg-slate-700">🏠 Introduction</button>
+        <button id="tab-home" onclick="showPage('home','tab-home')" class="tab-btn block w-full text-left px-4 py-2 rounded hover:bg-slate-700"> Introduction</button>
 
         <h2 class="mt-4 mb-2 text-sm uppercase tracking-wide text-slate-400 px-4 pt-2">Chapter 1 — Dashboard Basics</h2>
-        <button onclick="showPage('chapter1-intro','tab-ch1intro')" id="tab-ch1intro" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Introduction</button>
         <button onclick="showPage('login','tab-login')" id="tab-login" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Logging In</button>
         <button onclick="showPage('dashboard','tab-dashboard')" id="tab-dashboard" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Navigating the Dashboard</button>
 
         <h2 class="mt-4 mb-2 text-sm uppercase tracking-wide text-slate-400 px-4 pt-2">Chapter 2 — Appointments & Customers</h2>
-        <button onclick="showPage('chapter2-intro','tab-ch2intro')" id="tab-ch2intro" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Introduction</button>
         <button onclick="showPage('newappt','tab-newappt')" id="tab-newappt" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Booking a New Appointment</button>
         <button onclick="showPage('reschedule','tab-reschedule')" id="tab-reschedule" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Rescheduling an Appointment</button>
         <button onclick="showPage('cancel','tab-cancel')" id="tab-cancel" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Cancelling an Appointment</button>
         <button onclick="showPage('newcustomer','tab-newcustomer')" id="tab-newcustomer" class="tab-btn block w-full text-left py-2 rounded hover:bg-slate-700 pl-8 pr-4">Creating a New Customer</button>
       </nav>
-      <footer class="text-xs text-slate-400 mt-auto pt-4 px-4">© Training Reference</footer>
+      <footer class="text-xs text-slate-400 mt-auto pt-4 px-4">© Dealerfocus Training Reference</footer>
     </aside>
 
     <main class="flex-1 p-6 overflow-y-auto relative bg-slate-100">
@@ -158,8 +156,18 @@
       </section>
       
       <section id="home" class="page">
-        <h2 class="text-3xl font-bold mb-4">Welcome to the Xtime Scheduler Training</h2>
-        <p class="mb-4">This guide summarizes the training video and breaks it into clear, easy-to-follow chapters. Each chapter begins with an introduction describing what you will learn.</p>
+        <h2 id="login-title" class="text-2xl font-bold mb-6 text-center">Welcome to the Xtime Scheduler Training</h2>
+          <div class="relative w-3/4 mx-auto my-8 bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="flex items-center justify-center h-[65vh] p-6">
+              <div class="w-full h-full flex flex-col justify-center">
+                <video controls class="mx-auto max-h-full max-w-full object-contain rounded-lg bg-gray-100 p-4">
+                  <source src="./videos/Xtime Introduction.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+
+              </div>
+            </div>
+          </div>
       </section>
       <section id="chapter1-intro" class="page">
         <h2 class="text-3xl font-bold mb-4">Chapter 1 — Dashboard Basics</h2>

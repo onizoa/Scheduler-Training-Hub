@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Training Suite Dashboard</title>
+  <title>Scheduler Training Hub</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <script src="https://cdn-tailwindcss.vercel.app/"></script>
   <style>
@@ -83,6 +83,18 @@
       margin-right: -1rem; /* Pull scrollbar to the edge */
       padding-right: 1rem; /* Add padding to keep content from being cut off */
     }
+
+    /* --- Carousel tweaks (modern look) --- */
+    /* Container is 75% width (w-3/4) via Tailwind class - extra minor CSS to ensure responsiveness */
+    #loginCarousel img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    /* make dot transitions smooth */
+    .carousel-dot {
+      transition: background-color 160ms ease, transform 160ms ease;
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -153,20 +165,64 @@
         <h2 class="text-3xl font-bold mb-4">Chapter 1 — Dashboard Basics</h2>
         <p>This chapter introduces the foundation: <strong>logging in</strong> to Xtime and understanding the <strong>dashboard</strong>. You’ll learn how to log in securely, locate your dealerships quickly, and use the <mark>Launch</mark> button to open the scheduler.</p>
       </section>
-      <section id="login" class="page" aria-labelledby="login-title">
-        <h2 id="login-title" class="text-3xl font-bold mb-4">1 — Logging In</h2>
-        <div class="illustration" onclick="openModal('Xtime Login Page')">[Illustration: Xtime Login Page — click to enlarge]</div>
-        <ol class="list-decimal pl-6 space-y-3">
-          <li><strong>Go to</strong> <mark>Xtime.com</mark>.</li>
-          <li><strong>Enter</strong> your <mark>username</mark> and <mark>password</mark>.</li>
-          <li>Click <strong>Login</strong> to access the system.</li>
-        </ol>
-        <div class="take-notes">
-          <p class="font-semibold">📝 Take Notes</p>
-          <p><strong>Always</strong> double-check your username and password before contacting support.</p>
-          <p>If the page is slow, wait a few seconds — do not repeatedly click <strong>Login</strong>.</p>
-        </div>
-      </section>
+
+        <!-- --------- UPDATED LOGIN SECTION --------- -->
+        <section id="login" class="page" aria-labelledby="login-title">
+          <h2 id="login-title" class="text-2xl font-bold mb-6 text-center">1 — Logging In</h2>
+
+          <!-- Carousel Container: fixed size, resizes with window -->
+          <div class="relative w-3/4 mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+            <div id="loginCarousel" class="relative flex items-center justify-center h-[65vh] p-6">
+              <!-- EDIT THESE IMAGE PATHS -->
+              <div class="carousel-slide w-full h-full flex flex-col justify-center">
+                <video controls class="mx-auto max-h-full max-w-full object-contain rounded-lg bg-gray-100 p-4">
+                  <source src="./videos/Xtime Login page.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-3 text-center text-m text-gray-700">Step 1 — Go to <strong>Xtime.com</strong> then click <strong>LOGIN</strong></p>
+              </div>
+              <div class="carousel-slide hidden w-full h-full flex flex-col justify-center">
+                <video controls class="mx-auto max-h-full max-w-full object-contain rounded-lg bg-gray-100 p-4">
+                  <source src="./videos/Xtime username input.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-3 text-center text-m text-gray-700">Step 2 — Enter your <strong>Username</strong></p>
+              </div>
+              <div class="carousel-slide hidden w-full h-full flex flex-col justify-center">
+                <video controls class="mx-auto max-h-full max-w-full object-contain rounded-lg bg-gray-100 p-4">
+                  <source src="./videos/Xtime password input.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-3 text-center text-m text-gray-700">Step 3 — Enter your <strong>Password</strong></p>
+              </div>
+              <div class="carousel-slide hidden w-full h-full flex flex-col justify-center">
+                <video controls class="mx-auto max-h-full max-w-full object-contain rounded-lg bg-gray-100 p-4">
+                  <source src="./videos/Xtime tool selection.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-3 text-center text-m text-gray-700">Step 4 — Select the <strong>Xtime tool</strong></p>
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="absolute bottom-4 right-4 flex space-x-2">
+              <button onclick="prevSlide()" class="px-4 py-2 bg-slate-700 text-white text-sm rounded-lg shadow hover:bg-slate-600 transition">Back</button>
+              <button onclick="nextSlide()" class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg shadow hover:bg-blue-500 transition">Next</button>
+            </div>
+
+            <!-- Dot Indicators -->
+            <div class="flex justify-center space-x-2 py-3 bg-gray-50 border-t" id="carouselDots"></div>
+          </div>
+
+          <div class="take-notes mt-6">
+            <p class="font-semibold">📝 Take Notes</p>
+            <p><strong>Always</strong> double-check your username and password before contacting support.</p>
+            <p>If the page is slow, wait a few seconds — do not repeatedly click <strong>Login</strong>.</p>
+          </div>
+        </section>
+        <!-- --------- end updated login section --------- -->
+
+
       <section id="dashboard" class="page" aria-labelledby="dashboard-title">
         <h2 id="dashboard-title" class="text-3xl font-bold mb-4">2 — Navigating the Dashboard</h2>
         <div class="illustration" onclick="openModal('Xtime Dashboard')">[Illustration: Xtime Dashboard — click to enlarge]</div>
@@ -287,6 +343,72 @@
     function closeModal() {
       document.getElementById('imageModal').style.display = 'none';
     }
+
+    /* ----------------- Carousel JS for Logging In tab ----------------- */
+    (function() {
+      // login carousel elements
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('#loginCarousel .carousel-slide');
+      const dotsContainer = document.getElementById('carouselDots');
+
+      if (!slides.length || !dotsContainer) return; // safety
+
+      // generate dots
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.className = 'w-3 h-3 rounded-full carousel-dot';
+        dot.style.backgroundColor = 'var(--dot-inactive, #d1d5db)'; // tailwind gray-300 default
+        dot.addEventListener('click', () => {
+          currentSlide = i;
+          showSlide(currentSlide);
+        });
+        dotsContainer.appendChild(dot);
+      });
+
+      const dots = dotsContainer.querySelectorAll('button');
+
+      function updateDots(index) {
+        dots.forEach((dot, i) => {
+          if (i === index) {
+            dot.style.backgroundColor = '#2563eb'; // blue-600
+            dot.style.transform = 'scale(1.05)';
+          } else {
+            dot.style.backgroundColor = '#d1d5db'; // gray-300
+            dot.style.transform = 'scale(1)';
+          }
+        });
+      }
+
+      function showSlide(index) {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('hidden', i !== index);
+        });
+        updateDots(index);
+      }
+
+      // controls: we attach to global functions used by buttons
+      window.nextSlide = function() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+      };
+      window.prevSlide = function() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+      };
+
+      // initialize
+      showSlide(currentSlide);
+
+      // optional: update on window resize to keep layout fluid (not strictly needed, but safe)
+      window.addEventListener('resize', () => {
+        // nothing heavy here — images use max-h:70vh so they adapt automatically
+        // we could re-show the slide to force reflow if needed:
+        showSlide(currentSlide);
+      });
+    })();
+    /* ----------------- end carousel JS ----------------- */
   </script>
 </body>
 </html>

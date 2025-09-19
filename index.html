@@ -39,6 +39,30 @@
     @media (max-width: 768px) {
       .training-video { width: 100%; }
     }
+    /* Xtime  sidebar button highlight effect */
+    .tab-btn::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px; /* This is our 4px vertical line */
+      background-color: #3b82f6; /* Tailwind's blue-500 */
+      
+      /* Animation properties */
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform 150ms ease-in-out;
+    }
+
+    .tab-btn.highlight-active::before {
+      /* The final state of the animation */
+      transform: scaleY(1);
+    }
+    .tab-btn.text-blue-600 span {
+      font-weight: 600;
+    }
+
   </style>
 </head>
 <body class="bg-gray-100">
@@ -54,33 +78,32 @@
         </div>
       </div>
 
-      <nav class="flex-1 p-4 space-y-2 overflow-y-auto" aria-label="Training chapters">
-        <!-- Intro/Xtime -->
-        <button id="tab-xtime-module" class="tab-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700" data-page="xtime-module">
+    <nav class="flex-1 space-y-2 overflow-y-auto" aria-label="Training chapters">
+        <button id="tab-xtime-module" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="xtime-module">
           <i data-feather="play-circle" class="w-5 h-5"></i><span>Introduction</span>
         </button>
-        <button id="tab-login" class="tab-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700" data-page="login">
+        <button id="tab-login" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="login">
           <i data-feather="log-in" class="w-5 h-5"></i><span>Logging In</span>
         </button>
-        <button id="tab-dashboard" class="tab-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700" data-page="dashboard">
+        <button id="tab-dashboard" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="dashboard">
           <i data-feather="grid" class="w-5 h-5"></i><span>Dealership Selection</span>
         </button>
-        <button id="tab-newappt" class="tab-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700" data-page="newappt">
+        <button id="tab-newappt" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="newappt">
           <i data-feather="plus-circle" class="w-5 h-5"></i><span>New Appointment</span>
         </button>
-        <button id="tab-reschedule" class="tab-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700" data-page="reschedule">
+        <button id="tab-reschedule" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="reschedule">
           <i data-feather="edit" class="w-5 h-5"></i><span>Rescheduling</span>
         </button>
-        <button id="tab-cancel" class="tab-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700" data-page="cancel">
+        <button id="tab-cancel" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="cancel">
           <i data-feather="x-circle" class="w-5 h-5"></i><span>Cancelling</span>
         </button>
-        <button id="tab-newcustomer" class="tab-btn flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700" data-page="newcustomer">
+        <button id="tab-newcustomer" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="newcustomer">
           <i data-feather="user-plus" class="w-5 h-5"></i><span>New Customer</span>
         </button>
       </nav>
 
       <div class="p-4 border-t border-gray-200">
-        <button class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700 tab-btn" data-page="dashboard-main">
+        <button class="tab-btn flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="dashboard-main">
           <i data-feather="arrow-left" class="w-5 h-5"></i><span>Back to Modules</span>
         </button>
       </div>
@@ -92,15 +115,12 @@
         <div class="flex justify-between items-center">
           <h1 id="main-header-title" class="text-xl font-semibold text-gray-800">Training Modules</h1>
           <div class="flex items-center space-x-4">
-            <div class="relative">
+            <div id="search-bar-container" class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i data-feather="search" class="h-4 w-4 text-gray-400"></i>
               </div>
               <input type="text" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Search...">
             </div>
-            <button class="p-2 rounded-full hover:bg-gray-100" aria-label="Notifications">
-              <i data-feather="bell" class="w-5 h-5 text-gray-600"></i>
-            </button>
           </div>
         </div>
       </header>
@@ -146,6 +166,7 @@
               <track src="./captions/intro_en.vtt" kind="subtitles" srclang="en" label="English">
               Your browser does not support the video tag.
             </video>
+            <h2 class="text-2xl font-bold mb-6 text-center"></h2>
           </div>
         </section>
 
@@ -210,23 +231,29 @@
           </div>
         </section>
 
-        <!-- NAVIGATING DASHBOARD TAB-->
-        <section id="dashboard" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-semibold mb-6">2 — Navigating the Dashboard</h2>
-            <div class="prose max-w-none">
-              <ul class="space-y-2">
-                <li>The dashboard shows a list of all <strong>dealerships</strong> tied to your account.</li>
-                <li>Use the <mark>search bar</mark> to find a dealership quickly.</li>
-                <li>Click <strong>Launch</strong> to open the dealership's Xtime Scheduler.</li>
-              </ul>
+        <!-- DEALERSHIP SELECTION TAB-->
+          <section id="dashboard" class="page">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
+              <h2 class="text-2xl font-bold mb-6 text-center">2 — Dealership Selection</h2>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
+              <video controls class="training-video" preload="metadata">
+                <source src="./videos/Dealership selection.mp4" type="video/mp4">
+                <track src="./captions/intro_en.vtt" kind="subtitles" srclang="en" label="English">
+                Your browser does not support the video tag.
+              </video>
+              <p class="mt-4 text-center text-gray-700">Use the search bar to find a dealership, then click <strong>Launch</strong>.</p>
             </div>
-            <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <p class="mt-2 text-sm">Clicking the dealership name <strong>won't</strong> open the scheduler — use the <strong>Launch</strong> button.</p>
+
+            <div class="mt-6 max-w-4xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
+                <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
+                <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                  <li>The <strong>Launch</strong> button is required to open the scheduler; clicking the name will not work.</li>
+                  <li>If a dealership you need is missing from the list, please contact your administrator.</li>
+                </ul>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
         <!-- NEW APPT TAB-->
         <section id="newappt" class="page">
@@ -318,6 +345,7 @@
       const sidebar = document.getElementById('sidebar');
       const mainHeaderTitle = document.getElementById('main-header-title');
       const mainContent = document.getElementById('main-content');
+      const searchBar = document.getElementById('search-bar-container');
 
       // showPage: pageId (string), tabId (string, optional)
       function showPage(pageId, tabId) {
@@ -334,7 +362,7 @@
 
         // update active tab styling: remove from all .tab-btn
         document.querySelectorAll('.tab-btn').forEach(t => {
-          t.classList.remove('bg-blue-50','text-blue-600');
+          t.classList.remove('bg-blue-50','text-blue-600', 'highlight-active');
           t.classList.add('text-gray-700');
           t.removeAttribute('aria-current');
         });
@@ -344,7 +372,7 @@
         if (tabId) activeTabEl = document.getElementById(tabId);
         if (!activeTabEl) activeTabEl = document.querySelector(`.tab-btn[data-page="${pageId}"]`);
         if (activeTabEl) {
-          activeTabEl.classList.add('bg-blue-50','text-blue-600');
+          activeTabEl.classList.add('bg-blue-50','text-blue-600', 'highlight-active');
           activeTabEl.setAttribute('aria-current','page');
         }
 
@@ -355,6 +383,12 @@
         } else {
           sidebar.classList.remove('-translate-x-full');
           mainContent.classList.add('ml-64');
+        }
+        // Show/hide search bar
+        if (pageId === 'dashboard-main') {
+          searchBar.classList.remove('hidden');
+        } else {
+          searchBar.classList.add('hidden');
         }
 
         // pause videos not in the active page (avoid background playback)

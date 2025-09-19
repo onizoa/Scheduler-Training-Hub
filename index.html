@@ -125,7 +125,7 @@
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i data-feather="search" class="h-4 w-4 text-gray-400"></i>
               </div>
-              <input type="text" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Search...">
+              <input type="text" id="module-search-input" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Search...">
             </div>
           </div>
         </div>
@@ -685,6 +685,36 @@
 
         // initial show
         show(current);
+      })();
+
+
+      // --- Dashboard Search Filter ---
+      (function initSearchFilter() {
+        const searchInput = document.getElementById('module-search-input');
+        const cardsGrid = document.querySelector('#dashboard-main .grid');
+
+        if (!searchInput || !cardsGrid) return;
+
+        // Get all direct children of the grid, which are the module cards
+        const allCards = Array.from(cardsGrid.children);
+
+        searchInput.addEventListener('input', (e) => {
+          const searchTerm = e.target.value.toLowerCase();
+
+          allCards.forEach(card => {
+            const titleElement = card.querySelector('h3');
+            if (titleElement) {
+              const title = titleElement.textContent.toLowerCase();
+
+              // If the card title includes the search term, show it. Otherwise, hide it.
+              if (title.includes(searchTerm)) {
+                card.classList.remove('hidden');
+              } else {
+                card.classList.add('hidden');
+              }
+            }
+          });
+        });
       })();
 
     }); // DOMContentLoaded

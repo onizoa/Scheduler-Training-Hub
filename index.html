@@ -268,50 +268,45 @@
             <h2 class="text-2xl font-bold mb-6 text-center">1 — Logging In</h2>
 
             <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div id="loginCarousel" class="relative p-4 bg-gray-50">
-                <!-- Slide 1 -->
-                <div class="carousel-slide w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata">
-                    <source src="./videos/Xtime Login page.mp4" type="video/mp4">
-                    <track src="./captions/login_step1.vtt" kind="subtitles" srclang="en" label="English">
-                  </video>
-                  <p class="mt-4 text-center text-gray-700">Step 1 — Go to <strong>Xtime.com</strong> then click <strong>LOGIN</strong></p>
+              <div id="loginCarousel" class="carousel-container relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+                <div class="carousel-slides relative p-4 bg-gray-50">
+                  <div class="carousel-slide w-full flex flex-col justify-center">
+                    <video controls="" class="training-video" preload="metadata">
+                      <source src="./videos/Xtime Login page1.mp4" type="video/mp4">
+                      <track src="./captions/login_step1.vtt" kind="subtitles" srclang="en" label="English">
+                    </video>
+                    <p class="mt-4 text-center text-gray-700">Step 1 — Go to <strong>Xtime.com</strong> then click <strong>LOGIN</strong></p>
+                  </div>
+
+                  <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                    <video controls="" class="training-video" preload="metadata">
+                      <source src="./videos/Xtime username input.mp4" type="video/mp4">
+                      <track src="./captions/login_step2.vtt" kind="subtitles" srclang="en" label="English">
+                    </video>
+                    <p class="mt-4 text-center text-gray-700">Step 2 — Enter your <strong>Username</strong></p>
+                  </div>
+                  <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                    <video controls="" class="training-video" preload="metadata">
+                      <source src="./videos/Xtime password input.mp4" type="video/mp4">
+                      <track src="./captions/login_step3.vtt" kind="subtitles" srclang="en" label="English">
+                    </video>
+                    <p class="mt-4 text-center text-gray-700">Step 3 — Enter your <strong>Password</strong></p>
+                  </div>
+                  <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                    <video controls="" class="training-video" preload="metadata">
+                      <source src="./videos/Xtime tool selection.mp4" type="video/mp4">
+                      <track src="./captions/login_step4.vtt" kind="subtitles" srclang="en" label="English">
+                    </video>
+                    <p class="mt-4 text-center text-gray-700">Step 4 — Select the <strong>Xtime tool</strong></p>
+                  </div>
                 </div>
 
-                <!-- Slide 2 -->
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata">
-                    <source src="./videos/Xtime username input.mp4" type="video/mp4">
-                    <track src="./captions/login_step2.vtt" kind="subtitles" srclang="en" label="English">
-                  </video>
-                  <p class="mt-4 text-center text-gray-700">Step 2 — Enter your <strong>Username</strong></p>
-                </div>
-
-                <!-- Slide 3 -->
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata">
-                    <source src="./videos/Xtime password input.mp4" type="video/mp4">
-                    <track src="./captions/login_step3.vtt" kind="subtitles" srclang="en" label="English">
-                  </video>
-                  <p class="mt-4 text-center text-gray-700">Step 3 — Enter your <strong>Password</strong></p>
-                </div>
-
-                <!-- Slide 4 -->
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata">
-                    <source src="./videos/Xtime tool selection.mp4" type="video/mp4">
-                    <track src="./captions/login_step4.vtt" kind="subtitles" srclang="en" label="English">
-                  </video>
-                  <p class="mt-4 text-center text-gray-700">Step 4 — Select the <strong>Xtime tool</strong></p>
+                <div class="flex justify-between items-center p-3 bg-white border-t">
+                  <button class="carousel-prev px-4 py-2 bg-gray-200 text-gray-800 text-sm rounded-lg hover:bg-gray-300 transition" aria-label="Previous slide">Back</button>
+                  <div class="carousel-dots flex justify-center space-x-2"></div>
+                  <button class="carousel-next px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-500 transition" aria-label="Next slide">Next</button>
                 </div>
               </div>
-
-              <div class="flex justify-between items-center p-3 bg-white border-t">
-                <button id="carouselPrev" class="px-4 py-2 bg-gray-200 text-gray-800 text-sm rounded-lg hover:bg-gray-300 transition" aria-label="Previous slide">Back</button>
-                <div id="carouselDots" class="flex justify-center space-x-2"></div>
-                <button id="carouselNext" class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-500 transition" aria-label="Next slide">Next</button>
-              </div>
-            </div>
 
             <div class="mt-6 max-w-4xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
               <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
@@ -354,14 +349,49 @@
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
             <h2 class="text-2xl font-bold mb-6 text-center">3 — Booking a New Appointment</h2>
 
-            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata">
-                  <source src="./videos/new-appointment.mp4" type="video/mp4">
-                  <track src="./captions/new-appointment.vtt" kind="subtitles" srclang="en" label="English">
-                  Your browser does not support the video tag.
-                </video>
-                <p class="mt-4 text-center text-gray-700">Search for the customer, select services, and choose a date and time.</p>
+            <div id="newApptCarousel" class="carousel-container relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+              <div class="carousel-slides relative p-4 bg-gray-50">
+                <div class="carousel-slide w-full flex flex-col justify-center">
+                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 1.mp4" type="video/mp4"></video>
+                  <p class="mt-4 text-center text-gray-700">Step 1: Select Dealership then Click <strong>New Appointment</strong></p>
+                </div>
+                <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 2.mp4" type="video/mp4"></video>
+                  <p class="mt-4 text-center text-gray-700">Step 2: Search for the customer using <strong>Phone number, Name, Email, Vin, or Confirmation Code.</strong></p>
+                </div>
+                <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 3.mp4" type="video/mp4"></video>
+                  <p class="mt-4 text-center text-gray-700">Step 3: Verify the <strong>Customer</strong> and their <strong>Vehicle.</strong></p>
+                </div>
+                <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 4.mp4" type="video/mp4"></video>
+                  <p class="mt-4 text-center text-gray-700">Step 4: Choose the correct <strong>Service package.</strong></p>
+                </div>
+                <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 5.mp4" type="video/mp4"></video>
+                  <p class="mt-4 text-center text-gray-700">Step 5: Select the <strong>Advisor</strong></p>
+                </div>
+                <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 6.mp4" type="video/mp4"></video>
+                  <p class="mt-4 text-center text-gray-700">Step 6: Choose the correct <strong>Transportation</strong></p>
+                </div>
+                <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 7.mp4" type="video/mp4"></video>
+                  <p class="mt-4 text-center text-gray-700">Step 7: Choose the <strong>Date</strong> and <strong>Time</strong> of the appointment</p>
+                </div>
+                <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 8.mp4" type="video/mp4"></video>
+                  <p class="mt-4 text-center text-gray-700">Step 8: Confirm how the customer wants to get their <strong>Appointment Confirmation</strong>.</p>
+                </div>
+                <div class="carousel-slide hidden w-full flex flex-col justify-center">
+                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 9.mp4" type="video/mp4"></video>
+                  <p class="mt-4 text-center text-gray-700">Step 9: Review all details then <strong>Book the appointment.</strong></p>
+                </div>
+              </div>
+              <div class="flex justify-between items-center p-3 bg-white border-t">
+                <button class="carousel-prev px-4 py-2 bg-gray-200 text-gray-800 text-sm rounded-lg hover:bg-gray-300 transition" aria-label="Previous slide">Back</button>
+                <div class="carousel-dots flex justify-center space-x-2"></div>
+                <button class="carousel-next px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-500 transition" aria-label="Next slide">Next</button>
               </div>
             </div>
 
@@ -641,23 +671,32 @@
       // expose openModal to window for easy usage from markup if needed
       window.openModal = openModal;
 
-      // --- Login carousel ---
-      (function initLoginCarousel() {
-        const carouselRoot = document.getElementById('loginCarousel');
+      // --- Reusable Carousel with Autoplay on Navigate ---
+      function initCarousel(carouselId) {
+        const carouselRoot = document.getElementById(carouselId);
         if (!carouselRoot) return;
-        const slides = carouselRoot.querySelectorAll('.carousel-slide');
-        const dotsContainer = document.getElementById('carouselDots');
-        const btnNext = document.getElementById('carouselNext');
-        const btnPrev = document.getElementById('carouselPrev');
+
+        const slidesContainer = carouselRoot.querySelector('.carousel-slides');
+        const slides = slidesContainer.querySelectorAll('.carousel-slide');
+        const dotsContainer = carouselRoot.querySelector('.carousel-dots');
+        const btnNext = carouselRoot.querySelector('.carousel-next');
+        const btnPrev = carouselRoot.querySelector('.carousel-prev');
+
         if (!slides.length || !dotsContainer) return;
 
         let current = 0;
+        let isInitialLoad = true; // Flag for initial load
+
         // create dots
         slides.forEach((_, i) => {
           const d = document.createElement('button');
           d.className = 'w-3 h-3 rounded-full carousel-dot bg-gray-300';
-          d.setAttribute('aria-label','Go to slide ' + (i+1));
-          d.addEventListener('click', () => { current = i; show(current); });
+          d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+          d.addEventListener('click', () => { 
+            isInitialLoad = false; // Set flag to false on user action
+            current = i; 
+            show(current); 
+          });
           dotsContainer.appendChild(d);
         });
         const dots = dotsContainer.querySelectorAll('button');
@@ -671,52 +710,60 @@
         }
 
         function show(index) {
+          // Hide all slides except the active one
           slides.forEach((s, i) => { s.classList.toggle('hidden', i !== index); });
-          // pause videos in other slides
+
+          // --- New Video Handling Logic ---
+          // 1. Pause any video that is NOT the active one
           slides.forEach((s, i) => {
-            const v = s.querySelector('video');
-            if (v) {
-              if (i === index) {
-                // keep as-is (user controls playback)
-              } else {
-                try { v.pause(); v.currentTime = 0; } catch(e) {}
-              }
+            if (i !== index) {
+              const v = s.querySelector('video');
+              if (v) try { v.pause(); v.currentTime = 0; } catch (e) {}
             }
           });
+
+          // 2. Handle the video in the ACTIVE slide
+          const activeVideo = slides[index].querySelector('video');
+          if (activeVideo && !isInitialLoad) {
+            activeVideo.currentTime = 0;
+            activeVideo.play().catch(error => {
+              // Autoplay was prevented by the browser, which is normal.
+              // The user can still click play manually.
+              console.log('Autoplay prevented by browser.');
+            });
+          }
+
           updateDots(index);
         }
 
-        function next() { current = (current + 1) % slides.length; show(current); }
-        function prev() { current = (current - 1 + slides.length) % slides.length; show(current); }
+        function next() { 
+          isInitialLoad = false; // Set flag to false on user action
+          current = (current + 1) % slides.length; 
+          show(current); 
+        }
+        function prev() { 
+          isInitialLoad = false; // Set flag to false on user action
+          current = (current - 1 + slides.length) % slides.length; 
+          show(current); 
+        }
 
-        // wire buttons (if present)
         if (btnNext) btnNext.addEventListener('click', (e) => { e.preventDefault(); next(); });
         if (btnPrev) btnPrev.addEventListener('click', (e) => { e.preventDefault(); prev(); });
 
-        // keyboard left/right only when login page is active
         document.addEventListener('keydown', (e) => {
-          const activeLogin = document.getElementById('login').classList.contains('active');
-          if (!activeLogin) return;
+          if (!carouselRoot.closest('.page.active')) return;
+          isInitialLoad = false; // Set flag to false on user action
           if (e.key === 'ArrowLeft') prev();
           if (e.key === 'ArrowRight') next();
         });
 
-        // swipe support
-        let startX = 0;
-        carouselRoot.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
-        carouselRoot.addEventListener('touchend', e => {
-          const diff = e.changedTouches[0].clientX - startX;
-          if (diff > 50) prev();
-          if (diff < -50) next();
-        });
-
-        // expose for debugging / external calls
-        window.nextSlide = next;
-        window.prevSlide = prev;
-
-        // initial show
+        // Initial show
         show(current);
-      })();
+      }
+
+      // Initialize all carousels on the page
+      initCarousel('loginCarousel');
+      initCarousel('newApptCarousel');
 
 
       // --- Dashboard Search Filter ---

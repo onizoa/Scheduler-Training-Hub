@@ -63,6 +63,34 @@
       font-weight: 600;
     }
 
+    /* --- Modern, Auto-Hiding Scrollbar --- */
+    #main-content::-webkit-scrollbar,
+    .sidebar nav::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    #main-content::-webkit-scrollbar-track,
+    .sidebar nav::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* Base scrollbar - fully transparent */
+    #main-content::-webkit-scrollbar-thumb,
+    .sidebar nav::-webkit-scrollbar-thumb {
+      background-color: rgba(107, 114, 128, 0); /* transparent */
+      border-radius: 20px;
+      border: 3px solid transparent;
+      background-clip: content-box;
+      transition: background-color 1.5s ease-in-out; /* smooth fade */
+    }
+
+    /* When scrolling, thumb is visible */
+    #main-content.is-scrolling::-webkit-scrollbar-thumb,
+    .sidebar nav.is-scrolling::-webkit-scrollbar-thumb {
+      background-color: rgba(107, 114, 128, 0.5); /* visible */
+    }
+
+
   </style>
 </head>
 <body class="bg-gray-100">
@@ -719,6 +747,30 @@
           });
         });
       })();
+
+      // --- Auto-hiding scrollbar on scroll event ---
+      (function initAutoHideScrollbar() {
+        const mainContent = document.getElementById('main-content');
+        const sidebarNav = document.querySelector('.sidebar nav');
+
+        const applyScrollListener = (element) => {
+          if (!element) return;
+          let timeout = null;
+
+          element.addEventListener('scroll', () => {
+            element.classList.add('is-scrolling'); // fade in immediately
+
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+              element.classList.remove('is-scrolling'); // fade out starts after 2s
+            }, 2000); // wait 2s before fading out
+          });
+        };
+
+        applyScrollListener(mainContent);
+        applyScrollListener(sidebarNav);
+      })();
+
 
     }); // DOMContentLoaded
   </script>

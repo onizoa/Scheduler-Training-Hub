@@ -27,7 +27,7 @@
 
     /* Training video styling */
     .training-video {
-      width: 75%;
+      width: 90%;
       max-height: 80vh;
       margin-left: auto;
       margin-right: auto;
@@ -91,14 +91,20 @@
         <button id="tab-newappt" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="newappt">
           <i data-feather="plus-circle" class="w-5 h-5"></i><span>New Appointment</span>
         </button>
+        <button id="tab-newcustomer" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="newcustomer">
+          <i data-feather="user-plus" class="w-5 h-5"></i><span>New Customer</span>
+        </button>
+        <button id="tab-addvehicle" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="addvehicle">
+          <i data-feather="edit" class="w-5 h-5"></i><span>Add/Delete Vehicle</span>
+        </button>
         <button id="tab-reschedule" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="reschedule">
-          <i data-feather="edit" class="w-5 h-5"></i><span>Rescheduling</span>
+          <i data-feather="calendar" class="w-5 h-5"></i><span>Rescheduling</span>
         </button>
         <button id="tab-cancel" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="cancel">
           <i data-feather="x-circle" class="w-5 h-5"></i><span>Cancelling</span>
         </button>
-        <button id="tab-newcustomer" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="newcustomer">
-          <i data-feather="user-plus" class="w-5 h-5"></i><span>New Customer</span>
+        <button id="tab-dmsappt" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="dmsappt">
+          <i data-feather="database" class="w-5 h-5"></i><span>DMS Appointment</span>
         </button>
       </nav>
 
@@ -236,13 +242,15 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
               <h2 class="text-2xl font-bold mb-6 text-center">2 — Dealership Selection</h2>
 
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-              <video controls class="training-video" preload="metadata">
-                <source src="./videos/Dealership selection.mp4" type="video/mp4">
-                <track src="./captions/intro_en.vtt" kind="subtitles" srclang="en" label="English">
-                Your browser does not support the video tag.
-              </video>
-              <p class="mt-4 text-center text-gray-700">Use the search bar to find a dealership, then click <strong>Launch</strong>.</p>
+            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+                <div class="relative p-4 bg-gray-50">
+                    <video controls class="training-video" preload="metadata">
+                        <source src="./videos/dealership selection.mp4" type="video/mp4">
+                        <track src="./captions/dealership_selection.vtt" kind="subtitles" srclang="en" label="English">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p class="mt-4 text-center text-gray-700">Use the search bar to find a dealership, then click <strong>Launch</strong>.</p>
+                </div>
             </div>
 
             <div class="mt-6 max-w-4xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
@@ -258,23 +266,76 @@
         <!-- NEW APPT TAB-->
         <section id="newappt" class="page">
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-semibold mb-6">3 — Booking a New Appointment</h2>
-            <div class="prose max-w-none">
-              <ol class="space-y-2">
-                <li>Click <strong>New Appointment</strong>.</li>
-                <li><strong>Search</strong> for the customer by <mark>phone number</mark> (recommended), <mark>name</mark>, or <mark>email</mark>.</li>
-                <li><strong>Verify</strong> the customer and the vehicle. If there are multiple vehicles, pick the one with a <strong>VIN</strong>.</li>
-                <li>Select the correct <mark>service</mark> or maintenance package.</li>
-                <li>Choose the <mark>date</mark>, <mark>time</mark>, and <mark>service advisor</mark>.</li>
-                <li><strong>Review</strong> the appointment details and click <strong>Save/Confirm</strong>.</li>
-                <li>Provide the customer with the confirmation details.</li>
-              </ol>
+            <h2 class="text-2xl font-bold mb-6 text-center">3 — Booking a New Appointment</h2>
+
+            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+              <div class="relative p-4 bg-gray-50">
+                <video controls class="training-video" preload="metadata">
+                  <source src="./videos/new-appointment.mp4" type="video/mp4">
+                  <track src="./captions/new-appointment.vtt" kind="subtitles" srclang="en" label="English">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-4 text-center text-gray-700">Search for the customer, select services, and choose a date and time.</p>
+              </div>
             </div>
-            <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
+
+            <div class="mt-6 max-w-4xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
               <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
               <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li><strong>Search first</strong> — always try to find the customer before creating new records.</li>
-                <li><strong>VIN</strong> is important for recalls and certain packages — include it when possible.</li>
+                <li>Always search for a customer by phone number before creating a new profile.</li>
+                <li>Select vehicles with a VIN when available for better service tracking.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- NEW CUSTOMER TAB -->
+        <section id="newcustomer" class="page">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-center">4 — Creating a New Customer</h2>
+
+            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+              <div class="relative p-4 bg-gray-50">
+                <video controls class="training-video" preload="metadata">
+                  <source src="./videos/new-customer.mp4" type="video/mp4">
+                  <track src="./captions/new-customer.vtt" kind="subtitles" srclang="en" label="English">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-4 text-center text-gray-700">After searching, use the 'Quick Add' feature to create a new profile.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 max-w-4xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
+              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                <li>A first name, last name, and phone number are required fields.</li>
+                <li>Add vehicle information, including the VIN, to create a complete record.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ADD/DELETE VEHICLE TAB -->
+        <section id="addvehicle" class="page">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-center">5 — Adding/Deleting a Vehicle</h2>
+
+            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+              <div class="relative p-4 bg-gray-50">
+                <video controls class="training-video" preload="metadata">
+                  <source src="./videos/add-delete-vehicle.mp4" type="video/mp4">
+                  <track src="./captions/add-delete-vehicle.vtt" kind="subtitles" srclang="en" label="English">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-4 text-center text-gray-700">Add a new vehicle to a customer's profile or remove an old one.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 max-w-4xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
+              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                <li>Always confirm with the customer before deleting a vehicle from their profile.</li>
+                <li>Adding a VIN is highly recommended for accurate vehicle identification.</li>
               </ul>
             </div>
           </div>
@@ -283,14 +344,25 @@
         <!-- RESCHEDULE TAB-->
         <section id="reschedule" class="page">
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-semibold mb-6">4 — Rescheduling an Appointment</h2>
-            <div class="prose max-w-none">
-              <ol class="space-y-2">
-                <li>Search for the customer's existing appointment.</li>
-                <li>Click the <strong>green appointment slot</strong> to open the details panel.</li>
-                <li>Edit the <mark>date</mark>, <mark>time</mark> or service details as needed.</li>
-                <li>Confirm the rescheduled appointment and inform the customer.</li>
-              </ol>
+            <h2 class="text-2xl font-bold mb-6 text-center">6 — Rescheduling an Appointment</h2>
+
+            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+              <div class="relative p-4 bg-gray-50">
+                <video controls class="training-video" preload="metadata">
+                  <source src="./videos/rescheduling.mp4" type="video/mp4">
+                  <track src="./captions/rescheduling.vtt" kind="subtitles" srclang="en" label="English">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-4 text-center text-gray-700">Find the existing appointment on the calendar and modify the date or time.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 max-w-4xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
+              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                <li>Confirm the new date and time with the customer before saving your changes.</li>
+                <li>You can also modify services during the reschedule process.</li>
+              </ul>
             </div>
           </div>
         </section>
@@ -298,32 +370,55 @@
         <!-- CANCEL TAB -->
         <section id="cancel" class="page">
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-semibold mb-6">5 — Cancelling an Appointment</h2>
-            <div class="prose max-w-none">
-              <ol class="space-y-2">
-                <li>Search for the customer's appointment.</li>
-                <li>Open the appointment from the calendar.</li>
-                <li>Confirm with the customer that they want to cancel (offer to reschedule).</li>
-                <li>Proceed to cancel and provide confirmation to the customer.</li>
-              </ol>
+            <h2 class="text-2xl font-bold mb-6 text-center">7 — Cancelling an Appointment</h2>
+
+            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+              <div class="relative p-4 bg-gray-50">
+                <video controls class="training-video" preload="metadata">
+                  <source src="./videos/DMS.mp4" type="video/mp4">
+                  <track src="./captions/DMS.vtt" kind="subtitles" srclang="en" label="English">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-4 text-center text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 max-w-4xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
+              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                <li>Curabitur bibendum, mi a placerat vehicula, arcu nibh pretium lorem.</li>
+                <li>Nulla pretium nunc ut ipsum egestas, nec tincidunt justo aliquet.</li>
+              </ul>
             </div>
           </div>
         </section>
 
-        <!-- NEW CUSTOMER TAB -->
-        <section id="newcustomer" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-semibold mb-6">6 — Creating a New Customer</h2>
-            <div class="prose max-w-none">
-              <ol class="space-y-2">
-                <li>Search first. If no record is found, click <strong>Quick Add</strong>.</li>
-                <li>Enter <mark>First Name</mark>, <mark>Last Name</mark>, and <mark>Phone Number</mark>.</li>
-                <li>Add vehicle information: <mark>Year/Make/Model</mark>, <mark>Mileage</mark>, and <mark>VIN</mark>.</li>
-                <li>Save the customer and then create the appointment.</li>
-              </ol>
+        <!-- DMS TAB -->
+        <section id="dmsappt" class="page">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg-p-8" data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-center">8 — DMS Appointment</h2>
+
+            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+              <div class="relative p-4 bg-gray-50">
+                <video controls class="training-video" preload="metadata">
+                  <source src="./videos/dms-appointment.mp4" type="video/mp4">
+                  <track src="./captions/dms-appointment.vtt" kind="subtitles" srclang="en" label="English">
+                  Your browser does not support the video tag.
+                </video>
+                <p class="mt-4 text-center text-gray-700">Curabitur bibendum, mi a placerat vehicula, arcu nibh pretium lorem.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 max-w-4xl mx-auto bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg">
+              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                <li>Nulla pretium nunc ut ipsum egestas, nec tincidunt justo aliquet.</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+              </ul>
             </div>
           </div>
         </section>
+
       </main>
     </div>
   </div>
@@ -357,8 +452,8 @@
         next.classList.add('active');
 
         // update header title from page h2 if exists
-        const titleEl = next.querySelector('h2');
-        mainHeaderTitle.textContent = titleEl ? titleEl.textContent : 'Training Modules';
+        //const titleEl = next.querySelector('h2');
+        //mainHeaderTitle.textContent = titleEl ? titleEl.textContent : 'Training Modules';
 
         // update active tab styling: remove from all .tab-btn
         document.querySelectorAll('.tab-btn').forEach(t => {

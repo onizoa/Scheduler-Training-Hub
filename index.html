@@ -132,7 +132,13 @@
           <i data-feather="x-circle" class="w-5 h-5"></i><span>Cancelling</span>
         </button>
         <button id="tab-dmsappt" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="dmsappt">
-          <i data-feather="database" class="w-5 h-5"></i><span>DMS Appointment</span>
+          <i data-feather="alert-circle" class="w-5 h-5"></i><span>DMS Appointment</span>
+        </button>
+        <button id="tab-rohistory" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="rohistory">
+          <i data-feather="file-text" class="w-5 h-5"></i><span>RO History</span>
+        </button>
+        <button id="tab-knowledgecheck" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="knowledgecheck">
+          <i data-feather="check-circle" class="w-5 h-5"></i><span>Knowledge Check</span>
         </button>
       </nav>
 
@@ -517,11 +523,7 @@
 
             <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
               <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata">
-                  <source src="./videos/dms-appointment.mp4" type="video/mp4">
-                  <track src="./captions/dms-appointment.vtt" kind="subtitles" srclang="en" label="English">
-                  Your browser does not support the video tag.
-                </video>
+                <video controls class="training-video" preload="metadata"><source src="./videos/dms-appointment.mp4" type="video/mp4"></video>
                 <p class="mt-4 text-center text-gray-700">Curabitur bibendum, mi a placerat vehicula, arcu nibh pretium lorem.</p>
               </div>
             </div>
@@ -535,6 +537,170 @@
             </div>
           </div>
         </section>
+
+        <!-- RO HISTORY TAB -->
+        <section id="rohistory" class="page">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg-p-8" data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-center">9 — RO History</h2>
+
+            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+              <div class="relative p-4 bg-gray-50">
+                <video controls class="training-video" preload="metadata"><source src="./videos/dms-appointment.mp4" type="video/mp4"></video>
+                <p class="mt-4 text-center text-gray-700">Curabitur bibendum, mi a placerat vehicula, arcu nibh pretium lorem.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
+              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                <li>Nulla pretium nunc ut ipsum egestas, nec tincidunt justo aliquet.</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- KNOWLEDGE CHECK TAB -->
+        <section id="knowledgecheck" class="page">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-center">Knowledge Check</h2>
+            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
+              <p class="font-bold flex items-center"><i data-feather="alert-triangle" class="w-4 h-4 mr-2"></i>Contents are for Sample Only</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm"></ul>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-8">
+              
+              <!-- Multiple Choice -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">1. What is the first step when logging into Xtime?</h3>
+                <div class="space-y-2">
+                  <label class="flex items-center space-x-3">
+                    <input type="radio" name="q1" class="h-4 w-4 text-blue-600">
+                    <span>Enter your username</span>
+                  </label>
+                  <label class="flex items-center space-x-3">
+                    <input type="radio" name="q1" class="h-4 w-4 text-blue-600">
+                    <span>Go to Xtime.com and click Login</span>
+                  </label>
+                  <label class="flex items-center space-x-3">
+                    <input type="radio" name="q1" class="h-4 w-4 text-blue-600">
+                    <span>Select your dealership</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- True/False -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">2. You can create a new appointment without selecting a dealership.</h3>
+                <div class="space-y-2">
+                  <label class="flex items-center space-x-3">
+                    <input type="radio" name="q2" class="h-4 w-4 text-blue-600">
+                    <span>True</span>
+                  </label>
+                  <label class="flex items-center space-x-3">
+                    <input type="radio" name="q2" class="h-4 w-4 text-blue-600">
+                    <span>False</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Checkboxes -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">3. Which fields are required when creating a new customer? (Select all that apply)</h3>
+                <div class="space-y-2">
+                  <label class="flex items-center space-x-3">
+                    <input type="checkbox" name="q3" class="h-4 w-4 text-blue-600">
+                    <span>First Name</span>
+                  </label>
+                  <label class="flex items-center space-x-3">
+                    <input type="checkbox" name="q3" class="h-4 w-4 text-blue-600">
+                    <span>Last Name</span>
+                  </label>
+                  <label class="flex items-center space-x-3">
+                    <input type="checkbox" name="q3" class="h-4 w-4 text-blue-600">
+                    <span>Phone Number</span>
+                  </label>
+                  <label class="flex items-center space-x-3">
+                    <input type="checkbox" name="q3" class="h-4 w-4 text-blue-600">
+                    <span>Email Address</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Matching Type -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">4. Match each action with its correct description:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-2">
+                    <div class="p-2 bg-gray-100 rounded">Rescheduling</div>
+                    <div class="p-2 bg-gray-100 rounded">Cancelling</div>
+                    <div class="p-2 bg-gray-100 rounded">New Appointment</div>
+                  </div>
+                  <div class="space-y-2">
+                    <select class="w-full p-2 border rounded">
+                      <option value="">Select match</option>
+                      <option value="a">Creating a future service visit</option>
+                      <option value="b">Changing date/time of existing appointment</option>
+                      <option value="c">Removing an appointment entirely</option>
+                    </select>
+                    <select class="w-full p-2 border rounded">
+                      <option value="">Select match</option>
+                      <option value="a">Creating a future service visit</option>
+                      <option value="b">Changing date/time of existing appointment</option>
+                      <option value="c">Removing an appointment entirely</option>
+                    </select>
+                    <select class="w-full p-2 border rounded">
+                      <option value="">Select match</option>
+                      <option value="a">Creating a future service visit</option>
+                      <option value="b">Changing date/time of existing appointment</option>
+                      <option value="c">Removing an appointment entirely</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Fill in the Blank -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">5. Complete the sentence: Always search for a customer by __________ before creating a new profile.</h3>
+                <input type="text" class="w-full p-2 border rounded" placeholder="Your answer...">
+              </div>
+
+              <!-- Image Identification -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">6. Identify the correct button to launch the scheduler:</h3>
+                <div class="flex flex-wrap gap-4 justify-center">
+                  <label class="cursor-pointer">
+                    <img src="https://via.placeholder.com/150x100?text=Launch" alt="Launch button screenshot" class="w-32 h-20 object-cover rounded border-2 border-transparent hover:border-blue-500">
+                    <div class="text-center mt-2">
+                      <input type="radio" name="q6" class="mr-1"> Launch
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <img src="https://via.placeholder.com/150x100?text=Login" alt="Login button screenshot" class="w-32 h-20 object-cover rounded border-2 border-transparent hover:border-blue-500">
+                    <div class="text-center mt-2">
+                      <input type="radio" name="q6" class="mr-1"> Login
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <img src="https://via.placeholder.com/150x100?text=Search" alt="Search button screenshot" class="w-32 h-20 object-cover rounded border-2 border-transparent hover:border-blue-500">
+                    <div class="text-center mt-2">
+                      <input type="radio" name="q6" class="mr-1"> Search
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex justify-between mt-8">
+                <button type="button" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Reset Answers</button>
+                <button type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Submit Quiz</button>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
 
       </main>
     </div>

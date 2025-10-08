@@ -879,6 +879,9 @@
               <input type="email" id="email" placeholder="Email Address" class="w-full p-2 border rounded">
             </div>
 
+            <div id="messageContainer" class="w-full">
+              </div>
+
             <div class="mt-6 flex justify-center w-full">
               <button id="doneBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Done</button>
             </div>
@@ -1434,11 +1437,15 @@ document.getElementById("doneBtn").addEventListener("click", async function hand
   const quizPercentage = document.getElementById("quizPercentage").textContent;
   
   const inputs = document.querySelectorAll("#firstName, #lastName, #email");
+  // Get the dedicated message container
+  const messageContainer = document.getElementById("messageContainer");
+
+  // Define the message element (P tag) and inject it into the container
   const msg = document.getElementById("uploadMsg") || (() => {
     const p = document.createElement("p");
     p.id = "uploadMsg";
-    p.className = "mt-4 text-sm text-gray-600 text-center";
-    doneBtn.parentNode.insertBefore(p, doneBtn);
+    p.className = "text-sm text-gray-600 text-center"; 
+    messageContainer.appendChild(p); // Append directly to the new container
     return p;
   })();
 

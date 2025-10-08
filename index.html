@@ -90,6 +90,13 @@
       background-color: rgba(107, 114, 128, 0.5); /* visible */
     }
 
+    /* New rule to prevent cursor/text selection within the modal container */
+    #quizResultModal .bg-white {
+      /* Prevents text selection and the cursor associated with editable text */
+      user-select: none; 
+      -webkit-user-select: none; /* For older WebKit browsers */
+      cursor: default; /* Ensures the mouse pointer is not the text I-beam */
+    }
 
   </style>
 </head>
@@ -136,6 +143,9 @@
         </button>
         <button id="tab-rohistory" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="rohistory">
           <i data-feather="file-text" class="w-5 h-5"></i><span>RO History</span>
+        </button>
+        <button id="tab-workbook" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="workbook">
+          <i data-feather="book" class="w-5 h-5"></i><span>Workbook</span>
         </button>
         <button id="tab-knowledgecheck" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="knowledgecheck">
           <i data-feather="check-circle" class="w-5 h-5"></i><span>Knowledge Check</span>
@@ -259,7 +269,7 @@
         <section id="xtime-module" class="page">
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
             <h2 class="text-2xl font-bold mb-6 text-center">Welcome to the Xtime Scheduler Training</h2>
-            <video controls class="training-video" preload="metadata">
+            <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_welcome_poster.png">
               <source src="./videos/Xtime Introduction1.mp4" type="video/mp4">
               <track src="./captions/intro_en.vtt" kind="subtitles" srclang="en" label="English">
               Your browser does not support the video tag.
@@ -268,61 +278,31 @@
           </div>
         </section>
 
-       <!-- LOGGING IN (complete carousel + notes) TAB-->
-        <section id="login" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">1 — Logging In</h2>
+       <!-- LOGGING IN + notes) TAB-->
+         <section id="login" class="page">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
+              <h2 class="text-2xl font-bold mb-6 text-center">1 — Logging In</h2>
 
             <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div id="loginCarousel" class="carousel-container relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-                <div class="carousel-slides relative p-4 bg-gray-50">
-                  <div class="carousel-slide w-full flex flex-col justify-center">
-                    <video controls="" class="training-video" preload="metadata">
-                      <source src="./videos/Xtime Login page1.mp4" type="video/mp4">
-                      <track src="./captions/login_step1.vtt" kind="subtitles" srclang="en" label="English">
+                <div class="relative p-4 bg-gray-50">
+                    <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_login_poster.png">
+                        <source src="./videos/Xtime-login.mp4" type="video/mp4">
+                        <track src="./captions/Xtime-login.vtt" kind="subtitles" srclang="en" label="English">
+                        Your browser does not support the video tag.
                     </video>
-                    <p class="mt-4 text-center text-gray-700">Step 1 — Go to <strong>Xtime.com</strong> then click <strong>LOGIN</strong></p>
-                  </div>
-
-                  <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                    <video controls="" class="training-video" preload="metadata">
-                      <source src="./videos/Xtime username input1.mp4" type="video/mp4">
-                      <track src="./captions/login_step2.vtt" kind="subtitles" srclang="en" label="English">
-                    </video>
-                    <p class="mt-4 text-center text-gray-700">Step 2 — Enter your <strong>Username</strong></p>
-                  </div>
-                  <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                    <video controls="" class="training-video" preload="metadata">
-                      <source src="./videos/Xtime password input1.mp4" type="video/mp4">
-                      <track src="./captions/login_step3.vtt" kind="subtitles" srclang="en" label="English">
-                    </video>
-                    <p class="mt-4 text-center text-gray-700">Step 3 — Enter your <strong>Password</strong></p>
-                  </div>
-                  <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                    <video controls="" class="training-video" preload="metadata">
-                      <source src="./videos/Xtime tool selection1.mp4" type="video/mp4">
-                      <track src="./captions/login_step4.vtt" kind="subtitles" srclang="en" label="English">
-                    </video>
-                    <p class="mt-4 text-center text-gray-700">Step 4 — Select the <strong>Xtime tool</strong></p>
-                  </div>
+                    <p class="mt-4 text-center text-gray-700">Search <strong>Xtime.com</strong>. click login then fill-up the sign-in page.</p>
                 </div>
-
-                <div class="flex justify-between items-center p-3 bg-white border-t">
-                  <button class="carousel-prev px-4 py-2 bg-gray-200 text-gray-800 text-sm rounded-lg hover:bg-gray-300 transition" aria-label="Previous slide">Back</button>
-                  <div class="carousel-dots flex justify-center space-x-2"></div>
-                  <button class="carousel-next px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-500 transition" aria-label="Next slide">Next</button>
-                </div>
-              </div>
+            </div>
 
             <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li><strong>Always</strong> double-check your username and password before contacting support.</li>
-                <li>If the page is slow, wait a few seconds — do not repeatedly click <strong>Login</strong>.</li>
-              </ul>
+                <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
+                <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                  <li><strong>Always</strong> double-check your username and password before contacting support.</li>
+                  <li>If the page is slow, wait a few seconds — do not repeatedly click <strong>Login</strong>.</li>
+                </ul>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
         <!-- DEALERSHIP SELECTION TAB-->
           <section id="dashboard" class="page">
@@ -331,7 +311,7 @@
 
             <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
                 <div class="relative p-4 bg-gray-50">
-                    <video controls class="training-video" preload="metadata">
+                    <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_dealership_poster.png">
                         <source src="./videos/Dealership selection.mp4" type="video/mp4">
                         <track src="./captions/Dealership_selection.vtt" kind="subtitles" srclang="en" label="English">
                         Your browser does not support the video tag.
@@ -358,7 +338,8 @@
             <div id="newApptCarousel" class="carousel-container relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
               <div class="carousel-slides relative p-4 bg-gray-50">
                 <div class="carousel-slide w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 1.mp4" type="video/mp4"></video>
+                  <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_appt_poster.png">
+                    <source src="./videos/New Appt part 1.mp4" type="video/mp4"></video>
                   <p class="mt-4 text-center text-gray-700">Step 1: Select Dealership then Click <strong>New Appointment</strong></p>
                 </div>
                 <div class="carousel-slide hidden w-full flex flex-col justify-center">
@@ -418,7 +399,7 @@
 
             <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
               <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata">
+                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_customer_poster.png">
                   <source src="./videos/Add new customer.mp4" type="video/mp4">
                   <track src="./captions/Add new customer.vtt" kind="subtitles" srclang="en" label="English">
                   Your browser does not support the video tag.
@@ -447,7 +428,8 @@
             <div id="newCarCarousel" class="carousel-container relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
               <div class="carousel-slides relative p-4 bg-gray-50">
                 <div class="carousel-slide w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/Add new vehicle.mp4" type="video/mp4"></video>
+                  <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_vehicle_poster.png">
+                    <source src="./videos/Add new vehicle.mp4" type="video/mp4"></video>
                   <p class="mt-4 text-center text-gray-700"><strong>Adding</strong> a new vehicle to a customer's profile</p>
                 </div>
                 <div class="carousel-slide w-full flex flex-col justify-center">
@@ -480,7 +462,8 @@
 
             <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
               <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata"><source src="./videos/Resched-appt.mp4" type="video/mp4"></video>
+                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_resched_poster.png">
+                  <source src="./videos/Resched-appt.mp4" type="video/mp4"></video>
                 <p class="mt-4 text-center text-gray-700">Find the existing appointment, click the <strong>green button</strong> then modify the schedule</p>
               </div>
             </div>
@@ -501,7 +484,8 @@
 
             <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
               <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata"><source src="./videos/Cancel-appt.mp4" type="video/mp4"></video>
+                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_cancel_poster.png">
+                  <source src="./videos/Cancel-appt.mp4" type="video/mp4"></video>
                 <p class="mt-4 text-center text-gray-700">Open the existing appointment then click the <strong>Cancel Appointment</strong></p>
               </div>
             </div>
@@ -523,7 +507,8 @@
 
             <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
               <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata"><source src="./videos/dms-appointment.mp4" type="video/mp4"></video>
+                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_dms_poster.png">
+                  <source src="./videos/DMS-appt.mp4" type="video/mp4"></video>
                 <p class="mt-4 text-center text-gray-700">Curabitur bibendum, mi a placerat vehicula, arcu nibh pretium lorem.</p>
               </div>
             </div>
@@ -545,7 +530,8 @@
 
             <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
               <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata"><source src="./videos/dms-appointment.mp4" type="video/mp4"></video>
+                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_ro_poster.png">
+                  <source src="./videos/RO-history.mp4" type="video/mp4"></video>
                 <p class="mt-4 text-center text-gray-700">Curabitur bibendum, mi a placerat vehicula, arcu nibh pretium lorem.</p>
               </div>
             </div>
@@ -560,147 +546,344 @@
           </div>
         </section>
 
+        <!-- WORKBOOK TAB -->
+        <section id="workbook" class="page">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg-p-8" data-aos="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-center">10 — Workbook</h2>
+
+            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
+              <div class="relative p-4 bg-gray-50">
+                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_workbook_poster.png">
+                  <source src="./videos/Workbook.mp4" type="video/mp4"></video>
+                <p class="mt-4 text-center text-gray-700">Click <strong>Workbook</strong> button next to Dashboard.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
+              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                <li>Workbook can show <strong>past</strong> and <strong>upcomming</strong> appointment log.</li>
+                <li>You have the option to open the appointment details from the Wokrbook.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         <!-- KNOWLEDGE CHECK TAB -->
         <section id="knowledgecheck" class="page">
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
             <h2 class="text-2xl font-bold mb-6 text-center">Knowledge Check</h2>
-            <div class="mt-6 max-w-4xl mx-auto bg-orange-50 border-l-4 border-orange-400 text-orange-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="alert-triangle" class="w-4 h-4 mr-2"></i>Contents are for Sample Only</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm"></ul>
+            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
+              <p class="font-bold flex items-center"><i data-feather="check-circle" class="w-4 h-4 mr-2"></i>Please answer all questions</p>
             </div>
-            
+
             <div class="max-w-4xl mx-auto space-y-8">
-              
-              <!-- Multiple Choice -->
+
+              <!-- Q1 -->
               <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">1. What is the first step when logging into Xtime?</h3>
+                <h3 class="font-semibold mb-4">1. What is the very first step when logging into Xtime?</h3>
                 <div class="space-y-2">
-                  <label class="flex items-center space-x-3">
-                    <input type="radio" name="q1" class="h-4 w-4 text-blue-600">
-                    <span>Enter your username</span>
-                  </label>
-                  <label class="flex items-center space-x-3">
-                    <input type="radio" name="q1" class="h-4 w-4 text-blue-600">
-                    <span>Go to Xtime.com and click Login</span>
-                  </label>
-                  <label class="flex items-center space-x-3">
-                    <input type="radio" name="q1" class="h-4 w-4 text-blue-600">
-                    <span>Select your dealership</span>
-                  </label>
+                  <div><label><input type="radio" name="q1"> Go to Xtime.com and click Login</label></div>
+                  <div><label><input type="radio" name="q1"> Enter your username and password</label></div>
+                  <div><label><input type="radio" name="q1"> Select your dealership</label></div>
                 </div>
               </div>
 
-              <!-- True/False -->
+              <!-- Q2 -->
               <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">2. You can create a new appointment without selecting a dealership.</h3>
+                <h3 class="font-semibold mb-4">2. You should double-check your username and password before contacting support.</h3>
                 <div class="space-y-2">
-                  <label class="flex items-center space-x-3">
-                    <input type="radio" name="q2" class="h-4 w-4 text-blue-600">
-                    <span>True</span>
-                  </label>
-                  <label class="flex items-center space-x-3">
-                    <input type="radio" name="q2" class="h-4 w-4 text-blue-600">
-                    <span>False</span>
-                  </label>
+                  <div><label><input type="radio" name="q2"> True</label></div>
+                  <div><label><input type="radio" name="q2"> False</label></div>
                 </div>
               </div>
 
-              <!-- Checkboxes -->
+              <!-- Q3 -->
               <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">3. Which fields are required when creating a new customer? (Select all that apply)</h3>
+                <h3 class="font-semibold mb-4">3. If the login page is slow, what should you do?</h3>
                 <div class="space-y-2">
-                  <label class="flex items-center space-x-3">
-                    <input type="checkbox" name="q3" class="h-4 w-4 text-blue-600">
-                    <span>First Name</span>
-                  </label>
-                  <label class="flex items-center space-x-3">
-                    <input type="checkbox" name="q3" class="h-4 w-4 text-blue-600">
-                    <span>Last Name</span>
-                  </label>
-                  <label class="flex items-center space-x-3">
-                    <input type="checkbox" name="q3" class="h-4 w-4 text-blue-600">
-                    <span>Phone Number</span>
-                  </label>
-                  <label class="flex items-center space-x-3">
-                    <input type="checkbox" name="q3" class="h-4 w-4 text-blue-600">
-                    <span>Email Address</span>
-                  </label>
+                  <div><label><input type="radio" name="q3"> Refresh repeatedly</label></div>
+                  <div><label><input type="radio" name="q3"> Wait a few seconds without clicking again</label></div>
+                  <div><label><input type="radio" name="q3"> Contact your administrator immediately</label></div>
                 </div>
               </div>
 
-              <!-- Matching Type -->
+              <!-- Q4 -->
               <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">4. Match each action with its correct description:</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="space-y-2">
-                    <div class="p-2 bg-gray-100 rounded">Rescheduling</div>
-                    <div class="p-2 bg-gray-100 rounded">Cancelling</div>
-                    <div class="p-2 bg-gray-100 rounded">New Appointment</div>
-                  </div>
-                  <div class="space-y-2">
-                    <select class="w-full p-2 border rounded">
-                      <option value="">Select match</option>
-                      <option value="a">Creating a future service visit</option>
-                      <option value="b">Changing date/time of existing appointment</option>
-                      <option value="c">Removing an appointment entirely</option>
-                    </select>
-                    <select class="w-full p-2 border rounded">
-                      <option value="">Select match</option>
-                      <option value="a">Creating a future service visit</option>
-                      <option value="b">Changing date/time of existing appointment</option>
-                      <option value="c">Removing an appointment entirely</option>
-                    </select>
-                    <select class="w-full p-2 border rounded">
-                      <option value="">Select match</option>
-                      <option value="a">Creating a future service visit</option>
-                      <option value="b">Changing date/time of existing appointment</option>
-                      <option value="c">Removing an appointment entirely</option>
-                    </select>
-                  </div>
+                <h3 class="font-semibold mb-4">4. Clicking the dealership name alone will launch the scheduler.</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q4"> True</label></div>
+                  <div><label><input type="radio" name="q4"> False</label></div>
                 </div>
               </div>
 
-              <!-- Fill in the Blank -->
+              <!-- Q5 -->
               <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">5. Complete the sentence: Always search for a customer by __________ before creating a new profile.</h3>
-                <input type="text" class="w-full p-2 border rounded" placeholder="Your answer...">
-              </div>
-
-              <!-- Image Identification -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">6. Identify the correct button to launch the scheduler:</h3>
-                <div class="flex flex-wrap gap-4 justify-center">
-                  <label class="cursor-pointer">
-                    <img src="https://via.placeholder.com/150x100?text=Launch" alt="Launch button screenshot" class="w-32 h-20 object-cover rounded border-2 border-transparent hover:border-blue-500">
-                    <div class="text-center mt-2">
-                      <input type="radio" name="q6" class="mr-1"> Launch
-                    </div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <img src="https://via.placeholder.com/150x100?text=Login" alt="Login button screenshot" class="w-32 h-20 object-cover rounded border-2 border-transparent hover:border-blue-500">
-                    <div class="text-center mt-2">
-                      <input type="radio" name="q6" class="mr-1"> Login
-                    </div>
-                  </label>
-                  <label class="cursor-pointer">
-                    <img src="https://via.placeholder.com/150x100?text=Search" alt="Search button screenshot" class="w-32 h-20 object-cover rounded border-2 border-transparent hover:border-blue-500">
-                    <div class="text-center mt-2">
-                      <input type="radio" name="q6" class="mr-1"> Search
-                    </div>
-                  </label>
+                <h3 class="font-semibold mb-4">5. Which button must you click to open the scheduler?</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q5"> Login</label></div>
+                  <div><label><input type="radio" name="q5"> Launch</label></div>
+                  <div><label><input type="radio" name="q5"> Search</label></div>
                 </div>
               </div>
 
-              <!-- Actions -->
+              <!-- Q6 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">6. If a dealership you need is missing from the list, contact your __________.</h3>
+                <input type="text" name="q6" class="w-full p-2 border rounded" placeholder="Your answer...">
+              </div>
+
+              <!-- Q7 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">7. Why should you ask for the customer’s mileage before booking services?</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q7"> To validate warranty</label></div>
+                  <div><label><input type="radio" name="q7"> To generate recommended packages</label></div>
+                  <div><label><input type="radio" name="q7"> To confirm advisor assignment</label></div>
+                </div>
+              </div>
+
+              <!-- Q8 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">8. In the Recommended Packages and Maintenance & Repairs sections, which actions are valid? (Select all that apply)</h3>
+                <div class="space-y-2">
+                  <div><label><input type="checkbox" name="q8"> Click a package</label></div>
+                  <div><label><input type="checkbox" name="q8"> Select a service and click Add</label></div>
+                  <div><label><input type="checkbox" name="q8"> Skip saving services</label></div>
+                  <div><label><input type="checkbox" name="q8"> Ignore requested services</label></div>
+                </div>
+              </div>
+
+              <!-- Q9 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">9. In the Advisors and Teams tab, what should you always check?</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q9"> Advisor availability only</label></div>
+                  <div><label><input type="radio" name="q9"> Customer mileage</label></div>
+                  <div><label><input type="radio" name="q9"> IO (dealership policy)</label></div>
+                </div>
+              </div>
+
+              <!-- Q10 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">10. Transportation options may vary depending on dealership policies.</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q10"> True</label></div>
+                  <div><label><input type="radio" name="q10"> False</label></div>
+                </div>
+              </div>
+
+              <!-- Q11 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                
+                <h3 class="font-semibold mb-1">11. The Notifications tab allows you to confirm the customer’s __________ or __________ for appointment reminders.</h3>
+                
+                <div class="mt-4 mb-2 bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-1 rounded-r-s">
+                  <p class="font-semibold flex items-center text-xs">
+                    <i data-feather="info" class="w-3 h-3 mr-2"></i>
+                    Reminder: Add **space** or use **"and"** between your answers. (e.g., "Sample Answer" or "Sample and Answer")
+                  </p>
+                </div>
+                
+                <input type="text" name="q11" class="w-full p-2 border rounded" placeholder="Your answer...">
+              </div>
+
+              <!-- Q12 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">12. What is the final step before clicking “Book Appointment”?</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q12"> Add services</label></div>
+                  <div><label><input type="radio" name="q12"> Review the appointment details with the customer</label></div>
+                  <div><label><input type="radio" name="q12"> Confirm VIN number</label></div>
+                </div>
+              </div>
+
+              <!-- Q13 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">13. What is the fastest way to add a new customer?</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q13"> Use “Quick Add Customer”</label></div>
+                  <div><label><input type="radio" name="q13"> Use “New Customer” button only</label></div>
+                  <div><label><input type="radio" name="q13"> Search by email address</label></div>
+                </div>
+              </div>
+
+              <!-- Q14 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">14. Which fields are required when creating a new customer? (Select all that apply)</h3>
+                <div class="space-y-2">
+                  <div><label><input type="checkbox" name="q14"> First Name</label></div>
+                  <div><label><input type="checkbox" name="q14"> Last Name</label></div>
+                  <div><label><input type="checkbox" name="q14"> Phone Number</label></div>
+                  <div><label><input type="checkbox" name="q14"> Mileage</label></div>
+                </div>
+              </div>
+
+              <!-- Q15 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">15. Mileage is a mandatory field when adding a new customer.</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q15"> True</label></div>
+                  <div><label><input type="radio" name="q15"> False</label></div>
+                </div>
+              </div>
+
+              <!-- Q16 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">16. After saving customer details, the __________ button will appear to set up a service request.</h3>
+                <input type="text" name="q16" class="w-full p-2 border rounded" placeholder="Your answer...">
+              </div>
+
+              <!-- Q17 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">17. What is the fastest way to add a vehicle?</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q17"> Enter all details manually</label></div>
+                  <div><label><input type="radio" name="q17"> Use VIN decoding</label></div>
+                  <div><label><input type="radio" name="q17"> Use customer’s last service record</label></div>
+                </div>
+              </div>
+
+              <!-- Q18 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">18. You must set the new vehicle as “Primary” for it to appear in searches.</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q18"> True</label></div>
+                  <div><label><input type="radio" name="q18"> False</label></div>
+                </div>
+              </div>
+
+              <!-- Q19 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">19. To remove a vehicle, set its “Active” status to __________.</h3>
+                <input type="text" name="q19" class="w-full p-2 border rounded" placeholder="Your answer...">
+              </div>
+
+              <!-- Q20 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">20. What should you confirm before deleting a vehicle? (Select all that apply)</h3>
+                <div class="space-y-2">
+                  <div><label><input type="checkbox" name="q20"> Customer approval</label></div>
+                  <div><label><input type="checkbox" name="q20"> Correct customer record</label></div>
+                  <div><label><input type="checkbox" name="q20"> VIN accuracy</label></div>
+                  <div><label><input type="checkbox" name="q20"> Phone number type</label></div>
+                </div>
+              </div>
+
+              <!-- Q21 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">21. How can you identify a vehicle with an existing appointment?</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q21"> Green button under Schedule Vehicle</label></div>
+                  <div><label><input type="radio" name="q21"> By checking mileage</label></div>
+                  <div><label><input type="radio" name="q21"> By searching RO history</label></div>
+                </div>
+              </div>
+
+              <!-- Q22 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">22. You should always review dealership policy before rescheduling.</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q22"> True</label></div>
+                  <div><label><input type="radio" name="q22"> False</label></div>
+                </div>
+              </div>
+
+              <!-- Q23 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">23. If policy states “DO NOT SCHEDULE,” you must send a __________.</h3>
+                <input type="text" name="q23" class="w-full p-2 border rounded" placeholder="Your answer...">
+              </div>
+
+              <!-- Q24 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">24. Before cancelling, what should you ask the customer?</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q24"> If they want to reschedule</label></div>
+                  <div><label><input type="radio" name="q24"> If they want to update VIN</label></div>
+                  <div><label><input type="radio" name="q24"> If they need a transportation option</label></div>
+                </div>
+              </div>
+
+              <!-- Q25 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">25. The Cancel Appointment button is located above the Update Appointment button.</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q25"> True</label></div>
+                  <div><label><input type="radio" name="q25"> False</label></div>
+                </div>
+              </div>
+
+              <!-- Q26 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">26. You must verify you are working on the correct __________ before cancelling.</h3>
+                <input type="text" name="q26" class="w-full p-2 border rounded" placeholder="Your answer...">
+              </div>
+
+              <!-- Q27 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">27. What does DMS stand for?</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q27"> Dealer Management System</label></div>
+                  <div><label><input type="radio" name="q27"> Digital Maintenance System</label></div>
+                  <div><label><input type="radio" name="q27"> Dealership Manual System</label></div>
+                </div>
+              </div>
+
+              <!-- Q28 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">28. You should edit an existing DMS appointment directly if a customer requests changes.</h3>
+                <div class="space-y-2">
+                  <div><label><input type="radio" name="q28"> True</label></div>
+                  <div><label><input type="radio" name="q28"> False</label></div>
+                </div>
+              </div>
+
+              <!-- Q29 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">29. For DMS cancellations, always send a __________ through IO.</h3>
+                <input type="text" name="q29" class="w-full p-2 border rounded" placeholder="Your answer...">
+              </div>
+
+              <!-- Q30 -->
+              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold mb-4">30. What details are included in RO History? (Select all that apply)</h3>
+                <div class="space-y-2">
+                  <div><label><input type="checkbox" name="q30"> Appointment Date</label></div>
+                  <div><label><input type="checkbox" name="q30"> Advisor’s Name</label></div>
+                  <div><label><input type="checkbox" name="q30"> Mileage</label></div>
+                  <div><label><input type="checkbox" name="q30"> Services completed</label></div>
+                </div>
+              </div>
+
+              <!-- Submit -->
               <div class="flex justify-between mt-8">
-                <button type="button" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">Reset Answers</button>
-                <button type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Submit Quiz</button>
+                <button id="submit-quiz-btn" type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Submit Quiz</button>
               </div>
 
             </div>
           </div>
         </section>
 
+
+        <!-- QUIZ RESULT MODAL -->
+        <div id="quizResultModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+          <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full flex flex-col items-center text-center">
+            <h2 class="text-2xl font-bold mb-2">You scored</h2>
+            <p id="quizPercentage" class="text-6xl font-semibold text-blue-700 mb-6"></p>
+            <p id="quizScore" class="text-sm text-gray-600 mb-6"></p>
+
+            <div class="w-full space-y-4">
+              <input type="text" id="firstName" placeholder="First Name" class="w-full p-2 border rounded">
+              <input type="text" id="lastName" placeholder="Last Name" class="w-full p-2 border rounded">
+              <input type="email" id="email" placeholder="Email Address" class="w-full p-2 border rounded">
+            </div>
+
+            <div class="mt-6 flex justify-center w-full">
+              <button id="doneBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Done</button>
+            </div>
+          </div>
+        </div>
 
       </main>
     </div>
@@ -758,6 +941,17 @@
         if (pageId === 'dashboard-main') {
           sidebar.classList.add('-translate-x-full');
           mainContent.classList.remove('ml-64');
+
+        // <<< START NEW CODE TO FIX CARD DISPLAY >>>
+        // 1. Ensure all dashboard cards are visible (in case they were hidden by search)
+        document.querySelectorAll('#dashboard-main .course-card, #dashboard-main .bg-white.rounded-xl.overflow-hidden').forEach(card => {
+            card.classList.remove('hidden');
+        });
+        
+        // 2. Force AOS (Animation on Scroll) to re-initialise on the new/visible elements
+        AOS.refresh();
+        // <<< END NEW CODE TO FIX CARD DISPLAY >>>
+
         } else {
           sidebar.classList.remove('-translate-x-full');
           mainContent.classList.add('ml-64');
@@ -989,5 +1183,403 @@
 
     }); // DOMContentLoaded
   </script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+ apiKey: "AIzaSyCwCpnUN7L2z02y8JponKYg-NAy8xH188c",
+ authDomain: "knowledge-check-d2811.firebaseapp.com",
+ databaseURL: "https://knowledge-check-d2811-default-rtdb.firebaseio.com",
+ projectId: "knowledge-check-d2811",
+ storageBucket: "knowledge-check-d2811.firebasestorage.app",
+ messagingSenderId: "474640061743",
+ appId: "1:474640061743:web:e376aadcf9c6bca7a8bdda",
+ measurementId: "G-0HGMTN7VYV"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+
+// --- START: INSERT HELPER FUNCTIONS HERE ---
+
+/**
+ * Sanitizes an email address for use as a Firebase Realtime Database key 
+ * by replacing all periods (.) with commas (,).
+ * @param {string} email - The user's email address.
+ * @returns {string} The sanitized key.
+ */
+function sanitizeEmail(email) {
+  return email.replace(/\./g, ',');
+}
+
+/**
+ * Converts a string to Title Case (First letter uppercase, rest lowercase).
+ * @param {string} str - The input string (e.g., "john").
+ * @returns {string} The formatted string (e.g., "John").
+ */
+function toTitleCase(str) {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+/**
+ * Ensures a string is entirely lowercase.
+ * @param {string} str - The input string (e.g., "User@EXAMPLE.com").
+ * @returns {string} The lowercase string (e.g., "user@example.com").
+ */
+function toLowerCase(str) {
+  return str.toLowerCase();
+}
+// --- END: INSERT HELPER FUNCTIONS HERE ---
+
+document.getElementById("submit-quiz-btn").addEventListener("click", async function() {
+  // 1. Fetch the Answer Key from Firebase
+  // Ensure the database variable is accessible and the path matches your Firebase console structure.
+  const answerKeyRef = database.ref('QuizConfiguration/XTimeAnswerKey');
+  let answerKey = null;
+  
+  try {
+    const snapshot = await answerKeyRef.once('value');
+    if (!snapshot.exists()) {
+      alert("Error: Quiz answer key not found in Firebase. Cannot score quiz.");
+      return;
+    }
+    answerKey = snapshot.val();
+  } catch (error) {
+    console.error("Failed to fetch answer key:", error);
+    alert("Error: Failed to connect to scoring server. Please try again.");
+    return;
+  }
+
+  // Use the fetched key to calculate total questions
+  let score = 0;
+  let total = Object.keys(answerKey).length; 
+
+  // 2. Score the Quiz
+  for (let q in answerKey) {
+    let correct = answerKey[q];
+
+    // --- 2.1: Radio/Checkbox Scoring ---
+    let inputs = document.querySelectorAll(`input[name="${q}"]`);
+    if (inputs.length > 0 && (inputs[0].type === 'radio' || inputs[0].type === 'checkbox')) {
+      let selected = [];
+      
+      // Collect the text content of all selected options and TRIM it for strict comparison
+      inputs.forEach(i => {
+        if (i.checked) {
+          // KEY FIX: Trim the text content of the label to remove hidden whitespace (fixes Q4, Q13)
+          selected.push(i.parentElement.textContent.trim()); 
+        }
+      });
+
+      // Normalize the correct answer from Firebase (trimming both array items and single strings)
+      let normalizedCorrect = Array.isArray(correct) 
+          ? correct.map(c => c.trim()) 
+          : correct.trim(); // Trim the single string answer from Firebase
+
+      if (Array.isArray(normalizedCorrect)) {
+        // Multi-select (Checkbox) logic (e.g., Q8, Q14, Q20, Q30)
+        // Must select ALL correct options AND ONLY the correct options.
+        const allCorrectSelected = normalizedCorrect.every(c => selected.includes(c));
+        const onlyCorrectSelected = selected.every(s => normalizedCorrect.includes(s));
+        
+        if (allCorrectSelected && onlyCorrectSelected) {
+          score++;
+        }
+      } else {
+        // Single-select (Radio) logic (e.g., Q1-Q5, Q7, Q9, Q10, Q12, Q13, Q15, etc.)
+        // Requires a single selection that exactly matches the single, trimmed Firebase answer.
+        if (selected.length === 1 && selected[0] === normalizedCorrect) {
+          score++;
+        }
+      }
+
+    // --- 2.2: Text Input Scoring (Fill-in-the-Blank) ---
+    } else {
+      // Logic for questions like Q6, Q11, Q16, Q19, Q23, Q26, Q29
+      
+      // 1. Find the input element using the reliable name attribute
+      let answerField = document.querySelector(`input[name="${q}"]`);
+      
+      // Fallback check (in case some inputs use an ID instead of a name)
+      if (!answerField) {
+         answerField = document.querySelector(`#${q}`);
+      }
+      
+      // 2. Normalize Typed Value (lowercase and trim)
+      let typed = answerField ? answerField.value.trim().toLowerCase() : "";
+      
+      // 3. Normalize Correct Answer from Firebase (lowercase and trim)
+      let normalizedCorrect = Array.isArray(correct) 
+          ? correct.map(c => c.toLowerCase().trim()) 
+          : correct.toLowerCase().trim();
+      
+      // 4. Comparison Logic
+      if (Array.isArray(normalizedCorrect)) {
+        // For array answers (e.g., Q11): Check if the typed answer CONTAINS AT LEAST ONE of the correct options.
+        if (normalizedCorrect.some(c => typed.includes(c))) score++;
+      } else {
+        // For single string answers (e.g., Q6, Q16, etc.): Requires an exact match of the cleaned string.
+        if (typed === normalizedCorrect) score++;
+      }
+    }
+  }
+
+  // 3. Display Results
+  const percentage = Math.round((score / total) * 100);
+  const percentageEl = document.getElementById("quizPercentage");
+  percentageEl.textContent = "(0%)"; 
+  animateCountUp(percentageEl, 0, percentage, 1200); 
+  document.getElementById("quizScore").textContent = `You answered ${score} out of ${total} correctly.`;
+  
+  // Ensure the UI is reset before showing the modal
+  resetUploadUI(); 
+  
+  document.getElementById("quizResultModal").classList.remove("hidden");
+  document.getElementById("quizResultModal").classList.add("flex");
+});
+
+  // --- Count-up animation for percentage ---
+  function animateCountUp(element, start, end, duration) {
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const value = Math.floor(start + (end - start) * progress);
+
+      element.textContent = `${value}%`;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+
+const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwTAHY3qfki8Q_iirBc78ETWacLRaEiOh1ue_NmRLgSWm2ck1lEw6bfL7FhQ9DsSHPMVQ/exec";
+
+// --- START: MODIFIED handleDone function with Duplicate Check ---
+document.getElementById("doneBtn").addEventListener("click", async function handleDone() {
+  const doneBtn = document.getElementById("doneBtn");
+  
+  // --- 1. Standardize and Format Input Values ---
+  const rawFirstName = document.getElementById("firstName").value.trim();
+  const rawLastName = document.getElementById("lastName").value.trim();
+  const rawEmail = document.getElementById("email").value.trim();
+  
+  // Standardize case for consistent saving and checking
+  const firstName = toTitleCase(rawFirstName);
+  const lastName = toTitleCase(rawLastName);
+  const email = toLowerCase(rawEmail); // Use this lowercase email for key and final save
+  
+  // Get score and percentage (existing logic)
+  const scoreText = document.getElementById("quizScore").textContent;
+  const match = scoreText.match(/(\d+)\D+(\d+)/);
+  const quizScore = match ? `${match[1]}/${match[2]}` : scoreText;
+  const quizPercentage = document.getElementById("quizPercentage").textContent;
+  
+  const inputs = document.querySelectorAll("#firstName, #lastName, #email");
+  const msg = document.getElementById("uploadMsg") || (() => {
+    const p = document.createElement("p");
+    p.id = "uploadMsg";
+    p.className = "mt-4 text-sm text-gray-600 text-center";
+    doneBtn.parentNode.insertBefore(p, doneBtn);
+    return p;
+  })();
+
+  if (!firstName || !lastName || !email) {
+    msg.textContent = "⚠️ Please fill out all fields before submitting.";
+    msg.className = "mt-4 text-sm text-red-600 text-center";
+    return;
+  }
+  
+  // --- 2. Start Loading State (Correctly Placed) ---
+  msg.textContent = "";
+  doneBtn.disabled = true;
+  doneBtn.innerHTML = `
+    <span class="flex items-center justify-center">
+      <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      Processing...
+    </span>`;
+
+  // --- 3. Duplicate Check Logic ---
+  const CATEGORY_NODE = 'XTime-Results';
+  const sanitizedEmail = sanitizeEmail(email); // Sanitizing the lowercase email
+  const userRef = database.ref(`${CATEGORY_NODE}/${sanitizedEmail}`);
+
+  try {
+    const snapshot = await userRef.once('value');
+    
+    // Check 3.1: DUPLICATE FOUND
+    if (snapshot.exists()) {
+      const existingData = snapshot.val();
+      
+      // Stop the submission and show the duplicate message UI
+      showDuplicateModal(existingData, doneBtn);
+      return; // Stops execution immediately
+    }
+
+    // Check 3.2: NO DUPLICATE - PROCEED WITH SUBMISSION
+    const data = {
+      firstName,      // Title Cased
+      lastName,       // Title Cased
+      email,          // Lower Cased
+      quizScore,
+      quizPercentage,
+      timestamp: new Date().toISOString(),
+      category: "XTime"
+    };
+
+    // Send data to Google Sheet Web App
+    const googleSheetPromise = fetch(GOOGLE_SHEET_WEBAPP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    // Send data to Firebase Realtime Database using .set()
+    const firebasePromise = userRef.set(data);
+
+    // Wait for both operations
+    await Promise.all([googleSheetPromise, firebasePromise]);
+
+    // Show SUCCESS UI
+    showSuccessModal(doneBtn);
+
+  } catch (err) {
+    // --- Error handling (resets the loading state on failure) ---
+    msg.textContent = "❌ Error submitting your results. Please check network or contact support.";
+    msg.className = "mt-4 text-sm text-red-600 text-center";
+    doneBtn.disabled = false;
+    doneBtn.textContent = "Done";
+    console.error("Submission Error:", err);
+  }
+});
+// --- END: MODIFIED handleDone function ---
+
+
+/**
+ * Resets the modal structure to display a successful submission message.
+ * @param {HTMLElement} doneBtn - The original "Done" button element.
+ */
+function showSuccessModal(doneBtn) {
+  const modal = document.getElementById("quizResultModal");
+  const resultModalBody = modal.querySelector('.bg-white');
+
+  // New success content HTML
+  const newSuccessMsg = `
+    <div class="flex flex-col items-center">
+      <i data-feather="check-circle" class="w-12 h-12 text-green-500 mb-4"></i>
+      <p class="text-xl font-semibold text-gray-800">Your score has been uploaded!</p>
+    </div>
+  `;
+
+  // Update modal content
+  resultModalBody.innerHTML = `
+    <h2 class="text-2xl font-bold mb-6 text-center">Success!</h2>
+    <div id="successContent" class="flex flex-col items-center text-center">
+      ${newSuccessMsg}
+    </div>
+    <div class="mt-6 flex justify-center w-full">
+      <button id="closeBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Close</button>
+    </div>
+  `;
+  
+  feather.replace();
+
+  // Set up Close behavior
+  resultModalBody.querySelector("#closeBtn").addEventListener("click", function () {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    window.location.reload();
+  });
+}
+
+/**
+ * Updates the modal structure to display a duplicate record message.
+ * This version overwrites the modal content for a clean, stacked duplicate UI.
+ * @param {Object} data - The existing record data from Firebase.
+ * @param {HTMLElement} originalDoneBtn - The original "Done" button element (passed for context, but not used for display).
+ */
+function showDuplicateModal(data, originalDoneBtn) {
+  const modal = document.getElementById("quizResultModal");
+  const resultModalBody = modal.querySelector('.bg-white');
+  
+  // 1. Reset the modal body content to a clean, custom structure
+  // We use innerHTML to replace ALL existing content for a perfect, clean layout.
+  resultModalBody.innerHTML = `
+    <h2 class="text-2xl font-bold mb-2 text-center text-red-600">DUPLICATE FOUND!</h2>
+    
+    <p class="text-sm text-red-500 font-semibold mb-4">You have already submitted your record for this module.</p>
+
+    <div class="w-full space-y-4 flex flex-col items-center">
+      
+      <div class="text-left bg-gray-100 p-4 rounded-lg w-full max-w-xs space-y-2">
+        <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Score:</strong> ${data.quizScore}</p>
+        <p><strong>Percentage:</strong> ${data.quizPercentage}</p>
+      </div>
+      
+      <div id="duplicateButtonContainer" class="mt-4 flex justify-center w-full">
+        <button id="closeBtnForDuplicate" class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">Close</button>
+      </div>
+    </div>
+  `;
+  
+  // 2. Set up Close behavior for the new button
+  resultModalBody.querySelector("#closeBtnForDuplicate").addEventListener('click', function() {
+    // Hide and reload page to reset quiz state
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    window.location.reload();
+  });
+
+  // 3. Ensure modal is visible
+  modal.classList.add("flex");
+  modal.classList.remove("hidden");
+}
+
+function resetUploadUI() {
+  // restore fields visibility
+  document.querySelectorAll("#firstName, #lastName, #email").forEach(i => i.style.display = "block");
+  document.getElementById("quizPercentage").style.display = "block";
+  document.getElementById("quizScore").style.display = "block";
+  
+  // restore inputs to empty
+  document.getElementById("firstName").value = "";
+  document.getElementById("lastName").value = "";
+  document.getElementById("email").value = "";
+
+  // restore success button state
+  const doneBtn = document.getElementById("doneBtn");
+  doneBtn.textContent = "Done";
+  doneBtn.disabled = false;
+  doneBtn.style.display = 'block'; 
+
+  // Remove duplicate specific messages/buttons if they exist
+  const duplicateMsgContainer = document.getElementById("duplicateMsgContainer");
+  if (duplicateMsgContainer) duplicateMsgContainer.remove();
+  const closeBtnForDuplicate = document.getElementById("closeBtnForDuplicate");
+  if (closeBtnForDuplicate) closeBtnForDuplicate.remove(); // removes close button too
+  
+  // Restore original modal header if needed (only if success/duplicate changed it)
+  document.querySelector('#quizResultModal h2').textContent = "You scored"; 
+}
+
+</script>
+
 </body>
 </html>

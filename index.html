@@ -1,1698 +1,289 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Scheduler Training Hub</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SchedulerFlow Pro: Time Mastery Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
   <style>
-    .course-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-    .page {
-        grid-area: 1 / 1 / 2 / 2; /* Places all pages in the same grid cell */
-        opacity: 0;
-        pointer-events: none; /* Prevents interacting with hidden pages */
-        transition: opacity 300ms ease-in-out;
-      }
-      .page.active {
-        opacity: 1;
-        pointer-events: auto; /* Allows interaction with the visible page */
-      }
-    .carousel-dot { transition: background-color 160ms ease, transform 160ms ease; }
-    #imageModal { display: none; position: fixed; z-index: 60; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.75); align-items: center; justify-content: center; }
-    #imageModal img { max-width: 92%; max-height: 92%; border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
-
-    /* Training video styling */
-    .training-video {
-      width: 90%;
-      max-height: 80vh;
-      margin-left: auto;
-      margin-right: auto;
-      border-radius: 0.5rem;
-      background-color: #f3f4f6;
-      object-fit: contain;
-      display: block;
+    :root {
+      --google-blue: #4285F4;
+      --google-green: #34A853;
+      --google-yellow: #FBBC05;
+      --google-red: #EA4335;
     }
-    @media (max-width: 768px) {
-      .training-video { width: 100%; }
-    }
-    /* Xtime  sidebar button highlight effect */
-    .tab-btn::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 4px; /* This is our 4px vertical line */
-      background-color: #3b82f6; /* Tailwind's blue-500 */
-      
-      /* Animation properties */
-      transform: scaleY(0);
-      transform-origin: center;
-      transition: transform 250ms ease-in-out;
+    
+    body {
+      font-family: 'Google Sans', sans-serif;
+      color: #202124;
+      background: #f8f9fa;
     }
 
-    .tab-btn.highlight-active::before {
-      /* The final state of the animation */
-      transform: scaleY(1);
-    }
-    .tab-btn.text-blue-600 span {
-      font-weight: 600;
+    .hero-gradient {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e8f0fe 100%);
     }
 
-    /* --- Modern, Auto-Hiding Scrollbar --- */
-    #main-content::-webkit-scrollbar,
-    .sidebar nav::-webkit-scrollbar {
-      width: 10px;
+    .nav-shadow {
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
     }
 
-    #main-content::-webkit-scrollbar-track,
-    .sidebar nav::-webkit-scrollbar-track {
-      background: transparent;
+    .card-hover {
+      transition: all 0.2s ease-in-out;
+    }
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
     }
 
-    /* Base scrollbar - fully transparent */
-    #main-content::-webkit-scrollbar-thumb,
-    .sidebar nav::-webkit-scrollbar-thumb {
-      background-color: rgba(107, 114, 128, 0); /* transparent */
-      border-radius: 20px;
-      border: 3px solid transparent;
-      background-clip: content-box;
-      transition: background-color 1.5s ease-in-out; /* smooth fade */
+    .pill {
+      background: rgba(66,133,244,0.1);
+      color: var(--google-blue);
     }
 
-    /* When scrolling, thumb is visible */
-    #main-content.is-scrolling::-webkit-scrollbar-thumb,
-    .sidebar nav.is-scrolling::-webkit-scrollbar-thumb {
-      background-color: rgba(107, 114, 128, 0.5); /* visible */
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(66,133,244,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
     }
 
-    /* New rule to prevent cursor/text selection within the modal container */
-    #quizResultModal .bg-white {
-      /* Prevents text selection and the cursor associated with editable text */
-      user-select: none; 
-      -webkit-user-select: none; /* For older WebKit browsers */
-      cursor: default; /* Ensures the mouse pointer is not the text I-beam */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
   </style>
 </head>
-<body class="bg-gray-100">
-  <div class="relative h-screen overflow-hidden">
-    <!-- SIDEBAR -->
-    <aside id="sidebar" class="sidebar bg-white w-64 border-r border-gray-200 flex-col flex transition-transform duration-300 ease-in-out transform -translate-x-full absolute inset-y-0 left-0 z-20">
-      <div class="p-4 border-b border-gray-200">
-        <div class="flex items-center space-x-3">
-          <div class="bg-blue-100 p-2 rounded-lg">
-            <img src="./images/Xtime icon.png" alt="Xtime Logo" class="w-6 h-6 object-contain">
-          </div>
-          <button id="tab-dashboard-main" class="tab-btn font-semibold text-lg">Xtime Scheduler</button>
-        </div>
+<body class="min-h-screen flex flex-col">
+  <nav class="bg-white nav-shadow z-40">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="text-2xl font-medium text-gray-800 flex items-center">
+        <span class="text-blue-500">Scheduler</span>TrainingHub
+      </a>
+
+      <!--
+      <div class="hidden md:flex space-x-8">
+        <a href="#" class="text-gray-700 hover:text-blue-500">Features</a>
+        <a href="#" class="text-gray-700 hover:text-blue-500">Modules</a>
+        <a href="#" class="text-gray-700 hover:text-blue-500">Resources</a>
       </div>
+      
 
-    <nav class="flex-1 space-y-2 overflow-y-auto" aria-label="Training chapters">
-        <button id="tab-xtime-module" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="xtime-module">
-          <i data-feather="play-circle" class="w-5 h-5"></i><span>Introduction</span>
-        </button>
-        <button id="tab-login" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="login">
-          <i data-feather="log-in" class="w-5 h-5"></i><span>Logging In</span>
-        </button>
-        <button id="tab-dashboard" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="dashboard">
-          <i data-feather="grid" class="w-5 h-5"></i><span>Dealership Selection</span>
-        </button>
-        <button id="tab-newappt" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="newappt">
-          <i data-feather="plus-circle" class="w-5 h-5"></i><span>New Appointment</span>
-        </button>
-        <button id="tab-newcustomer" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="newcustomer">
-          <i data-feather="user-plus" class="w-5 h-5"></i><span>New Customer</span>
-        </button>
-        <button id="tab-addvehicle" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="addvehicle">
-          <i data-feather="edit" class="w-5 h-5"></i><span>Add/Delete Vehicle</span>
-        </button>
-        <button id="tab-reschedule" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="reschedule">
-          <i data-feather="calendar" class="w-5 h-5"></i><span>Rescheduling</span>
-        </button>
-        <button id="tab-cancel" class="tab-btn relative  flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="cancel">
-          <i data-feather="x-circle" class="w-5 h-5"></i><span>Cancelling</span>
-        </button>
-        <button id="tab-dmsappt" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="dmsappt">
-          <i data-feather="alert-circle" class="w-5 h-5"></i><span>DMS Appointment</span>
-        </button>
-        <button id="tab-rohistory" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="rohistory">
-          <i data-feather="file-text" class="w-5 h-5"></i><span>RO History</span>
-        </button>
-        <button id="tab-workbook" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="workbook">
-          <i data-feather="book" class="w-5 h-5"></i><span>Workbook</span>
-        </button>
-        <button id="tab-knowledgecheck" class="tab-btn relative flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="knowledgecheck">
-          <i data-feather="check-circle" class="w-5 h-5"></i><span>Knowledge Check</span>
-        </button>
-      </nav>
+      <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-medium transition-colors">
+        Sign In
+      </button>
+      -->
 
-      <div class="p-4 border-t border-gray-200">
-        <button class="tab-btn flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-100 text-gray-700" data-page="dashboard-main">
-          <i data-feather="arrow-left" class="w-5 h-5"></i><span>Back to Modules</span>
-        </button>
-      </div>
-    </aside>
-
-    <!-- DASHBOARD MAIN PAGE -->
-    <div id="main-content" class="h-full overflow-auto transition-all duration-300 ease-in-out">
-      <header class="bg-white border-b border-gray-200 p-4 sticky top-0 z-10">
-        <div class="flex justify-between items-center">
-          <div id="header-left-container" class="flex items-center space-x-4">
-            <img id="header-logo" src="./images/DeaerFocus logo.png" alt="DealerFocus Logo" class="h-10 w-auto">
-            <h1 id="main-header-title" class="text-xl font-semibold text-gray-800">Scheduler Training Hub</h1>
-          </div>
-
-          <div class="flex items-center space-x-4">
-            <div id="search-bar-container" class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i data-feather="search" class="h-4 w-4 text-gray-400"></i>
-              </div>
-              <input type="text" id="module-search-input" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Search...">
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main class="p-6 grid">
-
-        <section id="dashboard-main" class="page active" aria-labelledby="main-header-title">
-          <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white mb-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-2">Scheduler Training Suite</h2>
-            <p class="max-w-lg">Select a training module to begin.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div id="card-xime" role="button" tabindex="0" data-page="xtime-module" data-active-tab="tab-xtime-module" class="course-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition duration-300 cursor-pointer flex flex-col" data-aos="fade-up">
-              <div class="h-40 bg-blue-100 flex items-center justify-center">
-                <img src="./images/Xtime Logo Vector.png" alt="Xtime Scheduler Logo" class="w-32 h-32 object-contain">
-              </div>
-              <div class="p-5 flex flex-col h-full">
-                <h3 class="font-semibold text-lg mb-2">Xtime Scheduler</h3>
-                <p class="text-gray-600 text-sm mb-4">The primary training guide for the Xtime scheduling application.</p>
-                <button class="w-full mt-auto text-center bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition" data-page="xtime-module" data-active-tab="tab-xtime-module">Begin Training</button>
-              </div>
-            </div>
-
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition duration-300 opacity-60 cursor-not-allowed flex flex-col" data-aos="fade-up" data-aos-delay="100">
-              <div class="h-48 bg-gray-100 flex items-center justify-center"><i data-feather="bookmark" class="w-12 h-12 text-gray-400"></i></div>
-              <div class="p-5 flex flex-col h-full">
-                <h3 class="font-semibold text-lg mb-2">CDK</h3>
-                <p class="text-gray-600 text-sm mb-4">Training module for CDK. Coming soon.</p>
-                <button class="w-full mt-auto text-center bg-gray-200 text-gray-500 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Coming Soon</button>
-              </div>
-            </div>
-
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition duration-300 opacity-60 cursor-not-allowed flex flex-col" data-aos="fade-up" data-aos-delay="100">
-              <div class="h-48 bg-gray-100 flex items-center justify-center"><i data-feather="bookmark" class="w-12 h-12 text-gray-400"></i></div>
-              <div class="p-5 flex flex-col h-full">
-                <h3 class="font-semibold text-lg mb-2">WI ADVISOR</h3>
-                <p class="text-gray-600 text-sm mb-4">Training module for WI ADVISOR. Coming soon.</p>
-                <button class="w-full mt-auto text-center bg-gray-200 text-gray-500 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Coming Soon</button>
-              </div>
-            </div>
-
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition duration-300 opacity-60 cursor-not-allowed flex flex-col" data-aos="fade-up" data-aos-delay="100">
-              <div class="h-48 bg-gray-100 flex items-center justify-center"><i data-feather="bookmark" class="w-12 h-12 text-gray-400"></i></div>
-              <div class="p-5 flex flex-col h-full">
-                <h3 class="font-semibold text-lg mb-2">Online Schedulers</h3>
-                <p class="text-gray-600 text-sm mb-4">Training module for Online Schedulers. Coming soon.</p>
-                <button class="w-full mt-auto text-center bg-gray-200 text-gray-500 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Coming Soon</button>
-              </div>
-            </div>
-
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition duration-300 opacity-60 cursor-not-allowed flex flex-col" data-aos="fade-up" data-aos-delay="100">
-              <div class="h-48 bg-gray-100 flex items-center justify-center"><i data-feather="bookmark" class="w-12 h-12 text-gray-400"></i></div>
-              <div class="p-5 flex flex-col h-full">
-                <h3 class="font-semibold text-lg mb-2">MYKAARMA</h3>
-                <p class="text-gray-600 text-sm mb-4">Training module for MYKAARMA. Coming soon.</p>
-                <button class="w-full mt-auto text-center bg-gray-200 text-gray-500 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Coming Soon</button>
-              </div>
-            </div>
-
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition duration-300 opacity-60 cursor-not-allowed flex flex-col" data-aos="fade-up" data-aos-delay="100">
-              <div class="h-48 bg-gray-100 flex items-center justify-center"><i data-feather="bookmark" class="w-12 h-12 text-gray-400"></i></div>
-              <div class="p-5 flex flex-col h-full">
-                <h3 class="font-semibold text-lg mb-2">Tekion</h3>
-                <p class="text-gray-600 text-sm mb-4">Training module for Tekion. Coming soon.</p>
-                <button class="w-full mt-auto text-center bg-gray-200 text-gray-500 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Coming Soon</button>
-              </div>
-            </div>
-
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition duration-300 opacity-60 cursor-not-allowed flex flex-col" data-aos="fade-up" data-aos-delay="100">
-              <div class="h-48 bg-gray-100 flex items-center justify-center"><i data-feather="bookmark" class="w-12 h-12 text-gray-400"></i></div>
-              <div class="p-5 flex flex-col h-full">
-                <h3 class="font-semibold text-lg mb-2">Dealerlogix</h3>
-                <p class="text-gray-600 text-sm mb-4">Training module for Dealerlogix. Coming soon.</p>
-                <button class="w-full mt-auto text-center bg-gray-200 text-gray-500 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Coming Soon</button>
-              </div>
-            </div>
-
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 transition duration-300 opacity-60 cursor-not-allowed flex flex-col" data-aos="fade-up" data-aos-delay="100">
-              <div class="h-48 bg-gray-100 flex items-center justify-center"><i data-feather="bookmark" class="w-12 h-12 text-gray-400"></i></div>
-              <div class="p-5 flex flex-col h-full">
-                <h3 class="font-semibold text-lg mb-2">Autoloop</h3>
-                <p class="text-gray-600 text-sm mb-4">Training module for Autoloop. Coming soon.</p>
-                <button class="w-full mt-auto text-center bg-gray-200 text-gray-500 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Coming Soon</button>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- END OF DASHBOARD MAIN PAGE -->
-
-<!-- XTIME MODULE  -->
-        <section id="xtime-module" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            
-            <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_welcome_poster.png">
-              <source src="./videos/Xtime Introduction1.mp4" type="video/mp4">
-              <track src="./captions/intro_en.vtt" kind="subtitles" srclang="en" label="English">
-              Your browser does not support the video tag.
-            </video>
-            <h2 class="text-2xl font-bold mb-6 text-center"></h2>
-          </div>
-        </section>
-
-       <!-- LOGGING IN + notes) TAB-->
-         <section id="login" class="page">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-              <h2 class="text-2xl font-bold mb-6 text-center">1 — Logging In</h2>
-
-            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-                <div class="relative p-4 bg-gray-50">
-                    <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_login_poster.png">
-                        <source src="./videos/Xtime-login.mp4" type="video/mp4">
-                        <track src="./captions/Xtime-login.vtt" kind="subtitles" srclang="en" label="English">
-                        Your browser does not support the video tag.
-                    </video>
-                    <p class="mt-4 text-center text-gray-700">Search <strong>Xtime.com</strong>. click login then fill-up the sign-in page.</p>
-                </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-                <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-                <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                  <li><strong>Always</strong> double-check your username and password before contacting support.</li>
-                  <li>If the page is slow, wait a few seconds — do not repeatedly click <strong>Login</strong>.</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-        <!-- DEALERSHIP SELECTION TAB-->
-          <section id="dashboard" class="page">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-              <h2 class="text-2xl font-bold mb-6 text-center">2 — Dealership Selection</h2>
-
-            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-                <div class="relative p-4 bg-gray-50">
-                    <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_dealership_poster.png">
-                        <source src="./videos/Dealership selection.mp4" type="video/mp4">
-                        <track src="./captions/Dealership_selection.vtt" kind="subtitles" srclang="en" label="English">
-                        Your browser does not support the video tag.
-                    </video>
-                    <p class="mt-4 text-center text-gray-700">Use the search bar to find a dealership, then click <strong>Launch</strong>.</p>
-                </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-                <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-                <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                  <li>The <strong>Launch</strong> button is required to open the scheduler; clicking the name will not work.</li>
-                  <li>If a dealership you need is missing from the list, please contact your administrator.</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-        <!-- NEW APPT TAB-->
-        <section id="newappt" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">3 — Booking a New Appointment</h2>
-
-            <div id="newApptCarousel" class="carousel-container relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div class="carousel-slides relative p-4 bg-gray-50">
-                <div class="carousel-slide w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_appt_poster.png">
-                    <source src="./videos/New Appt part 1.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700">Step 1: Select Dealership then Click <strong>New Appointment</strong></p>
-                </div>
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 2.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700">Step 2: Search for the customer using <strong>Phone number, Name, Email, Vin, or Confirmation Code.</strong></p>
-                </div>
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 3.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700">Step 3: Verify the <strong>Customer</strong> and their <strong>Vehicle.</strong></p>
-                </div>
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 4.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700">Step 4: Choose the correct <strong>Service package.</strong></p>
-                </div>
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 5.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700">Step 5: Select the <strong>Advisor</strong></p>
-                </div>
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 6.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700">Step 6: Choose the correct <strong>Transportation</strong></p>
-                </div>
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 7.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700">Step 7: Choose the <strong>Date</strong> and <strong>Time</strong> of the appointment</p>
-                </div>
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 8.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700">Step 8: Confirm how the customer wants to get their <strong>Appointment Confirmation</strong>.</p>
-                </div>
-                <div class="carousel-slide hidden w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/New Appt part 9.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700">Step 9: Review all details then <strong>Book the appointment.</strong></p>
-                </div>
-              </div>
-              <div class="flex justify-between items-center p-3 bg-white border-t">
-                <button class="carousel-prev px-4 py-2 bg-gray-200 text-gray-800 text-sm rounded-lg hover:bg-gray-300 transition" aria-label="Previous slide">Back</button>
-                <div class="carousel-dots flex justify-center space-x-2"></div>
-                <button class="carousel-next px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-500 transition" aria-label="Next slide">Next</button>
-              </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li>Searching using the <strong>Phone number</strong> is the fastest way to look for the customer's information</li>
-                <li>Always verify the <strong>latest year-model vehicle</strong> on the list first, before anything else.</li>
-                <li>Select vehicles with a <strong>VIN</strong> when available for better service tracking.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- NEW CUSTOMER TAB -->
-        <section id="newcustomer" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">4 — Creating a New Customer</h2>
-
-            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_customer_poster.png">
-                  <source src="./videos/Add new customer.mp4" type="video/mp4">
-                  <track src="./captions/Add new customer.vtt" kind="subtitles" srclang="en" label="English">
-                  Your browser does not support the video tag.
-                </video>
-                <p class="mt-4 text-center text-gray-700">Use the <strong>'Quick Add'</strong> button to create a new profile.</p>
-              </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li>A first name, last name, and phone number are <strong>required</strong> fields.</li>
-                <li>Add vehicle information, to create a complete record.</li>
-                <li>Adding the mileage is <strong>optional</strong></li>
-                <li>Be sure to confirm the type of the phone number</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- ADD/DELETE VEHICLE TAB -->
-        <section id="addvehicle" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">5 — Adding/Removing a Vehicle</h2>
-
-            <div id="newCarCarousel" class="carousel-container relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div class="carousel-slides relative p-4 bg-gray-50">
-                <div class="carousel-slide w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_vehicle_poster.png">
-                    <source src="./videos/Add new vehicle.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700"><strong>Adding</strong> a new vehicle to a customer's profile</p>
-                </div>
-                <div class="carousel-slide w-full flex flex-col justify-center">
-                  <video controls class="training-video" preload="metadata"><source src="./videos/Remove vehicle.mp4" type="video/mp4"></video>
-                  <p class="mt-4 text-center text-gray-700"><strong>Removing</strong> a vehicle to a customer's profile</p>
-                </div>
-              </div>
-
-              <div class="flex justify-between items-center p-3 bg-white border-t">
-                <button class="carousel-prev px-4 py-2 bg-gray-200 text-gray-800 text-sm rounded-lg hover:bg-gray-300 transition" aria-label="Previous slide">Back</button>
-                <div class="carousel-dots flex justify-center space-x-2"></div>
-                <button class="carousel-next px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-500 transition" aria-label="Next slide">Next</button>
-              </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li>Make sure that the <strong>right customer</strong> is selected before adding or removing the vehicle</li>
-                <li><strong>Always</strong> confirm with the customer before deleting a vehicle from their profile.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- RESCHEDULE TAB-->
-        <section id="reschedule" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">6 — Rescheduling an Appointment</h2>
-
-            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_resched_poster.png">
-                  <source src="./videos/Resched-appt.mp4" type="video/mp4"></video>
-                <p class="mt-4 text-center text-gray-700">Find the existing appointment, click the <strong>green button</strong> then modify the schedule</p>
-              </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li>If the policy for the requested services states <strong>"DO NOT SCHEDULE"</strong>, you must not make any changes to the current appointment. Instead, send a <strong>Hot Alert</strong>, as this type of service requires changes to be handled directly by the service advisors.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- CANCEL TAB -->
-        <section id="cancel" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">7 — Cancelling an Appointment</h2>
-
-            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_cancel_poster.png">
-                  <source src="./videos/Cancel-appt.mp4" type="video/mp4"></video>
-                <p class="mt-4 text-center text-gray-700">Open the existing appointment then click the <strong>Cancel Appointment</strong></p>
-              </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li><strong>Make sure</strong> your are working on the right account before clicking the Cancel Appointment button</li>
-                <li>Always try to <strong>attempt to reschedule</strong> instead of cancelling the appointment.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- DMS TAB -->
-        <section id="dmsappt" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg-p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">8 — DMS Appointment</h2>
-
-            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_dms_poster.png">
-                  <source src="./videos/DMS-appt.mp4" type="video/mp4"></video>
-                <p class="mt-4 text-center text-gray-700">An appointment displays a pop-up indicating it is a <strong>DMS appointment</strong>.</p>
-              </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li>When you encounter a DMS appointment, you <strong>do not</strong> need to change any details.</li>
-                <li>Make sure to send a <strong>Hot Alert</strong> to the dealership when you create a <strong>new appointment</strong> or if requesting to <strong>cancel</strong>.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- RO HISTORY TAB -->
-        <section id="rohistory" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg-p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">9 — RO History</h2>
-
-            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_ro_poster.png">
-                  <source src="./videos/RO-history.mp4" type="video/mp4"></video>
-                <p class="mt-4 text-center text-gray-700">Search for a customer to access the <strong>RO History</strong>.</p>
-              </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li>RO History contains the details of <strong>previous services</strong> performed on a vehicle.</li>
-                <li>There are two ways to access the RO History: from the <strong>New Appointment page</strong> or from the <strong>Timeline tab</strong> in Schedule Vehicle page.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- WORKBOOK TAB -->
-        <section id="workbook" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg-p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">10 — Workbook</h2>
-
-            <div class="relative max-w-6xl mx-auto rounded-lg overflow-hidden border">
-              <div class="relative p-4 bg-gray-50">
-                <video controls class="training-video" preload="metadata" poster="./images/thumbnails/xtime_workbook_poster.png">
-                  <source src="./videos/Workbook.mp4" type="video/mp4"></video>
-                <p class="mt-4 text-center text-gray-700">Click <strong>Workbook</strong> button next to Dashboard.</p>
-              </div>
-            </div>
-
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="edit-3" class="w-4 h-4 mr-2"></i>Take Notes</p>
-              <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
-                <li>Workbook can show <strong>past</strong> and <strong>upcomming</strong> appointment log.</li>
-                <li>You have the option to open the appointment details from the Wokrbook.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <!-- KNOWLEDGE CHECK TAB -->
-        <section id="knowledgecheck" class="page">
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8" data-aos="fade-up">
-            <h2 class="text-2xl font-bold mb-6 text-center">Knowledge Check</h2>
-            <div class="mt-6 max-w-4xl mx-auto bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded-r-lg">
-              <p class="font-bold flex items-center"><i data-feather="check-circle" class="w-4 h-4 mr-2"></i>Please answer all questions</p>
-            </div>
-
-            <div class="max-w-4xl mx-auto space-y-8">
-
-              <!-- Q1 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">1. What is the very first step when logging into Xtime?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q1"> Go to Xtime.com and click Login</label></div>
-                  <div><label><input type="radio" name="q1"> Enter your username and password</label></div>
-                  <div><label><input type="radio" name="q1"> Select your dealership</label></div>
-                </div>
-              </div>
-
-              <!-- Q2 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">2. You should double-check your username and password before contacting support.</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q2"> True</label></div>
-                  <div><label><input type="radio" name="q2"> False</label></div>
-                </div>
-              </div>
-
-              <!-- Q3 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">3. If the login page is slow, what should you do?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q3"> Refresh repeatedly</label></div>
-                  <div><label><input type="radio" name="q3"> Wait a few seconds without clicking again</label></div>
-                  <div><label><input type="radio" name="q3"> Contact your administrator immediately</label></div>
-                </div>
-              </div>
-
-              <!-- Q4 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">4. Clicking the dealership name alone will launch the scheduler.</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q4"> True</label></div>
-                  <div><label><input type="radio" name="q4"> False</label></div>
-                </div>
-              </div>
-
-              <!-- Q5 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">5. Which button must you click to open the scheduler?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q5"> Login</label></div>
-                  <div><label><input type="radio" name="q5"> Launch</label></div>
-                  <div><label><input type="radio" name="q5"> Search</label></div>
-                </div>
-              </div>
-
-              <!-- Q6 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">6. If a dealership you need is missing from the list, contact your __________.</h3>
-                <input type="text" name="q6" class="w-full p-2 border rounded" placeholder="Your answer...">
-              </div>
-
-              <!-- Q7 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">7. Why should you ask for the customer’s mileage before booking services?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q7"> To validate warranty</label></div>
-                  <div><label><input type="radio" name="q7"> To generate recommended packages</label></div>
-                  <div><label><input type="radio" name="q7"> To confirm advisor assignment</label></div>
-                </div>
-              </div>
-
-              <!-- Q8 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">8. In the Recommended Packages and Maintenance & Repairs sections, which actions are valid? (Select all that apply)</h3>
-                <div class="space-y-2">
-                  <div><label><input type="checkbox" name="q8"> Click a package</label></div>
-                  <div><label><input type="checkbox" name="q8"> Select a service and click Add</label></div>
-                  <div><label><input type="checkbox" name="q8"> Skip saving services</label></div>
-                  <div><label><input type="checkbox" name="q8"> Ignore requested services</label></div>
-                </div>
-              </div>
-
-              <!-- Q9 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">9. In the Advisors and Teams tab, what should you always check?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q9"> Advisor availability only</label></div>
-                  <div><label><input type="radio" name="q9"> Customer mileage</label></div>
-                  <div><label><input type="radio" name="q9"> IO (dealership policy)</label></div>
-                </div>
-              </div>
-
-              <!-- Q10 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">10. Transportation options may vary depending on dealership policies.</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q10"> True</label></div>
-                  <div><label><input type="radio" name="q10"> False</label></div>
-                </div>
-              </div>
-
-              <!-- Q11 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                
-                <h3 class="font-semibold mb-1">11. The Notifications tab allows you to confirm the customer’s __________ or __________ for appointment reminders.</h3>
-                
-                <div class="mt-4 mb-2 bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-1 rounded-r-s">
-                  <p class="font-semibold flex items-center text-xs">
-                    <i data-feather="info" class="w-3 h-3 mr-2"></i>
-                    Reminder: Add **space** or use **"and"** between your answers. (e.g., "Sample Answer" or "Sample and Answer")
-                  </p>
-                </div>
-                
-                <input type="text" name="q11" class="w-full p-2 border rounded" placeholder="Your answer...">
-              </div>
-
-              <!-- Q12 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">12. What is the final step before clicking “Book Appointment”?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q12"> Add services</label></div>
-                  <div><label><input type="radio" name="q12"> Review the appointment details with the customer</label></div>
-                  <div><label><input type="radio" name="q12"> Confirm VIN number</label></div>
-                </div>
-              </div>
-
-              <!-- Q13 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">13. What is the fastest way to add a new customer?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q13"> Use “Quick Add Customer”</label></div>
-                  <div><label><input type="radio" name="q13"> Use “New Customer” button only</label></div>
-                  <div><label><input type="radio" name="q13"> Search by email address</label></div>
-                </div>
-              </div>
-
-              <!-- Q14 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">14. Which fields are required when creating a new customer? (Select all that apply)</h3>
-                <div class="space-y-2">
-                  <div><label><input type="checkbox" name="q14"> First Name</label></div>
-                  <div><label><input type="checkbox" name="q14"> Last Name</label></div>
-                  <div><label><input type="checkbox" name="q14"> Phone Number</label></div>
-                  <div><label><input type="checkbox" name="q14"> Mileage</label></div>
-                </div>
-              </div>
-
-              <!-- Q15 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">15. Mileage is a mandatory field when adding a new customer.</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q15"> True</label></div>
-                  <div><label><input type="radio" name="q15"> False</label></div>
-                </div>
-              </div>
-
-              <!-- Q16 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">16. After saving customer details, the __________ button will appear to set up a service request.</h3>
-                <input type="text" name="q16" class="w-full p-2 border rounded" placeholder="Your answer...">
-              </div>
-
-              <!-- Q17 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">17. What is the fastest way to add a vehicle?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q17"> Enter all details manually</label></div>
-                  <div><label><input type="radio" name="q17"> Use VIN decoding</label></div>
-                  <div><label><input type="radio" name="q17"> Use customer’s last service record</label></div>
-                </div>
-              </div>
-
-              <!-- Q18 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">18. You must set the new vehicle as “Primary” for it to appear in searches.</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q18"> True</label></div>
-                  <div><label><input type="radio" name="q18"> False</label></div>
-                </div>
-              </div>
-
-              <!-- Q19 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">19. To remove a vehicle, set its “Active” status to __________.</h3>
-                <input type="text" name="q19" class="w-full p-2 border rounded" placeholder="Your answer...">
-              </div>
-
-              <!-- Q20 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">20. What should you confirm before deleting a vehicle? (Select all that apply)</h3>
-                <div class="space-y-2">
-                  <div><label><input type="checkbox" name="q20"> Customer approval</label></div>
-                  <div><label><input type="checkbox" name="q20"> Correct customer record</label></div>
-                  <div><label><input type="checkbox" name="q20"> VIN accuracy</label></div>
-                  <div><label><input type="checkbox" name="q20"> Phone number type</label></div>
-                </div>
-              </div>
-
-              <!-- Q21 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">21. How can you identify a vehicle with an existing appointment?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q21"> Green button under Schedule Vehicle</label></div>
-                  <div><label><input type="radio" name="q21"> By checking mileage</label></div>
-                  <div><label><input type="radio" name="q21"> By searching RO history</label></div>
-                </div>
-              </div>
-
-              <!-- Q22 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">22. You should always review dealership policy before rescheduling.</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q22"> True</label></div>
-                  <div><label><input type="radio" name="q22"> False</label></div>
-                </div>
-              </div>
-
-              <!-- Q23 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">23. If policy states “DO NOT SCHEDULE,” you must send a __________.</h3>
-                <input type="text" name="q23" class="w-full p-2 border rounded" placeholder="Your answer...">
-              </div>
-
-              <!-- Q24 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">24. Before cancelling, what should you ask the customer?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q24"> If they want to reschedule</label></div>
-                  <div><label><input type="radio" name="q24"> If they want to update VIN</label></div>
-                  <div><label><input type="radio" name="q24"> If they need a transportation option</label></div>
-                </div>
-              </div>
-
-              <!-- Q25 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">25. The Cancel Appointment button is located above the Update Appointment button.</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q25"> True</label></div>
-                  <div><label><input type="radio" name="q25"> False</label></div>
-                </div>
-              </div>
-
-              <!-- Q26 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">26. You must verify you are working on the correct __________ before cancelling.</h3>
-                <input type="text" name="q26" class="w-full p-2 border rounded" placeholder="Your answer...">
-              </div>
-
-              <!-- Q27 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">27. What does DMS stand for?</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q27"> Dealer Management System</label></div>
-                  <div><label><input type="radio" name="q27"> Digital Maintenance System</label></div>
-                  <div><label><input type="radio" name="q27"> Dealership Manual System</label></div>
-                </div>
-              </div>
-
-              <!-- Q28 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">28. You should edit an existing DMS appointment directly if a customer requests changes.</h3>
-                <div class="space-y-2">
-                  <div><label><input type="radio" name="q28"> True</label></div>
-                  <div><label><input type="radio" name="q28"> False</label></div>
-                </div>
-              </div>
-
-              <!-- Q29 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">29. For DMS cancellations, always send a __________ through IO.</h3>
-                <input type="text" name="q29" class="w-full p-2 border rounded" placeholder="Your answer...">
-              </div>
-
-              <!-- Q30 -->
-              <div class="quiz-question p-6 border border-gray-200 rounded-lg">
-                <h3 class="font-semibold mb-4">30. What details are included in RO History? (Select all that apply)</h3>
-                <div class="space-y-2">
-                  <div><label><input type="checkbox" name="q30"> Appointment Date</label></div>
-                  <div><label><input type="checkbox" name="q30"> Advisor’s Name</label></div>
-                  <div><label><input type="checkbox" name="q30"> Mileage</label></div>
-                  <div><label><input type="checkbox" name="q30"> Services completed</label></div>
-                </div>
-              </div>
-
-              <!-- Submit -->
-              <div class="flex justify-between mt-8">
-                <button id="submit-quiz-btn" type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Submit Quiz</button>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-
-        <!-- QUIZ RESULT MODAL -->
-        <div id="quizResultModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-          <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full flex flex-col items-center text-center">
-            <h2 class="text-2xl font-bold mb-2">You scored</h2>
-            <p id="quizPercentage" class="text-6xl font-semibold text-blue-700 mb-6"></p>
-            <p id="quizScore" class="text-sm text-gray-600 mb-6"></p>
-
-            <div class="w-full space-y-4">
-              <input type="text" id="firstName" placeholder="First Name" class="w-full p-2 border rounded">
-              <input type="text" id="lastName" placeholder="Last Name" class="w-full p-2 border rounded">
-              <input type="email" id="email" placeholder="Email Address" class="w-full p-2 border rounded">
-            </div>
-
-            <div id="messageContainer" class="w-full">
-              </div>
-
-            <div class="mt-6 flex justify-center w-full">
-              <button id="doneBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Done</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- QUIZ RESULT MODAL WHEN NO ANSWER DETECTED-->
-        <div id="noAnswerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-          <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full flex flex-col items-center text-center">
-            <i data-feather="alert-triangle" class="w-12 h-12 text-yellow-500 mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">Submission Failed!</h3>
-            <p class="text-gray-700 mb-6">
-              No answers were detected. Please make sure to answer at least one question before clicking **Submit Quiz**.
-            </p>
-            <button id="closeNoAnswerModal" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Close</button>
-          </div>
-        </div>
-
-      </main>
     </div>
-  </div>
-  <!-- END OF XTIME MODULE  -->
+  </nav>
 
-  <!-- IMAGE MODAL -->
-  <div id="imageModal" class="flex" role="dialog" aria-modal="true" aria-label="Image Modal">
-    <img id="modalImage" src="" alt="">
+  <main class="flex-grow">
+    <section class="hero-gradient py-20">
+      <div class="container mx-auto px-6 mt-12">
+        <div class="max-w-4xl mx-auto text-center">
+        <!--<span class="pill px-4 py-1 rounded-full text-sm font-medium mb-4 inline-block animate-fade-in">
+            New & Improved
+          </span>-->
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 animate-fade-in delay-100">
+            Master Scheduling Tools <br>With Confidence
+          </h1>
+          <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto animate-fade-in delay-200">
+            Interactive training modules designed to help you work smarter, not harder.
+          </p>
+          <div class="animate-fade-in delay-300">
+            <button id="getStartedBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full font-medium mr-4 transition-colors">
+              Get Started
+            </button>
+            <!--<button class="text-blue-500 hover:text-blue-600 font-medium">
+              Watch Demo <i data-feather="play" class="inline ml-1 w-4 h-4"></i>
+            </button>-->
+          </div>
+        </div>
+
+        <div class="mt-16 max-w-6xl mx-auto">
+          <div class="bg-white rounded-xl shadow-sm p-1">
+            <img src="http://static.photos/technology/1200x630/42" alt="Dashboard Preview" class="w-full h-auto rounded-lg">
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <section id="intro-modules" class="py-20 bg-white">
+          <div class="container mx-auto px-6">
+            <div class="max-w-2xl mx-auto text-center ">
+              <h2 class="text-3xl font-bold text-gray-900 mb-4">Start Your Journey with Our Scheduling Modules</h2>
+              <p class="text-gray-600">Take the first step toward mastering scheduling solutions!</p>
+              <p class="text-gray-600">Streamline workflows, boost efficiency, and deliver seamless experiences with these key modules:</p>
+            </div>
+          </div>
+        </section>
+<section id="modules" class="w-full lg:w-3/4 mx-auto px-6 sm:px-12 mt-20 mb-80" data-aos="fade-up" data-aos-delay="300">
+      <div class="p-6 sm:p-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <a href="./xtime-module.html" class="flex flex-col items-center text-center p-4 rounded-lg hover:bg-gray-100 transition duration-300">
+            <img src="./images/Xtime logo.png" alt="Xtime Scheduler Logo" class="w-16 h-16 object-contain mb-3">
+            <p class="text-sm sm:text-base font-medium text-gray-700">Xtime Scheduler</p>
+          </a>
+
+          <a href="./cdk-module.html" class="flex flex-col items-center text-center p-4 rounded-lg hover:bg-gray-100 transition duration-300">
+            <img src="./images/CDK logo.png" alt="CDK Logo" class="w-16 h-16 object-contain mb-3">
+            <p class="text-sm sm:text-base font-medium text-gray-700">CDK Scheduler</p>
+          </a>
+
+          <a href="./maintenance-page.html" class="flex flex-col items-center text-center p-4 rounded-lg hover:bg-gray-100 transition duration-300">
+            <img src="./images/WI Advisor logo.png" alt="WI Advisor Logo" class="w-16 h-16 object-contain mb-3">
+            <p class="text-sm sm:text-base font-medium text-gray-700">WI Advisor</p>
+          </a>
+
+          <div class="flex flex-col items-center text-center p-4 rounded-lg opacity-60 cursor-not-allowed">
+            <i data-feather="bookmark" class="w-16 h-16 text-gray-400 mb-3"></i>
+            <p class="text-sm sm:text-base font-medium text-gray-700">Online Schedulers</p>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-4 rounded-lg opacity-60 cursor-not-allowed">
+            <i data-feather="bookmark" class="w-16 h-16 text-gray-400 mb-3"></i>
+            <p class="text-sm sm:text-base font-medium text-gray-700">MYKAARMA</p>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-4 rounded-lg opacity-60 cursor-not-allowed">
+            <i data-feather="bookmark" class="w-16 h-16 text-gray-400 mb-3"></i>
+            <p class="text-sm sm:text-base font-medium text-gray-700">Tekion</p>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-4 rounded-lg opacity-60 cursor-not-allowed">
+            <i data-feather="bookmark" class="w-16 h-16 text-gray-400 mb-3"></i>
+            <p class="text-sm sm:text-base font-medium text-gray-700">Dealerlogix</p>
+          </div>
+
+          <div class="flex flex-col items-center text-center p-4 rounded-lg opacity-60 cursor-not-allowed">
+            <i data-feather="bookmark" class="w-16 h-16 text-gray-400 mb-3"></i>
+            <p class="text-sm sm:text-base font-medium text-gray-700">Autoloop</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 
-  <script>
+  <footer class="bg-gray-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+        <div class="mb-4 md:mb-0">
+          <a href="./index.html" class="text-xl font-bold text-white flex items-center">
+            Scheduler Training Hub
+          </a>
+          <p class="text-gray-400 text-sm mt-1">Empowering your scheduling expertise</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400 text-sm">
+        <p>&copy; 2025 SchedulerTrainingHub. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+<script>
     document.addEventListener('DOMContentLoaded', () => {
-      // init libs
       AOS.init({ duration: 600, easing: 'ease-out-quad', once: true });
       feather.replace();
 
-      // refs
-      const pages = document.querySelectorAll('.page');
-      const sidebar = document.getElementById('sidebar');
-      const mainHeaderTitle = document.getElementById('main-header-title');
-      const mainContent = document.getElementById('main-content');
-      const searchBar = document.getElementById('search-bar-container');
+      // --- Logic for Smooth Scroll to Modules ---
+      const getStartedBtn = document.getElementById('getStartedBtn');
+      const modulesSection = document.getElementById('intro-modules');
 
-      // showPage: pageId (string), tabId (string, optional)
-      function showPage(pageId, tabId) {
-        const next = document.getElementById(pageId);
-        if (!next) return;
-
-        // hide all pages, show the one
-        pages.forEach(p => p.classList.remove('active'));
-        next.classList.add('active');
-
-        // update header title from page h2 if exists
-        //const titleEl = next.querySelector('h2');
-        //mainHeaderTitle.textContent = titleEl ? titleEl.textContent : 'Training Modules';
-
-        // update active tab styling: remove from all .tab-btn
-        document.querySelectorAll('.tab-btn').forEach(t => {
-          t.classList.remove('bg-blue-50','text-blue-600', 'highlight-active');
-          t.classList.add('text-gray-700');
-          t.removeAttribute('aria-current');
-        });
-
-        // determine tab to mark active:
-        let activeTabEl = null;
-        if (tabId) activeTabEl = document.getElementById(tabId);
-        if (!activeTabEl) activeTabEl = document.querySelector(`.tab-btn[data-page="${pageId}"]`);
-        if (activeTabEl) {
-          activeTabEl.classList.add('bg-blue-50','text-blue-600', 'highlight-active');
-          activeTabEl.setAttribute('aria-current','page');
-        }
-
-        // sidebar toggle: hide on dashboard-main
-        if (pageId === 'dashboard-main') {
-          sidebar.classList.add('-translate-x-full');
-          mainContent.classList.remove('ml-64');
-
-        // <<< START NEW CODE TO FIX CARD DISPLAY >>>
-        // 1. Ensure all dashboard cards are visible (in case they were hidden by search)
-        document.querySelectorAll('#dashboard-main .course-card, #dashboard-main .bg-white.rounded-xl.overflow-hidden').forEach(card => {
-            card.classList.remove('hidden');
-        });
-        
-        // 2. Force AOS (Animation on Scroll) to re-initialise on the new/visible elements
-        AOS.refresh();
-        // <<< END NEW CODE TO FIX CARD DISPLAY >>>
-
-        } else {
-          sidebar.classList.remove('-translate-x-full');
-          mainContent.classList.add('ml-64');
-        }
-        // Show/hide search bar
-        if (pageId === 'dashboard-main') {
-          searchBar.classList.remove('hidden');
-        } else {
-          searchBar.classList.add('hidden');
-        }
-
-        // pause videos not in the active page (avoid background playback)
-        document.querySelectorAll('video').forEach(v => {
-          const p = v.closest('.page');
-          if (!p || p.id !== pageId) {
-            try { v.pause(); } catch(e) {}
-          }
-        });
-
-        // scroll main area to top
-        const scrollArea = document.querySelector('.flex-1.overflow-auto');
-        if (scrollArea) scrollArea.scrollTop = 0;
-
-        AOS.refresh();
-      }
-
-      // wire sidebar tab buttons (class .tab-btn)
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const pageId = btn.dataset.page;
-          showPage(pageId, btn.id);
-        });
-      });
-
-      // wire other clickable elements that navigate (cards / CTA) but avoid double-binding sidebar .tab-btn
-      document.querySelectorAll('[data-page]:not(.tab-btn)').forEach(el => {
-        // make keyboard accessible
-        if (!['BUTTON','A'].includes(el.tagName)) {
-          el.setAttribute('role','button');
-          if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex','0');
-        }
-        el.addEventListener('click', (e) => {
-          e.preventDefault();
-          const targetPage = el.dataset.page;
-          // prefer explicit data-active-tab if provided
-          const explicitTab = el.dataset.activeTab || null;
-          showPage(targetPage, explicitTab);
-        });
-        el.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
-        });
-      });
-
-      // initial state
-      showPage('dashboard-main', 'tab-dashboard-main');
-
-      // --- Image modal ---
-      const imageModal = document.getElementById('imageModal');
-      const modalImage = document.getElementById('modalImage');
-      function openModal(src, alt = '') {
-        modalImage.src = src;
-        modalImage.alt = alt;
-        imageModal.style.display = 'flex';
-      }
-      function closeModal() {
-        imageModal.style.display = 'none';
-        modalImage.src = '';
-        modalImage.alt = '';
-      }
-      // close by clicking outside image or press Esc
-      imageModal.addEventListener('click', (e) => {
-        if (e.target === modalImage) return; // clicked image -> do nothing
-        closeModal();
-      });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-
-      // expose openModal to window for easy usage from markup if needed
-      window.openModal = openModal;
-
-      // --- Reusable Carousel with Autoplay on Navigate ---
-      function initCarousel(carouselId) {
-        const carouselRoot = document.getElementById(carouselId);
-        if (!carouselRoot) return;
-
-        const slidesContainer = carouselRoot.querySelector('.carousel-slides');
-        const slides = slidesContainer.querySelectorAll('.carousel-slide');
-        const dotsContainer = carouselRoot.querySelector('.carousel-dots');
-        const btnNext = carouselRoot.querySelector('.carousel-next');
-        const btnPrev = carouselRoot.querySelector('.carousel-prev');
-
-        if (!slides.length || !dotsContainer) return;
-
-        let current = 0;
-        let isInitialLoad = true; // Flag for initial load
-
-        // create dots
-        slides.forEach((_, i) => {
-          const d = document.createElement('button');
-          d.className = 'w-3 h-3 rounded-full carousel-dot bg-gray-300';
-          d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-          d.addEventListener('click', () => { 
-            isInitialLoad = false; // Set flag to false on user action
-            current = i; 
-            show(current); 
-          });
-          dotsContainer.appendChild(d);
-        });
-        const dots = dotsContainer.querySelectorAll('button');
-
-        function updateDots(index) {
-          dots.forEach((dot, i) => {
-            dot.classList.toggle('bg-blue-600', i === index);
-            dot.classList.toggle('bg-gray-300', i !== index);
-            dot.style.transform = i === index ? 'scale(1.1)' : 'scale(1)';
-          });
-        }
-
-        function show(index) {
-          // Hide all slides except the active one
-          slides.forEach((s, i) => { s.classList.toggle('hidden', i !== index); });
-
-          // --- New Video Handling Logic ---
-          // 1. Pause any video that is NOT the active one
-          slides.forEach((s, i) => {
-            if (i !== index) {
-              const v = s.querySelector('video');
-              if (v) try { v.pause(); v.currentTime = 0; } catch (e) {}
-            }
-          });
-
-          // 2. Handle the video in the ACTIVE slide
-          const activeVideo = slides[index].querySelector('video');
-          if (activeVideo && !isInitialLoad) {
-            activeVideo.currentTime = 0;
-            activeVideo.play().catch(error => {
-              // Autoplay was prevented by the browser, which is normal.
-              // The user can still click play manually.
-              console.log('Autoplay prevented by browser.');
-            });
-          }
-
-          updateDots(index);
-        }
-
-        function next() { 
-          isInitialLoad = false; // Set flag to false on user action
-          current = (current + 1) % slides.length; 
-          show(current); 
-        }
-        function prev() { 
-          isInitialLoad = false; // Set flag to false on user action
-          current = (current - 1 + slides.length) % slides.length; 
-          show(current); 
-        }
-
-        if (btnNext) btnNext.addEventListener('click', (e) => { e.preventDefault(); next(); });
-        if (btnPrev) btnPrev.addEventListener('click', (e) => { e.preventDefault(); prev(); });
-
-        document.addEventListener('keydown', (e) => {
-          if (!carouselRoot.closest('.page.active')) return;
-          isInitialLoad = false; // Set flag to false on user action
-          if (e.key === 'ArrowLeft') prev();
-          if (e.key === 'ArrowRight') next();
-        });
-
-        // Initial show
-        show(current);
-      }
-
-      // Initialize all carousels on the page
-      initCarousel('loginCarousel');
-      initCarousel('newApptCarousel');
-      initCarousel('newCarCarousel');
-
-
-      // --- Dashboard Search Filter ---
-      (function initSearchFilter() {
-        const searchInput = document.getElementById('module-search-input');
-        const cardsGrid = document.querySelector('#dashboard-main .grid');
-
-        if (!searchInput || !cardsGrid) return;
-
-        // Get all direct children of the grid, which are the module cards
-        const allCards = Array.from(cardsGrid.children);
-
-        searchInput.addEventListener('input', (e) => {
-          const searchTerm = e.target.value.toLowerCase();
-
-          allCards.forEach(card => {
-            const titleElement = card.querySelector('h3');
-            if (titleElement) {
-              const title = titleElement.textContent.toLowerCase();
-
-              // If the card title includes the search term, show it. Otherwise, hide it.
-              if (title.includes(searchTerm)) {
-                card.classList.remove('hidden');
-              } else {
-                card.classList.add('hidden');
-              }
-            }
+      if (getStartedBtn && modulesSection) {
+        getStartedBtn.addEventListener('click', () => {
+          modulesSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start' // Ensure the top of the section is visible
           });
         });
-      })();
-
-      // --- Auto-hiding scrollbar on scroll event ---
-      (function initAutoHideScrollbar() {
-        const mainContent = document.getElementById('main-content');
-        const sidebarNav = document.querySelector('.sidebar nav');
-
-        const applyScrollListener = (element) => {
-          if (!element) return;
-          let timeout = null;
-
-          element.addEventListener('scroll', () => {
-            element.classList.add('is-scrolling'); // fade in immediately
-
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-              element.classList.remove('is-scrolling'); // fade out starts after 2s
-            }, 2000); // wait 2s before fading out
-          });
-        };
-
-        applyScrollListener(mainContent);
-        applyScrollListener(sidebarNav);
-      })();
-
-
-    }); // DOMContentLoaded
-  </script>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
-<script>
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
- apiKey: "AIzaSyCwCpnUN7L2z02y8JponKYg-NAy8xH188c",
- authDomain: "knowledge-check-d2811.firebaseapp.com",
- databaseURL: "https://knowledge-check-d2811-default-rtdb.firebaseio.com",
- projectId: "knowledge-check-d2811",
- storageBucket: "knowledge-check-d2811.firebasestorage.app",
- messagingSenderId: "474640061743",
- appId: "1:474640061743:web:e376aadcf9c6bca7a8bdda",
- measurementId: "G-0HGMTN7VYV"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
-
-// --- START: INSERT HELPER FUNCTIONS HERE ---
-
-/**
- * Sanitizes an email address for use as a Firebase Realtime Database key 
- * by replacing all periods (.) with commas (,).
- * @param {string} email - The user's email address.
- * @returns {string} The sanitized key.
- */
-function sanitizeEmail(email) {
-  return email.replace(/\./g, ',');
-}
-
-/**
- * Converts a string to Title Case (First letter uppercase, rest lowercase).
- * @param {string} str - The input string (e.g., "john").
- * @returns {string} The formatted string (e.g., "John").
- */
-function toTitleCase(str) {
-  if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
-
-/**
- * Ensures a string is entirely lowercase.
- * @param {string} str - The input string (e.g., "User@EXAMPLE.com").
- * @returns {string} The lowercase string (e.g., "user@example.com").
- */
-function toLowerCase(str) {
-  return str.toLowerCase();
-}
-// --- END: INSERT HELPER FUNCTIONS HERE ---
-
-document.getElementById("submit-quiz-btn").addEventListener("click", async function() {
-  const submitBtn = document.getElementById("submit-quiz-btn");
-  const originalSubmitText = submitBtn.textContent;
-  
-  // --- 1. START LOADING STATE ---
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = `
-    <span class="flex items-center justify-center">
-      <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
-      </svg>
-      Calculating...
-    </span>`;
-  
-  // --- VALIDATION CHECK FOR NO ANSWERS ---
-  const allInputs = document.querySelectorAll('#knowledgecheck input[type="radio"], #knowledgecheck input[type="checkbox"], #knowledgecheck input[type="text"]');
-  let hasAnswered = false;
-  
-  for (const input of allInputs) {
-      if (input.type === 'radio' || input.type === 'checkbox') {
-          if (input.checked) {
-              hasAnswered = true;
-              break;
-          }
-      } else if (input.type === 'text') {
-          if (input.value.trim() !== '') {
-              hasAnswered = true;
-              break;
-          }
       }
-  }
+      // --- End Smooth Scroll Logic ---
 
-  if (!hasAnswered) {
-      // RESET BUTTON BEFORE SHOWING MODAL/ALERT
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalSubmitText;
+      // --- NEW Logic for Different Cycling Images ---
       
-      showNoAnswerModal(); 
-      return; 
-  }
-  // --- END: VALIDATION CHECK ---
-
-
-  // 2. Fetch the Answer Key from Firebase (Existing Logic)
-  const answerKeyRef = database.ref('QuizConfiguration/XTimeAnswerKey');
-  let answerKey = null;
-  
-  try {
-    const snapshot = await answerKeyRef.once('value');
-    if (!snapshot.exists()) {
-      alert("Error: Quiz answer key not found in Firebase. Cannot score quiz.");
-      // RESET BUTTON ON ERROR
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalSubmitText;
-      return;
-    }
-    answerKey = snapshot.val();
-  } catch (error) {
-    console.error("Failed to fetch answer key:", error);
-    alert("Error: Failed to connect to scoring server. Please try again.");
-    // RESET BUTTON ON ERROR
-    submitBtn.disabled = false;
-    submitBtn.textContent = originalSubmitText;
-    return;
-  }
-
-  // 3. Score the Quiz (Existing Logic)
-  let score = 0;
-  let total = Object.keys(answerKey).length; 
-
-  for (let q in answerKey) {
-    let correct = answerKey[q];
-
-    // --- Scoring logic here (Radio/Checkbox and Text Input) ---
-    let inputs = document.querySelectorAll(`input[name="${q}"]`);
-    if (inputs.length > 0 && (inputs[0].type === 'radio' || inputs[0].type === 'checkbox')) {
-      let selected = [];
-      
-      inputs.forEach(i => {
-        if (i.checked) {
-          selected.push(i.parentElement.textContent.trim()); 
-        }
-      });
-
-      let normalizedCorrect = Array.isArray(correct) 
-          ? correct.map(c => c.trim()) 
-          : correct.trim();
-
-      if (Array.isArray(normalizedCorrect)) {
-        const allCorrectSelected = normalizedCorrect.every(c => selected.includes(c));
-        const onlyCorrectSelected = selected.every(s => normalizedCorrect.includes(s));
-        
-        if (allCorrectSelected && onlyCorrectSelected) {
-          score++;
-        }
-      } else {
-        if (selected.length === 1 && selected[0] === normalizedCorrect) {
-          score++;
-        }
-      }
-
-    // --- Text Input Scoring ---
-    } else {
-      let answerField = document.querySelector(`input[name="${q}"]`);
-      
-      if (!answerField) {
-         answerField = document.querySelector(`#${q}`);
-      }
-      
-      let typed = answerField ? answerField.value.trim().toLowerCase() : "";
-      
-      let normalizedCorrect = Array.isArray(correct) 
-          ? correct.map(c => c.toLowerCase().trim()) 
-          : correct.toLowerCase().trim();
-      
-      if (Array.isArray(normalizedCorrect)) {
-        if (normalizedCorrect.some(c => typed.includes(c))) score++;
-      } else {
-        if (typed === normalizedCorrect) score++;
-      }
-    }
-  }
-
-  // 4. Display Results
-  const percentage = Math.round((score / total) * 100);
-  const percentageEl = document.getElementById("quizPercentage");
-  percentageEl.textContent = "(0%)"; 
-  animateCountUp(percentageEl, 0, percentage, 1200); 
-  document.getElementById("quizScore").textContent = `You answered ${score} out of ${total} correctly.`;
-  
-  // Reset the Done button UI BEFORE showing the modal (this is where the Done button state is set)
-  resetUploadUI(); 
-  
-  document.getElementById("quizResultModal").classList.remove("hidden");
-  document.getElementById("quizResultModal").classList.add("flex");
-  
-  // FINAL STEP: RESET SUBMIT BUTTON AFTER SUCCESS
-  submitBtn.disabled = false;
-  submitBtn.textContent = originalSubmitText;
-});
-
-  // --- Count-up animation for percentage ---
-  function animateCountUp(element, start, end, duration) {
-    const startTime = performance.now();
-
-    function update(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const value = Math.floor(start + (end - start) * progress);
-
-      element.textContent = `${value}%`;
-
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      }
-    }
-
-    requestAnimationFrame(update);
-  }
-
-
-const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwTAHY3qfki8Q_iirBc78ETWacLRaEiOh1ue_NmRLgSWm2ck1lEw6bfL7FhQ9DsSHPMVQ/exec";
-
-// --- START: MODIFIED handleDone function with Duplicate Check ---
-document.getElementById("doneBtn").addEventListener("click", async function handleDone() {
-  const doneBtn = document.getElementById("doneBtn");
-  
-  // --- 1. Standardize and Format Input Values ---
-  const rawFirstName = document.getElementById("firstName").value.trim();
-  const rawLastName = document.getElementById("lastName").value.trim();
-  const rawEmail = document.getElementById("email").value.trim();
-  
-  // Standardize case for consistent saving and checking
-  const firstName = toTitleCase(rawFirstName);
-  const lastName = toTitleCase(rawLastName);
-  const email = toLowerCase(rawEmail); // Use this lowercase email for key and final save
-  
-  // Get score and percentage (existing logic)
-  const scoreText = document.getElementById("quizScore").textContent;
-  const match = scoreText.match(/(\d+)\D+(\d+)/);
-  const quizScore = match ? `${match[1]}/${match[2]}` : scoreText;
-  const quizPercentage = document.getElementById("quizPercentage").textContent;
-  
-  const inputs = document.querySelectorAll("#firstName, #lastName, #email");
-  // Get the dedicated message container
-  const messageContainer = document.getElementById("messageContainer");
-
-  // Define the message element (P tag) and inject it into the container
-  const msg = document.getElementById("uploadMsg") || (() => {
-    const p = document.createElement("p");
-    p.id = "uploadMsg";
-    p.className = "text-sm text-gray-600 text-center"; 
-    messageContainer.appendChild(p); // Append directly to the new container
-    return p;
-  })();
-
-  if (!firstName || !lastName || !email) {
-    msg.textContent = "⚠️ Please fill out all fields before submitting.";
-    msg.className = "mt-4 text-sm text-red-600 text-center";
-    return;
-  }
-  
-  // --- 2. Start Loading State (Correctly Placed) ---
-  msg.textContent = "";
-  doneBtn.disabled = true;
-  doneBtn.innerHTML = `
-    <span class="flex items-center justify-center">
-      <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
-      </svg>
-      Processing...
-    </span>`;
-
-  // --- 3. Duplicate Check Logic ---
-  const CATEGORY_NODE = 'XTime-Results';
-  const sanitizedEmail = sanitizeEmail(email); // Sanitizing the lowercase email
-  const userRef = database.ref(`${CATEGORY_NODE}/${sanitizedEmail}`);
-
-  try {
-    const snapshot = await userRef.once('value');
+      // 1. Define your list of images
+    const images = [
+        './images/autoloop.png',
+        './images/xtime.png', 
+        './images/dealerlogix.png', 
+        './images/cdk.png',
+        './images/wiadvisor.png'  
+    ];
+    // ... (rest of the image cycling logic)
     
-    // Check 3.1: DUPLICATE FOUND
-    if (snapshot.exists()) {
-      const existingData = snapshot.val();
+      // 2. Set timing (in milliseconds)
+      const cycleInterval = 4000;   // How long between full cycles (4 seconds)
+      const fadeDuration = 200;     // Must match your CSS transition (0.5 seconds)
+      const staggerDelay = 500;     // Delay between each card (0.25 seconds)
+
+      // 3. Get all the image tags
+      const cardImages = document.querySelectorAll('.cycling-image');
       
-      // Stop the submission and show the duplicate message UI
-      showDuplicateModal(existingData, doneBtn);
-      return; // Stops execution immediately
-    }
+      // This counter tracks how many "shifts" we've done
+      let cycleCount = 0;
 
-    // Check 3.2: NO DUPLICATE - PROCEED WITH SUBMISSION
-    const data = {
-      firstName,      // Title Cased
-      lastName,       // Title Cased
-      email,          // Lower Cased
-      quizScore,
-      quizPercentage,
-      timestamp: new Date().toISOString(),
-      category: "XTime"
-    };
+      // --- NEW Initial Setup ---
+      // Set a different image on each card to start
+      cardImages.forEach((img, index) => {
+          // Check if an image exists for this index, otherwise use the first one
+          const initialImageIndex = index % images.length;
+          img.src = images[initialImageIndex];
+          img.alt = `Scheduler Feature ${initialImageIndex + 1}`;
+      });
+      
+      // --- NEW Interval Logic ---
+      setInterval(() => {
+        // Increment the main cycle counter to "shift" the images
+        cycleCount++; 
 
-    // Send data to Google Sheet Web App using retryFetch for 429 errors
-    const googleSheetPromise = retryFetch(GOOGLE_SHEET_WEBAPP_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+        cardImages.forEach((img, index) => {
+          
+          // 1. Calculate the *next* image for *this specific card*
+          // This formula makes each card get the next image in the sequence
+          const nextImageIndex = (index + cycleCount) % images.length;
+          const nextImageSrc = images[nextImageIndex];
+
+          // 2. Calculate the stagger delay for this card
+          const delay = index * staggerDelay;
+
+          // 3. Fade out after its delay
+          setTimeout(() => {
+            img.style.opacity = 0;
+          }, delay);
+
+          // 4. Wait for fade-out, then change src and fade in
+          setTimeout(() => {
+            img.src = nextImageSrc;
+            img.alt = `Scheduler Feature ${nextImageIndex + 1}`;
+            img.style.opacity = 1;
+          }, delay + fadeDuration); // This card's delay + the fade time
+        });
+
+      }, cycleInterval);
+      
+      // --- End Image Cycling Logic ---
     });
-
-    // Send data to Firebase Realtime Database using .set()
-    const firebasePromise = userRef.set(data);
-
-    // Wait for both operations
-    await Promise.all([googleSheetPromise, firebasePromise]);
-
-    // Show SUCCESS UI
-    showSuccessModal(doneBtn);
-
-  } catch (err) {
-    // --- Error handling (resets the loading state on failure) ---
-    // This error will now catch the failure of the retryFetch after 3 attempts.
-    msg.textContent = "❌ Error submitting your results. Failed to upload to sheet/database. Please try again.";
-    msg.className = "mt-4 text-sm text-red-600 text-center";
-    doneBtn.disabled = false;
-    doneBtn.textContent = "Done";
-    console.error("Submission Error:", err);
-  }
-});
-// --- END: MODIFIED handleDone function ---
-
-
-/**
- * Resets the modal structure to display a successful submission message.
- * @param {HTMLElement} doneBtn - The original "Done" button element.
- */
-function showSuccessModal(doneBtn) {
-  const modal = document.getElementById("quizResultModal");
-  const resultModalBody = modal.querySelector('.bg-white');
-
-  // New success content HTML
-  const newSuccessMsg = `
-    <div class="flex flex-col items-center">
-      <i data-feather="check-circle" class="w-12 h-12 text-green-500 mb-4"></i>
-      <p class="text-xl font-semibold text-gray-800">Your score has been uploaded!</p>
-    </div>
-  `;
-
-  // Update modal content
-  resultModalBody.innerHTML = `
-    <h2 class="text-2xl font-bold mb-6 text-center">Success!</h2>
-    <div id="successContent" class="flex flex-col items-center text-center">
-      ${newSuccessMsg}
-    </div>
-    <div class="mt-6 flex justify-center w-full">
-      <button id="closeBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Close</button>
-    </div>
-  `;
-  
-  feather.replace();
-
-  // Set up Close behavior
-  resultModalBody.querySelector("#closeBtn").addEventListener("click", function () {
-    modal.classList.add("hidden");
-    modal.classList.remove("flex");
-    window.location.reload();
-  });
-}
-
-/**
- * Displays the custom modal when no answers are detected.
- */
-function showNoAnswerModal() {
-  const modal = document.getElementById("noAnswerModal");
-  const closeBtn = document.getElementById("closeNoAnswerModal");
-  
-  // Display the modal
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
-  
-  // Ensure icons are rendered (for the feather icon)
-  feather.replace();
-
-  // Set up the close button listener (only once)
-  if (!closeBtn.hasAttribute('data-listener')) {
-      closeBtn.setAttribute('data-listener', 'true');
-      closeBtn.addEventListener('click', () => {
-          modal.classList.add("hidden");
-          modal.classList.remove("flex");
-      });
-  }
-}
-
-/**
- * Attempts a fetch request up to 3 times with increasing delay on failure.
- * Used specifically for the Google Sheet Web App due to rate limiting (429 errors).
- * @param {string} url - The URL to fetch (GOOGLE_SHEET_WEBAPP_URL).
- * @param {Object} options - The fetch options (method, body, etc.).
- */
-async function retryFetch(url, options) {
-    const maxRetries = 3;
-    for (let i = 0; i < maxRetries; i++) {
-        try {
-            // Wait before retrying (i=1 -> 2s, i=2 -> 4s delay)
-            if (i > 0) {
-                const delay = i * 2000;
-                await new Promise(resolve => setTimeout(resolve, delay));
-            }
-            
-            // Execute the fetch. With 'no-cors', we rely on the network failing, 
-            // but retrying prevents the 429 error from happening on a subsequent attempt.
-            await fetch(url, options);
-            
-            // Success: return immediately
-            return; 
-
-        } catch (error) {
-            console.warn(`Google Sheet fetch attempt ${i + 1} failed. Retrying...`, error);
-            if (i === maxRetries - 1) {
-                // Last retry failed, throw error to be caught by handleDone
-                throw new Error("Failed to upload data to Google Sheet after multiple retries.");
-            }
-        }
-    }
-}
-
-/**
- * Updates the modal structure to display a duplicate record message.
- * This version overwrites the modal content for a clean, stacked duplicate UI.
- * @param {Object} data - The existing record data from Firebase.
- * @param {HTMLElement} originalDoneBtn - The original "Done" button element (passed for context, but not used for display).
- */
-function showDuplicateModal(data, originalDoneBtn) {
-  const modal = document.getElementById("quizResultModal");
-  const resultModalBody = modal.querySelector('.bg-white');
-  
-  // 1. Reset the modal body content to a clean, custom structure
-  // We use innerHTML to replace ALL existing content for a perfect, clean layout.
-  resultModalBody.innerHTML = `
-    <h2 class="text-2xl font-bold mb-2 text-center text-red-600">DUPLICATE FOUND!</h2>
-    
-    <p class="text-sm text-red-500 font-semibold mb-4">You have already submitted your record for this module.</p>
-
-    <div class="w-full space-y-4 flex flex-col items-center">
-      
-      <div class="text-left bg-gray-100 p-4 rounded-lg w-full max-w-xs space-y-2">
-        <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Score:</strong> ${data.quizScore}</p>
-        <p><strong>Percentage:</strong> ${data.quizPercentage}</p>
-      </div>
-      
-      <div id="duplicateButtonContainer" class="mt-4 flex justify-center w-full">
-        <button id="closeBtnForDuplicate" class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">Close</button>
-      </div>
-    </div>
-  `;
-  
-  // 2. Set up Close behavior for the new button
-  resultModalBody.querySelector("#closeBtnForDuplicate").addEventListener('click', function() {
-    // Hide and reload page to reset quiz state
-    modal.classList.add("hidden");
-    modal.classList.remove("flex");
-    window.location.reload();
-  });
-
-  // 3. Ensure modal is visible
-  modal.classList.add("flex");
-  modal.classList.remove("hidden");
-}
-
-function resetUploadUI() {
-  // restore fields visibility
-  document.querySelectorAll("#firstName, #lastName, #email").forEach(i => i.style.display = "block");
-  document.getElementById("quizPercentage").style.display = "block";
-  document.getElementById("quizScore").style.display = "block";
-  
-  // restore inputs to empty
-  document.getElementById("firstName").value = "";
-  document.getElementById("lastName").value = "";
-  document.getElementById("email").value = "";
-
-  // restore success button state
-  const doneBtn = document.getElementById("doneBtn");
-  doneBtn.textContent = "Done";
-  doneBtn.disabled = false;
-  doneBtn.style.display = 'block'; 
-
-  // Remove duplicate specific messages/buttons if they exist
-  const duplicateMsgContainer = document.getElementById("duplicateMsgContainer");
-  if (duplicateMsgContainer) duplicateMsgContainer.remove();
-  const closeBtnForDuplicate = document.getElementById("closeBtnForDuplicate");
-  if (closeBtnForDuplicate) closeBtnForDuplicate.remove(); // removes close button too
-  
-  // Restore original modal header if needed (only if success/duplicate changed it)
-  document.querySelector('#quizResultModal h2').textContent = "You scored"; 
-}
-
-</script>
+  </script>
 
 </body>
 </html>

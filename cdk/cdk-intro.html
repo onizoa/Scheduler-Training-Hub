@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduler Trainee Overview - CDK</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Using Google Sans font for a professional, consistent look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- AOS for animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Feather Icons for icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <style>
+        :root {
+            /* Using a CDK-appropriate blue/primary color */
+            --primary-blue: #1e40af; /* Keeping the strong blue for section emphasis */
+        }
+        body {
+            /* Applied Google Sans font */
+            font-family: 'Google Sans', sans-serif;
+        }
+        /* ADDED: Smooth scrolling behavior for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* IMPROVED: Increased border thickness and refined margin for the section marker */
+        .text-section {
+            border-left: 5px solid var(--primary-blue); 
+            padding-left: 1.75rem; /* Increased padding */
+            margin-left: 0.25rem; /* Slight horizontal offset for visual balance */
+        }
+        .topic-heading {
+            color: var(--primary-blue);
+        }
+        .main-card {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    
+    <div id="main-content" class="flex-grow">
+        
+        <!-- INTRODUCTORY SECTION -->
+        <section class="container mx-auto px-4 pt-16 pb-12 sm:pb-16 flex flex-col items-center justify-center gap-12 text-center">
+            <div class="lg:w-3/4" data-aos="fade-down">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    CDK Service Scheduler: Trainee Workflow Guide
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Welcome! This guide outlines the core functions and mandatory procedures you will use daily in the CDK Service Scheduler to manage your service workflow, customer data, and shop efficiency.
+                </p>
+                <!-- This anchor tag uses the href="#workflow" which triggers the smooth scroll -->
+                <a href="#workflow" class="mt-8 inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-10 py-3.5 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01] hover:shadow-xl">
+                    Start Learning Workflow
+                    <i data-feather="arrow-down" class="ml-2 w-5 h-5"></i>
+                </a>
+            </div>
+        </section>
+        
+        <!-- WORKFLOW DETAILS SECTION -->
+        <section id="workflow" class="container mx-auto px-4 py-16">
+            <!-- IMPROVEMENT: Added more padding on large screens (px-12/px-24) and applied main-card shadow class -->
+            <div class="bg-white rounded-xl main-card border border-gray-100 p-6 sm:p-10 lg:p-12 lg:px-12 xl:px-24">
+                
+                <!-- IMPROVEMENT: Stronger visual separation for the main heading -->
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-10 pb-5 border-b-4 border-gray-100">CDK Core Training Modules</h2>
+
+                <!-- 1. System Access and Setup -->
+                <div class="mb-12" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="lock" class="mr-3 w-6 h-6"></i> 1. System Access and Foundation
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>Login & Logout:</strong> We start with the critical steps for accessing and securing the system. You will learn how to **log in** using your authorized credentials and the proper procedure for **logging out** to maintain data security and license availability.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Appointment Management -->
+                <div class="mb-12" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="calendar" class="mr-3 w-6 h-6"></i> 2. Appointment Management
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>New Appointment:</strong> This is your primary function for booking service time. You will learn the process of locating customer records, verifying vehicle information, inputting service requests, and assigning the appointment to an optimal time slot based on shop availability.</p>
+                        <p class="text-gray-700"><strong>Rescheduling:</strong> Understand the process for modifying an existing appointment. This function is vital for efficiently moving a service booking to a new date/time while immediately updating your capacity calendar to reflect the change.</p>
+                        <p class="text-gray-700"><strong>Canceling:</strong> Learn how to correctly cancel a service appointment. Proper cancellation ensures the reserved service time is instantly released back into the system inventory, maximizing your shop's potential availability.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Data Integrity and Records -->
+                <div class="mb-0" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="database" class="mr-3 w-6 h-6"></i> 3. Data Integrity and Records
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>New Customer:</strong> For walk-ins or first-time callers not yet in the system, this module guides you through creating a complete and accurate customer profile, which forms the foundation of all future transactions.</p>
+                        <p class="text-gray-700"><strong>Add/Delete Vehicle:</strong> You will learn how to maintain precise customer records by adding new vehicles (e.g., new purchases) or deleting outdated ones (e.g., trade-ins). Correct vehicle association is essential for service accuracy.</p>
+                        <p class="text-gray-700"><strong>Vehicle History:</strong> Accessing the integrated **Vehicle History** is paramount for effective customer service. You will learn how to quickly review a vehicle's past repair orders, services performed, and recommended future work to provide knowledgeable advice during booking.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ duration: 600, easing: 'ease-out-quad', once: true });
+            feather.replace();
+        }); 
+    </script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xtime Module: Add/Delete Vehicle</title>
+  <style>
+    /* Base styles from nest child.html */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f8f9fb;
+      color: #222;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .page-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      animation: fadeInUp 0.7s ease-out backwards;
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .page-header p {
+      margin-top: 0.5rem;
+      color: #555;
+      font-size: 1rem;
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      background: #000;
+    }
+    .video-wrapper iframe,
+    .video-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .description-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .description-card h2 {
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-bottom: 0.8rem;
+    }
+    .description-card p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    .description-card ul {
+      margin: 0.8rem 0 0 1.5rem;
+      color: #444;
+    }
+    .description-card li {
+      margin-bottom: 0.4rem;
+    }
+    
+    /* ----- Carousel Styles ----- */
+    .video-carousel-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      background: #000;
+    }
+    .video-carousel-slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .video-slide {
+      min-width: 100%;
+      position: relative;
+    }
+    .video-slide-content {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+    }
+    .video-slide-content iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .slide-caption {
+      text-align: center;
+      padding: 1rem;
+      background: #f1f5f9;
+      color: #333;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.2s;
+    }
+    .carousel-btn:hover {
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .carousel-btn.prev {
+      left: 1rem;
+    }
+    .carousel-btn.next {
+      right: 1rem;
+    }
+    .carousel-btn svg {
+      width: 24px;
+      height: 24px;
+      stroke: #333;
+      stroke-width: 3;
+    }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      .page-container { padding: 1.5rem 1rem 3rem; }
+      .page-header h1 { font-size: 1.6rem; }
+      .description-card { padding: 1rem 1.2rem; }
+      .carousel-btn {
+        width: 32px;
+        height: 32px;
+      }
+      .carousel-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+      .slide-caption {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* ===== MODERN GLOBAL SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+    width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+    background: transparent; /* No background on the track */
+    }
+
+    ::-webkit-scrollbar-thumb {
+    background-color: #d1d5db; /* Light gray thumb */
+    border-radius: 20px;
+    /* Create a small border effect */
+    border: 3px solid #ffffff; 
+    background-clip: content-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+    background-color: #9ca3af; /* Darker gray on hover */
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- ===== TITLE ===== -->
+    <div class="page-header">
+      <h1>Add/Delete Vehicle</h1>
+      <p>Learn how to add a new vehicle or remove an existing one from a customer's profile.</p>
+    </div>
+
+    <!-- ===== VIDEO CAROUSEL ===== -->
+    <div class="video-carousel-wrapper">
+      <div class="video-carousel-slides">
+        <!-- Slide 1 -->
+        <div class="video-slide" data-slide="0">
+          <div class="video-slide-content">
+            <iframe src="about:blank" data-src="../videos/Add new vehicle.mp4" title="Adding a New Vehicle" allowfullscreen sandbox="allow-same-origin allow-fullscreen"></iframe>
+          </div>
+          <div class="slide-caption"><strong>Adding</strong> a new vehicle to a customer's profile</div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="video-slide" data-slide="1">
+          <div class="video-slide-content">
+            <iframe src="about:blank" data-src="../videos/Remove vehicle.mp4" title="Removing a Vehicle" allowfullscreen></iframe>
+          </div>
+          <div class="slide-caption"><strong>Removing</strong> a vehicle from a customer's profile</div>
+        </div>
+      </div>
+      
+      <!-- Chevrons -->
+      <button class="carousel-btn prev" aria-label="Previous Video">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button class="carousel-btn next" aria-label="Next Video">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- ===== DESCRIPTION ===== -->
+    <div class="description-card" style="margin-top: 2rem;">
+      <h2>Take Notes</h2>
+      <ul>
+        <li>Make sure that the <strong>right customer</strong> is selected before adding or removing the vehicle</li>
+        <li><strong>Always</strong> confirm with the customer before deleting a vehicle from their profile.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slidesContainer = document.querySelector('.video-carousel-slides');
+      const slides = document.querySelectorAll('.video-slide');
+      const prevBtn = document.querySelector('.carousel-btn.prev');
+      const nextBtn = document.querySelector('.carousel-btn.next');
+      
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+
+      if (totalSlides <= 1) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+      }
+
+      function goToSlide(slideIndex) {
+        currentSlide = (slideIndex + totalSlides) % totalSlides;
+        
+        // Loop through ALL slides
+        slides.forEach((slide, index) => {
+          const iframe = slide.querySelector('iframe');
+          if (!iframe) return; // safety check
+
+          if (index === currentSlide) {
+            // This is the slide we want to see.
+            // Set its src from its data-src attribute.
+            if (iframe.src !== iframe.dataset.src) {
+              iframe.src = iframe.dataset.src;
+            }
+          } else {
+            // This is a hidden slide.
+            // Set its src to blank to stop any video.
+            iframe.src = 'about:blank';
+          }
+        });
+
+        // Move the carousel
+        slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+
+      prevBtn.addEventListener('click', () => {
+        goToSlide(currentSlide - 1);
+      });
+
+      nextBtn.addEventListener('click', () => {
+        goToSlide(currentSlide + 1);
+      });
+
+      // Initialize
+      goToSlide(0);
+    });
+  </script>
+</body>
+</html>

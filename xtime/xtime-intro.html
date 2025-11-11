@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduler Trainee Overview - Xtime</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Using Google Sans font for a professional, consistent look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- AOS for animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Feather Icons for icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <style>
+        :root {
+            --primary-blue: #1e40af; /* Tailwind blue-700 equivalent */
+        }
+        body {
+            /* Applied Google Sans font */
+            font-family: 'Google Sans', sans-serif;
+        }
+        /* ADDED: Smooth scrolling behavior for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* IMPROVED: Increased border thickness and refined margin for the section marker */
+        .text-section {
+            border-left: 5px solid var(--primary-blue); 
+            padding-left: 1.75rem; /* Increased padding */
+            margin-left: 0.25rem; /* Slight horizontal offset for visual balance */
+        }
+        .topic-heading {
+            color: var(--primary-blue);
+        }
+        .main-card {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    
+    <div id="main-content" class="flex-grow">
+        
+        <!-- INTRODUCTORY SECTION -->
+        <section class="container mx-auto px-4 pt-16 pb-12 sm:pb-16 flex flex-col items-center justify-center gap-12 text-center">
+            <div class="lg:w-3/4" data-aos="fade-down">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    Xtime Scheduler Trainee Guide: Your Essential Workflow
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Welcome! This guide outlines the core functions and procedures you will use daily in the Xtime Scheduler to manage service appointments, customer records, and shop capacity.
+                </p>
+                <!-- This anchor tag uses the href="#workflow" which triggers the smooth scroll -->
+                <a href="#workflow" class="mt-8 inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-10 py-3.5 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01] hover:shadow-xl">
+                    Start Learning Workflow
+                    <i data-feather="arrow-down" class="ml-2 w-5 h-5"></i>
+                </a>
+            </div>
+        </section>
+        
+        <!-- WORKFLOW DETAILS SECTION -->
+        <section id="workflow" class="container mx-auto px-4 py-16">
+            <!-- IMPROVEMENT: Added more padding on large screens (px-12/px-24) and applied main-card shadow class -->
+            <div class="bg-white rounded-xl main-card border border-gray-100 p-6 sm:p-10 lg:p-12 lg:px-12 xl:px-24">
+                
+                <!-- IMPROVEMENT: Stronger visual separation for the main heading -->
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-10 pb-5 border-b-4 border-gray-100">Core Training Modules</h2>
+
+                <!-- 1. System Access and Setup -->
+                <div class="mb-12" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="lock" class="mr-3 w-6 h-6"></i> 1. System Access and Setup
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>Loggin In:</strong> You will begin by using your unique credentials to log into the system. Access is secure and role-based. This is your first step before performing any action.</p>
+                        <p class="text-gray-700"><strong>Dealership Selection:</strong> If your login is associated with multiple locations, your first step will be to select the active dealership from the dropdown menu. This ensures you are viewing and scheduling against the correct shop’s capacity.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Appointment Management -->
+                <div class="mb-12" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="calendar" class="mr-3 w-6 h-6"></i> 2. Appointment Management
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>New Appointment:</strong> This is the primary function for creating a new booking. You will use this tool to search for customer records, select the correct vehicle, define the services needed, and assign the appointment to an available time slot based on real-time shop load.</p>
+                        <p class="text-gray-700"><strong>Rescheduling:</strong> When a customer needs to change an existing appointment, use the Rescheduling function. This is critical for moving the booking to a new time slot and immediately freeing up the previously reserved capacity.</p>
+                        <p class="text-gray-700"><strong>Canceling:</strong> If an appointment is terminated, use the Canceling function to completely remove the booking from the schedule and instantly return that capacity back to the available inventory.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Customer and Vehicle Data -->
+                <div class="mb-12" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="user-plus" class="mr-3 w-6 h-6"></i> 3. Customer and Vehicle Data
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>New Customer:</strong> If a customer does not exist in the database, use this module to create a new profile. Accurate data entry here is essential for all future service interactions.</p>
+                        <p class="text-gray-700"><strong>Add/Delete Vehicle:</strong> Use this function to manage the vehicles associated with a customer's profile (e.g., adding a new purchase, deleting an old trade-in). This ensures the correct vehicle information and service history are always referenced during scheduling.</p>
+                    </div>
+                </div>
+
+                <!-- 4. Integration and History -->
+                <div class="mb-12" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="repeat" class="mr-3 w-6 h-6"></i> 4. Integration and History
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>DMS Appointment:</strong> Xtime maintains a constant connection with our Dealer Management System (DMS). This means appointments booked in Xtime flow directly into the DMS, and vice-versa. Always check the DMS status to confirm synchronization.</p>
+                        <p class="text-gray-700"><strong>RO History (Repair Order History):</strong> This module allows you to instantly review a customer's past services, including declined services and recommended future work. This history is vital for providing relevant recommendations when creating a new appointment.</p>
+                    </div>
+                </div>
+
+                <!-- 5. Daily Oversight -->
+                <div class="mb-0" data-aos="fade-up" data-aos-delay="400">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="layout" class="mr-3 w-6 h-6"></i> 5. Daily Oversight
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>Workbook:</strong> The **Workbook** is your central daily task manager and visual schedule. It provides a comprehensive view of all appointments, walk-ins, and shop load in real-time. You will use the Workbook constantly to monitor the flow of the service drive and manage capacity throughout the day.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ duration: 600, easing: 'ease-out-quad', once: true });
+            feather.replace();
+        }); 
+    </script>
+</body>
+</html>

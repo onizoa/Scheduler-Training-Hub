@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xtime Module: Knowledge Check</title>
+  <!-- Tailwind is used for the modals and quiz layout, as in the original file -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <style>
+    /* Base styles from nest child.html template */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f8f9fb;
+      color: #222;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .page-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .page-header p {
+      margin-top: 0.5rem;
+      color: #555;
+      font-size: 1rem;
+    }
+    /* Responsive */
+    @media (max-width: 720px) {
+      .page-container { padding: 1.5rem 1rem 3rem; }
+      .page-header h1 { font-size: 1.6rem; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .page-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      animation: fadeInUp 0.7s ease-out backwards;
+    }
+
+    /* Quiz-specific styles */
+    #quiz-slides {
+      display: grid; /* Use grid to stack slides */
+      grid-template: 1fr / 1fr;
+      position: relative;
+      overflow: hidden;
+      min-height: 250px; /* Give it some height to avoid collapse */
+    }
+
+    .quiz-slide {
+      grid-area: 1 / 1; /* All slides in the same cell */
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(0);
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s;
+    }
+    .quiz-slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      z-index: 10; /* Bring active slide to top */
+    }
+
+    /* Animations */
+    .quiz-slide.exit-next {
+      opacity: 0;
+      transform: translateX(-20px); /* Exiting slide moves left */
+      z-index: 0;
+    }
+
+    .quiz-slide.enter-next {
+      opacity: 0;
+      transform: translateX(20px); /* Entering slide comes from right */
+    }
+
+    .quiz-slide.exit-back {
+      opacity: 0;
+      transform: translateX(20px); /* Exiting slide moves right */
+      z-index: 0;
+    }
+
+    .quiz-slide.enter-back {
+      opacity: 0;
+      transform: translateX(-20px); /* Entering slide comes from left */
+    }
+
+    /* Styling for the question options */
+    .quiz-question div label {
+      display: block;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+    .quiz-question div label:hover {
+      background-color: #f8f9fa;
+      border-color: #cbd5e1;
+    }
+    .quiz-question div input[type="radio"]:checked + label,
+    .quiz-question div input[type="checkbox"]:checked + label {
+      border-color: #2563eb;
+      background-color: #eff6ff;
+      font-weight: 500;
+    }
+    /* Hide the actual radio/checkbox */
+    .quiz-question div input[type="radio"],
+    .quiz-question div input[type="checkbox"] {
+      display: none;
+    }
+    
+    /* Ensure label wraps input for text fields */
+    .quiz-question input[type="text"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+
+    /* Button styles */
+    .quiz-btn:disabled {
+      background-color: #9ca3af; /* Gray when disabled */
+      cursor: not-allowed;
+    }
+    .quiz-btn:disabled:hover {
+      background-color: #9ca3af; /* No hover effect when disabled */
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- ===== TITLE ===== -->
+    <div class="page-header">
+      <h1>Knowledge Check</h1>
+      <p>Please answer all questions to the best of your ability.</p>
+    </div>
+
+    <!-- ===== QUIZ CONTAINER ===== -->
+    <div class="quiz-container max-w-4xl mx-auto bg-white rounded-xl shadow-lg border border-gray-200 p-6 lg:p-10">
+      
+      <!-- Progress Bar -->
+      <div id="quiz-progress" class="text-center text-sm text-gray-600 mb-6 font-medium">Question 1 of 30</div>
+      
+      <!-- Slides Container -->
+      <div id="quiz-slides">
+        
+        <!-- Question 1 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">1. What is the very first step when logging into Xtime?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q1" id="q1a" value="Go to Xtime.com and click Login"><label for="q1a">Go to Xtime.com and click Login</label>
+              </div>
+              <div>
+                <input type="radio" name="q1" id="q1b" value="Enter your username and password"><label for="q1b">Enter your username and password</label>
+              </div>
+              <div>
+                <input type="radio" name="q1" id="q1c" value="Select your dealership"><label for="q1c">Select your dealership</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">2. You should double-check your username and password before contacting support.</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q2" id="q2a" value="True"><label for="q2a">True</label>
+              </div>
+              <div>
+                <input type="radio" name="q2" id="q2b" value="False"><label for="q2b">False</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">3. If the login page is slow, what should you do?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q3" id="q3a" value="Refresh repeatedly"><label for="q3a">Refresh repeatedly</label>
+              </div>
+              <div>
+                <input type="radio" name="q3" id="q3b" value="Wait a few seconds without clicking again"><label for="q3b">Wait a few seconds without clicking again</label>
+              </div>
+              <div>
+                <input type="radio" name="q3" id="q3c" value="Contact your administrator immediately"><label for="q3c">Contact your administrator immediately</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">4. Clicking the dealership name alone will launch the scheduler.</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q4" id="q4a" value="True"><label for="q4a">True</label>
+              </div>
+              <div>
+                <input type="radio" name="q4" id="q4b" value="False"><label for="q4b">False</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">5. Which button must you click to open the scheduler?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q5" id="q5a" value="Login"><label for="q5a">Login</label>
+              </div>
+              <div>
+                <input type="radio" name="q5" id="q5b" value="Launch"><label for="q5b">Launch</label>
+              </div>
+              <div>
+                <input type="radio" name="q5" id="q5c" value="Search"><label for="q5c">Search</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">6. If a dealership you need is missing from the list, contact your __________.</h3>
+            <input type="text" name="q6" class="w-full p-2 border rounded" placeholder="Your answer...">
+          </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">7. Why should you ask for the customer’s mileage before booking services?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q7" id="q7a" value="To validate warranty"><label for="q7a">To validate warranty</label>
+              </div>
+              <div>
+                <input type="radio" name="q7" id="q7b" value="To generate recommended packages"><label for="q7b">To generate recommended packages</label>
+              </div>
+              <div>
+                <input type="radio" name="q7" id="q7c" value="To confirm advisor assignment"><label for="q7c">To confirm advisor assignment</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">8. In the Recommended Packages and Maintenance & Repairs sections, which actions are valid? (Select all that apply)</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="checkbox" name="q8" id="q8a" value="Click a package"><label for="q8a">Click a package</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q8" id="q8b" value="Select a service and click Add"><label for="q8b">Select a service and click Add</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q8" id="q8c" value="Skip saving services"><label for="q8c">Skip saving services</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q8" id="q8d" value="Ignore requested services"><label for="q8d">Ignore requested services</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">9. In the Advisors and Teams tab, what should you always check?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q9" id="q9a" value="Advisor availability only"><label for="q9a">Advisor availability only</label>
+              </div>
+              <div>
+                <input type="radio" name="q9" id="q9b" value="Customer mileage"><label for="q9b">Customer mileage</label>
+              </div>
+              <div>
+                <input type="radio" name="q9" id="q9c" value="IO (dealership policy)"><label for="q9c">IO (dealership policy)</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">10. Transportation options may vary depending on dealership policies.</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q10" id="q10a" value="True"><label for="q10a">True</label>
+              </div>
+              <div>
+                <input type="radio" name="q10" id="q10b" value="False"><label for="q10b">False</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 11 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-1 text-lg">11. The Notifications tab allows you to confirm the customer’s __________ or __________ for appointment reminders.</h3>
+            <div class="mt-4 mb-2 bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-2 rounded-r-lg">
+              <p class="font-semibold flex items-center text-xs">
+                <i data-feather="info" class="w-3 h-3 mr-2"></i>
+                Reminder: Add **space** or use **"and"** between your answers. (e.g., "Sample Answer" or "Sample and Answer")
+              </p>
+            </div>
+            <input type="text" name="q11" class="w-full p-2 border rounded" placeholder="Your answer...">
+          </div>
+        </div>
+
+        <!-- Question 12 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">12. What is the final step before clicking “Book Appointment”?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q12" id="q12a" value="Add services"><label for="q12a">Add services</label>
+              </div>
+              <div>
+                <input type="radio" name="q12" id="q12b" value="Review the appointment details with the customer"><label for="q12b">Review the appointment details with the customer</label>
+              </div>
+              <div>
+                <input type="radio" name="q12" id="q12c" value="Confirm VIN number"><label for="q12c">Confirm VIN number</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 13 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">13. What is the fastest way to add a new customer?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q13" id="q13a" value="Use “Quick Add Customer”"><label for="q13a">Use “Quick Add Customer”</label>
+              </div>
+              <div>
+                <input type="radio" name="q13" id="q13b" value="Use “New Customer” button only"><label for="q13b">Use “New Customer” button only</label>
+              </div>
+              <div>
+                <input type="radio" name="q13" id="q13c" value="Search by email address"><label for="q13c">Search by email address</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 14 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">14. Which fields are required when creating a new customer? (Select all that apply)</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="checkbox" name="q14" id="q14a" value="First Name"><label for="q14a">First Name</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q14" id="q14b" value="Last Name"><label for="q14b">Last Name</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q14" id="q14c" value="Phone Number"><label for="q14c">Phone Number</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q14" id="q14d" value="Mileage"><label for="q14d">Mileage</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 15 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">15. Mileage is a mandatory field when adding a new customer.</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q15" id="q15a" value="True"><label for="q15a">True</label>
+              </div>
+              <div>
+                <input type="radio" name="q15" id="q15b" value="False"><label for="q15b">False</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 16 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">16. After saving customer details, the __________ button will appear to set up a service request.</h3>
+            <input type="text" name="q16" class="w-full p-2 border rounded" placeholder="Your answer...">
+          </div>
+        </div>
+
+        <!-- Question 17 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">17. What is the fastest way to add a vehicle?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q17" id="q17a" value="Enter all details manually"><label for="q17a">Enter all details manually</label>
+              </div>
+              <div>
+                <input type="radio" name="q17" id="q17b" value="Use VIN decoding"><label for="q17b">Use VIN decoding</label>
+              </div>
+              <div>
+                <input type="radio" name="q17" id="q17c" value="Use customer’s last service record"><label for="q17c">Use customer’s last service record</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 18 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">18. You must set the new vehicle as “Primary” for it to appear in searches.</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q18" id="q18a" value="True"><label for="q18a">True</label>
+              </div>
+              <div>
+                <input type="radio" name="q18" id="q18b" value="False"><label for="q18b">False</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 19 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">19. To remove a vehicle, set its “Active” status to __________.</h3>
+            <input type="text" name="q19" class="w-full p-2 border rounded" placeholder="Your answer...">
+          </div>
+        </div>
+
+        <!-- Question 20 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">20. What should you confirm before deleting a vehicle? (Select all that apply)</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="checkbox" name="q20" id="q20a" value="Customer approval"><label for="q20a">Customer approval</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q20" id="q20b" value="Correct customer record"><label for="q20b">Correct customer record</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q20" id="q20c" value="VIN accuracy"><label for="q20c">VIN accuracy</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q20" id="q20d" value="Phone number type"><label for="q20d">Phone number type</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 21 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">21. How can you identify a vehicle with an existing appointment?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q21" id="q21a" value="Green button under Schedule Vehicle"><label for="q21a">Green button under Schedule Vehicle</label>
+              </div>
+              <div>
+                <input type="radio" name="q21" id="q21b" value="By checking mileage"><label for="q21b">By checking mileage</label>
+              </div>
+              <div>
+                <input type="radio" name="q21" id="q21c" value="By checking RO history"><label for="q21c">By checking RO history</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 22 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">22. You should always review dealership policy before rescheduling.</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q22" id="q22a" value="True"><label for="q22a">True</label>
+              </div>
+              <div>
+                <input type="radio" name="q22" id="q22b" value="False"><label for="q22b">False</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 23 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">23. If policy states “DO NOT SCHEDULE,” you must send a __________.</h3>
+            <input type="text" name="q23" class="w-full p-2 border rounded" placeholder="Your answer...">
+          </div>
+        </div>
+
+        <!-- Question 24 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">24. Before cancelling, what should you ask the customer?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q24" id="q24a" value="If they want to reschedule"><label for="q24a">If they want to reschedule</label>
+              </div>
+              <div>
+                <input type="radio" name="q24" id="q24b" value="If they want to update VIN"><label for="q24b">If they want to update VIN</label>
+              </div>
+              <div>
+                <input type="radio" name="q24" id="q24c" value="If they need a transportation option"><label for="q24c">If they need a transportation option</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 25 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">25. The Cancel Appointment button is located above the Update Appointment button.</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q25" id="q25a" value="True"><label for="q25a">True</label>
+              </div>
+              <div>
+                <input type="radio" name="q25" id="q25b" value="False"><label for="q25b">False</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 26 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">26. You must verify you are working on the correct __________ before cancelling.</h3>
+            <input type="text" name="q26" class="w-full p-2 border rounded" placeholder="Your answer...">
+          </div>
+        </div>
+
+        <!-- Question 27 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">27. What does DMS stand for?</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q27" id="q27a" value="Dealer Management System"><label for="q27a">Dealer Management System</label>
+              </div>
+              <div>
+                <input type="radio" name="q27" id="q27b" value="Digital Maintenance System"><label for="q27b">Digital Maintenance System</label>
+              </div>
+              <div>
+                <input type="radio" name="q27" id="q27c" value="Dealership Manual System"><label for="q27c">Dealership Manual System</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 28 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">28. You should edit an existing DMS appointment directly if a customer requests changes.</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="radio" name="q28" id="q28a" value="True"><label for="q28a">True</label>
+              </div>
+              <div>
+                <input type="radio" name="q28" id="q28b" value="False"><label for="q28b">False</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question 29 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">29. For DMS cancellations, always send a __________ through IO.</h3>
+            <input type="text" name="q29" class="w-full p-2 border rounded" placeholder="Your answer...">
+          </div>
+        </div>
+
+        <!-- Question 30 -->
+        <div class="quiz-slide">
+          <div class="quiz-question">
+            <h3 class="font-semibold mb-4 text-lg">30. What details are included in RO History? (Select all that apply)</h3>
+            <div class="space-y-2">
+              <div>
+                <input type="checkbox" name="q30" id="q30a" value="Appointment Date"><label for="q30a">Appointment Date</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q30" id="q30b" value="Advisor’s Name"><label for="q30b">Advisor’s Name</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q30" id="q30c" value="Mileage"><label for="q30c">Mileage</label>
+              </div>
+              <div>
+                <input type="checkbox" name="q30" id="q30d" value="Services completed"><label for="q30d">Services completed</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- /quiz-slides -->
+
+      <!-- Quiz Navigation -->
+      <div class="quiz-navigation flex justify-between items-center mt-10 border-t pt-6">
+        <button id="quiz-nav-back" class="quiz-btn bg-gray-200 text-gray-800 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">
+          Back
+        </button>
+        <button id="quiz-nav-next" class="quiz-btn bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+          Next
+        </button>
+        <!-- This is the original submit button, just moved here and hidden by default -->
+        <button id="submit-quiz-btn" type="button" class="quiz-btn bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition hidden">
+          Submit Quiz
+        </button>
+      </div>
+
+    </div> <!-- /quiz-container -->
+  </div> <!-- /page-container -->
+
+
+  <!-- 
+    MODALS
+    All modals and submission scripts are copied from the original xtime-module.html
+    to ensure the scoring and submission logic remains identical.
+  -->
+
+  <!-- QUIZ RESULT MODAL -->
+  <div id="quizResultModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full flex flex-col items-center text-center">
+      <h2 class="text-2xl font-bold mb-2">You scored</h2>
+      <p id="quizPercentage" class="text-6xl font-semibold text-blue-700 mb-6"></p>
+      <p id="quizScore" class="text-sm text-gray-600 mb-6"></p>
+
+      <div class="w-full space-y-4">
+        <input type="text" id="firstName" placeholder="First Name" class="w-full p-2 border rounded">
+        <input type="text" id="lastName" placeholder="Last Name" class="w-full p-2 border rounded">
+        <input type="email" id="email" placeholder="Email Address" class="w-full p-2 border rounded">
+      </div>
+
+      <div id="messageContainer" class="w-full">
+        </div>
+
+      <div class="mt-6 flex justify-center w-full">
+        <button id="doneBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ RESULT MODAL WHEN NO ANSWER DETECTED-->
+  <div id="noAnswerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full flex flex-col items-center text-center">
+      <i data-feather="alert-triangle" class="w-12 h-12 text-yellow-500 mb-4"></i>
+      <h3 class="text-xl font-bold mb-2">Submission Failed!</h3>
+      <p class="text-gray-700 mb-6">
+        No answers were detected. Please make sure to answer at least one question before clicking **Submit Quiz**.
+      </p>
+      <button id="closeNoAnswerModal" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Close</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs (from original file) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <!-- Original Firebase Config & Quiz Logic (from xtime-module.html) -->
+  <script>
+    /* Firebase config */
+    const firebaseConfig = {
+    apiKey: "AIzaSyCwCpnUN7L2z02y8JponKYg-NAy8xH188c",
+    authDomain: "knowledge-check-d2811.firebaseapp.com",
+    databaseURL: "https://knowledge-check-d2811-default-rtdb.firebaseio.com",
+    projectId: "knowledge-check-d2811",
+    storageBucket: "knowledge-check-d2811.firebasestorage.app",
+    messagingSenderId: "474640061743",
+    appId: "1:474640061743:web:e376aadcf9c6bca7a8bdda",
+    measurementId: "G-0HGMTN7VYV"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    /* Helpers */
+    function sanitizeEmail(email) {
+      return email.replace(/\./g, ',');
+    }
+    function toTitleCase(str) {
+      if (!str) return '';
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+    function toLowerCaseSafe(str) { return (str || '').toLowerCase(); }
+
+    /* Animate percentage count up */
+    function animateCountUp(element, start, end, duration) {
+      const startTime = performance.now();
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const value = Math.floor(start + (end - start) * progress);
+        element.textContent = `${value}%`;
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+      requestAnimationFrame(update);
+    }
+
+    /* Simple retry fetch helper for Google Apps Script (handles 429) */
+    async function retryFetch(url, opts, retries = 3, backoff = 800) {
+      for (let i = 0; i <= retries; i++) {
+        const res = await fetch(url, opts);
+        if (res.status !== 429) return res;
+        await new Promise(r => setTimeout(r, backoff * (i + 1)));
+      }
+      // final attempt
+      return fetch(url, opts);
+    }
+
+    /* UI helpers used by quiz flow */
+    function resetUploadUI() {
+      const doneBtn = document.getElementById('doneBtn');
+      if (doneBtn) {
+        doneBtn.disabled = false;
+        doneBtn.textContent = 'Done';
+      }
+      const msgEl = document.getElementById('uploadMsg');
+      if (msgEl) msgEl.textContent = '';
+    }
+
+    /* Show the quiz 'no answer detected' modal (already exists in file) */
+    function showNoAnswerModal() {
+      const noAnswerModal = document.getElementById('noAnswerModal');
+      if (!noAnswerModal) return;
+      noAnswerModal.classList.remove('hidden');
+      noAnswerModal.classList.add('flex');
+      // Add event listener for its close button
+      const closeBtn = document.getElementById('closeNoAnswerModal');
+      if(closeBtn) {
+        closeBtn.onclick = () => {
+          noAnswerModal.classList.add('hidden');
+          noAnswerModal.classList.remove('flex');
+        }
+      }
+    }
+
+    /* Show duplicate modal: populate message container / modal UI */
+    function showDuplicateModal(existingData, doneBtn) {
+      // Prepare displayed values
+      const name = `${existingData.firstName || ''} ${existingData.lastName || ''}`.trim();
+      const email = existingData.email || '';
+      const score = existingData.quizScore || existingData.score || 'N/A';
+      const percentage = existingData.quizPercentage || existingData.percentage || 'N/A';
+      let timestamp = existingData.timestamp || existingData.time || null;
+
+      // Format date & time
+      let displayDate = '';
+      try {
+        if (timestamp) {
+          if (/^\d+$/.test(String(timestamp))) {
+            displayDate = new Date(Number(timestamp)).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+          } else {
+            displayDate = new Date(timestamp).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+          }
+        } else {
+          displayDate = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+        }
+      } catch (e) {
+        displayDate = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+      }
+
+      // Hide input fields and done button
+      const firstNameField = document.getElementById("firstName");
+      const lastNameField = document.getElementById("lastName");
+      const emailField = document.getElementById("email");
+      const doneButton = document.getElementById("doneBtn");
+
+      if (firstNameField) firstNameField.classList.add("hidden");
+      if (lastNameField) lastNameField.classList.add("hidden");
+      if (emailField) emailField.classList.add("hidden");
+      if (doneButton) doneButton.classList.add("hidden");
+
+      // Build light duplicate modal
+      const duplicateModalHTML = `
+        <div id="duplicateModal" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
+          <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
+            <h2 class="text-2xl font-bold text-red-600 mb-2">DUPLICATE FOUND!</h2>
+            <p class="text-red-600 mb-4">You have already submitted your record for this module.</p>
+            <div class="bg-gray-100 p-4 rounded text-left mb-4">
+              <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+              <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+              <p><strong>Score:</strong> ${escapeHtml(score)}</p>
+              <p><strong>Percentage:</strong> ${escapeHtml(percentage)}</p>
+              <p><strong>Date & Time:</strong> ${escapeHtml(displayDate)}</p>
+            </div>
+            <button id="closeDuplicateModal" class="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800 transition">Close</button>
+          </div>
+        </div>
+      `;
+
+      // Insert modal into document
+      document.body.insertAdjacentHTML("beforeend", duplicateModalHTML);
+
+      // Close handler
+      const closeBtn = document.getElementById("closeDuplicateModal");
+      closeBtn.addEventListener("click", () => {
+        const modal = document.getElementById("duplicateModal");
+        if (modal) modal.remove();
+
+        // Restore fields for next quiz session
+        if (firstNameField) firstNameField.classList.remove("hidden");
+        if (lastNameField) lastNameField.classList.remove("hidden");
+        if (emailField) emailField.classList.remove("hidden");
+        if (doneButton) doneButton.classList.remove("hidden");
+      });
+
+      // Reset Done button state if it was spinning
+      if (doneBtn) {
+        doneBtn.disabled = false;
+        doneBtn.textContent = "Done";
+      }
+    }
+
+
+    /* Small escape helper for implanted HTML */
+    function escapeHtml(text) {
+      if (!text && text !== 0) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    /* ============================================================
+    Primary quiz SUBMIT handler (from original file)
+    This targets the "submit-quiz-btn"
+    ============================================================ 
+    */
+    document.getElementById("submit-quiz-btn").addEventListener("click", async function() {
+      const submitBtn = document.getElementById("submit-quiz-btn");
+      const originalSubmitText = submitBtn.textContent;
+
+      // start loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <span class="flex items-center justify-center">
+          <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+          </svg>
+          Calculating...
+        </span>`;
+
+      // validation: ensure at least one answer/text provided
+      const allInputs = document.querySelectorAll('#quiz-slides input[type="radio"], #quiz-slides input[type="checkbox"], #quiz-slides input[type="text"]');
+      let hasAnswered = false;
+      for (const input of allInputs) {
+        if (input.type === 'radio' || input.type === 'checkbox') {
+          if (input.checked) { hasAnswered = true; break; }
+        } else if (input.type === 'text') {
+          if (input.value.trim() !== '') { hasAnswered = true; break; }
+        }
+      }
+      if (!hasAnswered) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalSubmitText;
+        showNoAnswerModal();
+        return;
+      }
+
+      // fetch answer key from Firebase
+      const answerKeyRef = database.ref('QuizConfiguration/XTimeAnswerKey');
+      let answerKey = null;
+      try {
+        const snapshot = await answerKeyRef.once('value');
+        if (!snapshot.exists()) {
+          alert("Error: Quiz answer key not found in Firebase. Cannot score quiz.");
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalSubmitText;
+          return;
+        }
+        answerKey = snapshot.val();
+      } catch (error) {
+        console.error("Failed to fetch answer key:", error);
+        alert("Error: Failed to connect to scoring server. Please try again.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalSubmitText;
+        return;
+      }
+
+      // scoring
+      let score = 0;
+      let total = Object.keys(answerKey).length || 0;
+      for (let q in answerKey) {
+        let correct = answerKey[q];
+        let inputs = document.querySelectorAll(`input[name="${q}"]`);
+        
+        // This logic is simplified from the original but should be more robust
+        if (inputs.length > 0) {
+            if (inputs[0].type === 'radio') {
+                let selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value.trim() === correct) {
+                    score++;
+                }
+            } else if (inputs[0].type === 'checkbox') {
+                let selected = [];
+                inputs.forEach(i => { if (i.checked) selected.push(i.value.trim()); });
+                let normalizedCorrect = Array.isArray(correct) ? correct.map(c => c.trim()) : [correct.trim()];
+                
+                const allCorrectSelected = normalizedCorrect.every(c => selected.includes(c));
+                const onlyCorrectSelected = selected.length === normalizedCorrect.length && selected.every(s => normalizedCorrect.includes(s));
+                
+                if (allCorrectSelected && onlyCorrectSelected) {
+                    score++;
+                }
+            } else if (inputs[0].type === 'text') {
+                let typed = inputs[0].value.trim().toLowerCase();
+                let normalizedCorrect = Array.isArray(correct) ? correct.map(c => c.toLowerCase().trim()) : correct.toLowerCase().trim();
+                
+                if (Array.isArray(normalizedCorrect)) {
+                    if (normalizedCorrect.some(c => typed.includes(c))) score++;
+                } else {
+                    if (typed === normalizedCorrect) score++;
+                }
+            }
+        }
+      }
+
+      // display results
+      const percentage = total ? Math.round((score / total) * 100) : 0;
+      const percentageEl = document.getElementById("quizPercentage");
+      animateCountUp(percentageEl, 0, percentage, 1200);
+      document.getElementById("quizScore").textContent = `You answered ${score} out of ${total} correctly.`;
+
+      // reset done/upload UI
+      resetUploadUI();
+
+      // show result modal (this shows inputs for firstname/lastname/email)
+      const quizResultModal = document.getElementById("quizResultModal");
+      if (quizResultModal) {
+        quizResultModal.classList.remove('hidden');
+        quizResultModal.classList.add('flex');
+      }
+
+      // reset submit button
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalSubmitText;
+    });
+
+    /* ============================================================
+    Done button handler: duplicates / upload to Firebase + Google Sheet
+    ============================================================ 
+    */
+    const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwTAHY3qfki8Q_iirBc78ETWacLRaEiOh1ue_NmRLgSWm2ck1lEw6bfL7FhQ9DsSHPMVQ/exec";
+
+    document.getElementById("doneBtn").addEventListener("click", async function handleDone() {
+      const doneBtn = document.getElementById("doneBtn");
+      const rawFirstName = document.getElementById("firstName").value.trim();
+      const rawLastName = document.getElementById("lastName").value.trim();
+      const rawEmail = document.getElementById("email").value.trim();
+
+      const firstName = toTitleCase(rawFirstName);
+      const lastName = toTitleCase(rawLastName);
+      const email = toLowerCaseSafe(rawEmail);
+
+      const scoreText = document.getElementById("quizScore").textContent;
+      const match = scoreText.match(/(\d+)\D+(\d+)/);
+      const quizScore = match ? `${match[1]}/${match[2]}` : scoreText;
+      const quizPercentage = document.getElementById("quizPercentage").textContent;
+
+      const messageContainer = document.getElementById("messageContainer");
+      const msg = document.getElementById("uploadMsg") || (() => {
+        const p = document.createElement("p");
+        p.id = "uploadMsg";
+        p.className = "text-sm text-gray-600 text-center mt-4";
+        messageContainer.appendChild(p);
+        return p;
+      })();
+
+      if (!firstName || !lastName || !email) {
+        msg.textContent = "⚠️ Please fill out all fields before submitting.";
+        msg.className = "mt-4 text-sm text-red-600 text-center";
+        return;
+      }
+
+      // start loading
+      msg.textContent = "";
+      doneBtn.disabled = true;
+      doneBtn.innerHTML = `
+        <span class="flex items-center justify-center">
+          <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+          </svg>
+          Processing...
+        </span>`;
+
+      // duplicate check in Firebase
+      const CATEGORY_NODE = 'XTime-Results';
+      const sanitizedEmail = sanitizeEmail(email);
+      const userRef = database.ref(`${CATEGORY_NODE}/${sanitizedEmail}`);
+
+      try {
+        const snapshot = await userRef.once('value');
+
+        if (snapshot.exists()) {
+          const existingData = snapshot.val();
+          // Show duplicate modal (includes date/time)
+          showDuplicateModal(existingData, doneBtn);
+          return;
+        }
+
+        // No duplicate - prepare data
+        const data = {
+          firstName,
+          lastName,
+          email,
+          quizScore,
+          quizPercentage,
+          timestamp: new Date().toISOString(),
+          category: "XTime"
+        };
+
+        // First, call Google Sheet web app
+        const formBody = new URLSearchParams({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          quizScore: data.quizScore,
+          quizPercentage: data.quizPercentage,
+          timestamp: data.timestamp,
+          module: data.category
+        });
+
+        // send to google webapp (with simple retry for 429)
+        const res = await retryFetch(GOOGLE_SHEET_WEBAPP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formBody.toString()
+        }, 3, 700);
+
+        if (!res.ok) {
+          // allow eventual logging in Firebase but inform user
+          // continue to save to Firebase
+          console.warn('Google Sheet upload returned non-OK, continuing to save in firebase.');
+        } else {
+          // optionally handle res.json() result conditions
+          try { await res.json(); } catch (e) { /* ignore parse errors */ }
+        }
+
+        // Save to Firebase
+        await userRef.set(data);
+
+        // success UI: show a friendly success in the same result modal area
+        const messageContainer = document.getElementById('messageContainer');
+        if (messageContainer) {
+          messageContainer.innerHTML = `<div class="mt-4 p-4 bg-green-50 border-l-4 border-green-400 text-green-800 rounded">✅ Your score has been uploaded!</div>`;
+        }
+        resetUploadUI();
+        // optionally hide modal after short delay
+        setTimeout(() => {
+          const quizResultModal = document.getElementById('quizResultModal');
+          if (quizResultModal) {
+            quizResultModal.classList.add('hidden');
+            quizResultModal.classList.remove('flex');
+          }
+          // clear the message container
+          if (messageContainer) messageContainer.innerHTML = '';
+        }, 1400);
+
+      } catch (err) {
+        console.error('Error during submission:', err);
+        msg.textContent = 'An error occurred while submitting your result. Please try again later.';
+        msg.className = 'mt-4 text-sm text-red-600 text-center';
+        doneBtn.disabled = false;
+        doneBtn.innerText = 'Done';
+      }
+    });
+  </script>
+
+  <!-- NEW script for quiz navigation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // This needs to run *after* feather.replace()
+      // If feather is not defined, wait a tiny bit
+      if (typeof feather !== 'undefined') {
+        feather.replace();
+      } else {
+        setTimeout(() => feather.replace(), 100);
+      }
+      
+      const slides = document.querySelectorAll('.quiz-slide');
+      const nextBtn = document.getElementById('quiz-nav-next');
+      const backBtn = document.getElementById('quiz-nav-back');
+      const submitBtn = document.getElementById('submit-quiz-btn');
+      const progressText = document.getElementById('quiz-progress');
+      const totalQuestions = slides.length;
+      let currentQuestion = 0;
+      let isAnimating = false; // Prevent double-clicks
+
+      function checkAnswerStatus(index) {
+        if (index < 0 || index >= totalQuestions) return;
+
+        const activeSlide = slides[index];
+        const inputs = activeSlide.querySelectorAll('input[type="radio"], input[type="checkbox"], input[type="text"]');
+        let isAnswered = false;
+
+        for (const input of inputs) {
+          if (input.type === 'radio' || input.type === 'checkbox') {
+            if (input.checked) {
+              isAnswered = true;
+              break;
+            }
+          } else if (input.type === 'text') {
+            if (input.value.trim() !== '') {
+              isAnswered = true;
+              break;
+            }
+          }
+        }
+        
+        // Enable/disable the correct button
+        if (index === totalQuestions - 1) {
+          submitBtn.disabled = !isAnswered;
+        } else {
+          nextBtn.disabled = !isAnswered;
+        }
+      }
+
+      function showQuestion(index, direction = 'next') {
+        if (isAnimating && index !== currentQuestion) return; // Prevent double-clicks unless it's initial load
+
+        const oldIndex = currentQuestion;
+        
+        // --- Update navigation and progress ---
+        currentQuestion = index; // Update current question index
+        progressText.textContent = `Question ${currentQuestion + 1} of ${totalQuestions}`;
+        backBtn.classList.toggle('hidden', currentQuestion === 0);
+        if (currentQuestion === totalQuestions - 1) {
+          nextBtn.classList.add('hidden');
+          submitBtn.classList.remove('hidden');
+        } else {
+          nextBtn.classList.remove('hidden');
+          submitBtn.classList.add('hidden');
+        }
+        checkAnswerStatus(currentQuestion);
+        // --- End navigation update ---
+
+        // --- Handle Animation ---
+        if (index === oldIndex) {
+           // Initial load: Just make the first slide active, no animation
+           if(slides[index]) {
+             slides[index].classList.add('active');
+           }
+           return; // Stop here for initial load
+        }
+        
+        isAnimating = true;
+
+        const oldSlide = slides[oldIndex];
+        const newSlide = slides[index];
+
+        let oldExitClass, newEnterClass;
+
+        if (direction === 'next') {
+            oldExitClass = 'exit-next';
+            newEnterClass = 'enter-next';
+        } else { // direction === 'back'
+            oldExitClass = 'exit-back';
+            newEnterClass = 'enter-back';
+        }
+
+        // 1. Prepare the new slide (off-screen)
+        newSlide.classList.add(newEnterClass);
+        newSlide.classList.add('active'); // Add active to make it visible (opacity 0, transformed)
+
+        // 2. Force reflow to apply the "from" state
+        void newSlide.offsetWidth; 
+
+        // 3. Animate out the old slide and animate in the new one
+        oldSlide.classList.add(oldExitClass);
+        oldSlide.classList.remove('active');
+        newSlide.classList.remove(newEnterClass); // This triggers the transition to opacity 1, transform 0
+
+        // 4. Clean up after animation
+        setTimeout(() => {
+            oldSlide.classList.remove(oldExitClass);
+            isAnimating = false;
+        }, 300); // Match CSS transition duration
+      }
+
+      // Add event listeners for navigation
+      nextBtn.addEventListener('click', () => {
+        if (currentQuestion < totalQuestions - 1) {
+          showQuestion(currentQuestion + 1, 'next'); // Pass 'next'
+        }
+      });
+
+      backBtn.addEventListener('click', () => {
+        if (currentQuestion > 0) {
+          showQuestion(currentQuestion - 1, 'back'); // Pass 'back'
+        }
+      });
+
+      // Add event listeners to all inputs to check answer status
+      slides.forEach((slide, index) => {
+        const inputs = slide.querySelectorAll('input[type="radio"], input[type="checkbox"], input[type="text"]');
+        inputs.forEach(input => {
+          // 'change' for radio/checkbox, 'input' for text
+          const eventType = (input.type === 'text') ? 'input' : 'change';
+          input.addEventListener(eventType, () => {
+            checkAnswerStatus(index);
+          });
+        });
+      });
+
+      // Show the first question initially
+      showQuestion(0); // No direction, will trigger initial load logic
+    });
+  </script>
+
+</body>
+</html>

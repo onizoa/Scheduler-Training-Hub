@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CDK Module</title>
+  
+  <!-- NEW: Google Sans Font Import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- END NEW -->
+
+  <style>
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      /* UPDATED: Changed from "Segoe UI", sans-serif to "Google Sans", sans-serif */
+      font-family: "Google Sans", sans-serif; 
+      background-color: #f5f6fa;
+      overflow: hidden;
+    }
+
+    /* ===== LAYOUT ===== */
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* ===== MODERN GLOBAL SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+    width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+    background: transparent; /* No background on the track */
+    }
+
+    ::-webkit-scrollbar-thumb {
+    background-color: #d1d5db; /* Light gray thumb */
+    border-radius: 20px;
+    /* Create a small border effect */
+    border: 3px solid #ffffff; 
+    background-clip: content-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+    background-color: #9ca3af; /* Darker gray on hover */
+    }
+
+    /* ===== SIDEBAR (Retained original layout/color) ===== */
+    .sidebar {
+      width: 260px;
+      background-color: #ffffff; /* CHANGED */
+      color: #1f2937; /* CHANGED */
+      padding: 1.5rem 1rem 1rem 1.5rem; /* Adjusted padding for stepper */
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      border-right: 1px solid #e0e0e0; /* ADDED */
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 3.5rem; /* CHANGED: Increased from 1.5rem */
+    padding-left: 0.5rem; /* Align with stepper content */
+    }
+
+    /* ===== SIDEBAR BACK BUTTON (STICKY & FULL-WIDTH) ===== */
+    .sidebar-back-button {
+      /* Spacing & Layout */
+      display: flex;
+      align-items: center;
+      gap: 0.75rem; 
+      margin-top: auto; /* Pushes button to the bottom */
+      
+      /* --- STICKY POSITIONING --- */
+      position: sticky;
+      /* Stick to the bottom padding edge, not the content edge */
+      bottom: -1rem; 
+      background-color: #ffffff; 
+      /* --- END STICKY --- */
+
+      /* --- FULL-WIDTH LAYOUT --- */
+      /* Negative margins to break out of sidebar's padding */
+      margin-left: -1.5rem;
+      margin-right: -1rem;
+      /* Re-apply internal padding to align text */
+      padding: 0.75rem 1rem 0.75rem 1.5rem;
+      /* --- END FULL-WIDTH --- */
+
+      /* Appearance */
+      color: #4b5563; 
+      font-weight: 500;
+      font-size: 1.05rem;
+      text-decoration: none;
+      border-radius: 0; /* REMOVED border radius */
+      transition: background-color 0.2s ease, color 0.2s ease;
+      flex-shrink: 0; 
+    }
+
+    .sidebar-back-button:hover {
+      background-color: #f3f4f6;
+      color: #1f2937;
+    }
+
+    .sidebar-back-button svg {
+      flex-shrink: 0;
+    }
+
+    /* ===== START: NEW STEPPER STYLES ===== */
+    /* --- Copied from results.html and adapted for dark theme --- */
+    :root {
+      /* Stepper colors (Adapted for light theme) */
+      --stepper-active-color: #3b82f6; /* bg-blue-500 */
+      --stepper-inactive-color: #e2e8f0; /* CHANGED: bg-slate-200 */
+      --stepper-active-ring: #dbeafe; /* CHANGED: bg-blue-100 */
+    }
+
+    .step-item {
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+        padding-left: 2.5rem; /* Space for icon (1.5rem) + gap (1rem) */
+        padding-bottom: 1.5rem; /* space between items */
+        cursor: pointer;
+    }
+    .step-item:last-child {
+        padding-bottom: 0;
+    }
+    
+    /* The vertical connecting line */
+    .step-item::before {
+        content: '';
+        position: absolute;
+        left: 0.75rem; /* Centered with 1.5rem icon */
+        top: 1.5rem; /* Start below the icon */
+        bottom: -0.5rem; /* Connect to next item's top */
+        width: 2px;
+        background-color: var(--stepper-inactive-color);
+        transition: background-color 0.3s ease;
+    }
+    .step-item:last-child::before {
+        display: none; /* No line after the last item */
+    }
+
+    /* The icon/indicator */
+    .step-icon {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem; /* 24px */
+        height: 1.5rem; /* 24px */
+        border-radius: 9999px;
+        background-color: var(--stepper-inactive-color);
+        color: #64748b; /* CHANGED: text-slate-500 */
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: all 0.3s ease;
+    }
+    
+    /* Text Label */
+    .step-label {
+        color: #64748b; /* CHANGED: text-slate-500 */
+        font-weight: 500;
+        transition: all 0.3s ease;
+        font-size: 1.05rem; /* ADDED: A bit larger than default */
+    }
+    .step-item:hover .step-label {
+        color: #334155; /* CHANGED: text-slate-700 */
+    }
+    .step-item:hover .step-icon {
+        /* This dark-theme hover effect is no longer needed. 
+          You can delete the rule. */
+    }
+
+
+    /* --- STATES --- */
+    .step-icon-number,
+    .step-icon-dot,
+    .step-icon-check {
+        display: none;
+    }
+
+    /* Inactive State (Default) */
+    .step-item.inactive .step-icon-number {
+        display: block;
+        font-size: 0.75rem; /* 12px */
+        font-weight: 600;
+    }
+
+    /* Active State */
+    .step-item.active .step-icon {
+        background-color: var(--stepper-active-color);
+        box-shadow: 0 0 0 4px var(--stepper-active-ring); 
+    }
+    .step-item.active .step-icon-dot {
+        display: block;
+        width: 0.5rem; /* 8px */
+        height: 0.5rem; /* 8px */
+        background-color: white;
+        border-radius: 9999px;
+    }
+    .step-item.active .step-label {
+        color: var(--stepper-active-color);
+        font-weight: 600;
+    }
+
+    /* Complete State (We'll use 'inactive' for all non-active items) */
+    .step-item.complete .step-icon {
+        background-color: var(--stepper-active-color);
+        color: white;
+    }
+    .step-item.complete .step-icon-check {
+        display: block;
+        width: 0.875rem; /* 14px */
+        height: 0.875rem; /* 14px */
+    }
+    .step-item.complete .step-label {
+        color: #1f2937; /* CHANGED: text-gray-800 */
+        font-weight: 600;
+    }
+    .step-item.complete::before {
+         background-color: var(--stepper-active-color);
+    }
+    /* ===== END: NEW STEPPER STYLES ===== */
+
+
+    /* ===== MAIN CONTENT (Unchanged) ===== */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ===== HEADER (Unchanged) ===== */
+    header {
+    background: #fff;
+    padding: 1.25rem 1.5rem; /* CHANGED: Increased padding */
+    font-weight: 600; /* CHANGED: Was 'bold' */
+    font-size: 1.5rem; /* CHANGED: Was 16px, now matches 'text-2xl' */
+    /* REPLACED border-bottom with box-shadow */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 5;
+    }
+
+    /* ===== BURGER ICON (Unchanged) ===== */
+    .burger {
+      background: #ffffff; /* CHANGED */
+      border: 1px solid #e0e0e0; /* CHANGED */
+      color: #333; /* CHANGED */
+      font-size: 22px;
+      cursor: pointer;
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      display: none; /* Hidden on desktop */
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+      margin-right: 1rem;
+    }
+
+    .burger:hover {
+      background: #f5f6fa; /* CHANGED */
+    }
+
+    /* ===== IFRAME WRAPPER (Unchanged) ===== */
+    .iframe-wrapper {
+      position: relative;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      overflow: auto;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ===== RESPONSIVE (Unchanged) ===== */
+    @media (max-width: 900px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 100;
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .burger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <aside class="sidebar" id="sidebar">
+      <h2>Topics: </h2>
+      
+      <div id="vertical-stepper-container">
+        
+        <div class="step-item active" onclick="loadPage(event, './cdk/cdk-intro.html')">
+          <div class="step-icon">
+            <span class="step-icon-number">1</span>
+            <div class="step-icon-dot"></div>
+            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <span class="step-label">Introduction</span>
+        </div>
+
+        <div class="step-item inactive" onclick="loadPage(event, './cdk/cdk-login-logout.html')">
+          <div class="step-icon">
+            <span class="step-icon-number">2</span> 
+            <div class="step-icon-dot"></div>
+            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <span class="step-label">login & logout</span>
+        </div>
+
+        <div class="step-item inactive" onclick="loadPage(event, './cdk/cdk-new-appt.html')">
+          <div class="step-icon">
+            <span class="step-icon-number">3</span>
+            <div class="step-icon-dot"></div>
+            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <span class="step-label">New Appointment</span>
+        </div>
+
+        <div class="step-item inactive" onclick="loadPage(event, './cdk/cdk-new-customer.html')">
+          <div class="step-icon">
+            <span class="step-icon-number">4</span>
+            <div class="step-icon-dot"></div>
+            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <span class="step-label">New Customer</span>
+        </div>
+
+        <div class="step-item inactive" onclick="loadPage(event, './cdk/cdk-add-del-vehicle.html')">
+          <div class="step-icon">
+            <span class="step-icon-number">5</span>
+            <div class="step-icon-dot"></div>
+            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <span class="step-label">Add/Delete Vehicle</span>
+        </div>
+
+        <div class="step-item inactive" onclick="loadPage(event, './cdk/cdk-resched-appt.html')">
+          <div class="step-icon">
+            <span class="step-icon-number">6</span>
+            <div class="step-icon-dot"></div>
+            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <span class="step-label">Rescheduling</span>
+        </div>
+
+        <div class="step-item inactive" onclick="loadPage(event, './cdk/cdk-cancel-appt.html')">
+          <div class="step-icon">
+            <span class="step-icon-number">7</span>
+            <div class="step-icon-dot"></div>
+            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <span class="step-label">Canceling</span>
+        </div>
+
+        <div class="step-item inactive" onclick="loadPage(event, './cdk/cdk-vehicle-history.html')">
+          <div class="step-icon">
+            <span class="step-icon-number">8</span>
+            <div class="step-icon-dot"></div>
+            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <span class="step-label">Vehicle History</span>
+        </div>
+
+      </div>
+      <div id="vertical-stepper-container"></div>
+
+        <a href="index.html" class="sidebar-back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span>Home page</span>
+        </a>
+      
+    </aside>
+
+    <div class="main-content">
+      <header>
+        <button class="burger" id="burger">&#9776;</button>
+        CDK Scheduler
+      </header>
+
+      <div class="iframe-wrapper" id="iframeWrapper">
+        <iframe id="contentFrame" src="./cdk/cdk-intro.html"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const burger = document.getElementById("burger");
+    const sidebar = document.getElementById("sidebar");
+    const contentFrame = document.getElementById("contentFrame");
+
+    // Toggle sidebar visibility (Unchanged)
+    burger.addEventListener("click", () => {
+      sidebar.classList.toggle("active");
+    });
+
+    // Hide sidebar when clicking outside (mobile) (Unchanged)
+    document.addEventListener("click", (e) => {
+      if (
+        window.innerWidth <= 900 &&
+        !sidebar.contains(e.target) &&
+        !burger.contains(e.target)
+      ) {
+        sidebar.classList.remove("active");
+      }
+    });
+
+    // Reset on resize (Unchanged)
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) {
+        sidebar.classList.remove("active");
+      }
+    });
+
+    // ===== JAVASCRIPT (MODIFIED) =====
+    
+    // Get all step items once
+    const allStepItems = document.querySelectorAll("#vertical-stepper-container .step-item");
+
+    // Load iframe pages dynamically
+    function loadPage(event, page) {
+      event.preventDefault();
+      contentFrame.src = page;
+      
+      // Get the step-item that was clicked
+      const clickedItem = event.currentTarget;
+
+      // Find the index of the clicked item
+      let clickedIndex = -1;
+      allStepItems.forEach((item, index) => {
+        if (item === clickedItem) {
+          clickedIndex = index;
+        }
+      });
+
+      if (clickedIndex === -1) return; // Exit if not found
+
+      // Loop over ALL step-items and apply new logic
+      allStepItems.forEach((item, index) => {
+        // Remove all state classes first
+        item.classList.remove("active", "inactive", "complete");
+
+        // Apply logic from results.html:
+        // - index < clickedIndex -> complete
+        // - index == clickedIndex -> active
+        // - index > clickedIndex -> inactive
+        if (index < clickedIndex) {
+            item.classList.add("complete");
+        } else if (index === clickedIndex) {
+            item.classList.add("active");
+        } else {
+            item.classList.add("inactive");
+        }
+      });
+
+      // Hide sidebar on mobile after clicking a link
+      if (window.innerWidth <= 900) sidebar.classList.remove("active");
+    }
+  </script>
+</body>
+</html>

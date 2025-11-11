@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance - Xtime Training Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- NEW: Applying Google Sans Font for consistent style across all training files -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- END FONT IMPORT -->
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <style>
+        /* UPDATED: Ensuring the "Google Sans" font is applied */
+        body {
+            font-family: 'Google Sans', sans-serif; 
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Keeping scrollbar styles */
+        #main-content::-webkit-scrollbar-thumb { 
+          background-color: rgba(107, 114, 128, 0); 
+          border-radius: 20px; 
+          border: 3px solid transparent; 
+          background-clip: content-box; 
+          transition: background-color 1.5s ease-in-out; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <div class="relative z-40 md:z-auto">
+        <nav class="bg-white shadow-md">
+            <div class="container mx-auto p-5 flex justify-between items-center">
+                <a href="./index.html" class="text-2xl font-semibold">Scheduler Training Hub</a>
+            </div>
+        </nav>
+    </div>
+    <div id="main-content" class="transition-all duration-300 ease-in-out flex-grow">
+        
+        <section class="container mx-auto px-4 pt-24 pb-32 sm:pb-40 flex flex-col items-center justify-center text-center min-h-[70vh]">
+            
+            <div class="mb-8" data-aos="zoom-in">
+                <i data-feather="tool" class="w-16 h-16 text-blue-600 mx-auto"></i>
+            </div>
+            
+            <div class="max-w-xl" data-aos="fade-up">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                    We'll be right back!
+                </h1>
+                <p class="text-xl text-gray-600 mb-8">
+                    This Scheduler Training Module is currently undergoing scheduled maintenance. We are making improvements and will be back online shortly.
+                </p>
+                <p class="text-lg text-gray-700 mb-10">
+                    Thank you for your patience and understanding.
+                </p>
+                
+                <a href="./index.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-10 py-3 rounded-lg shadow-lg transition duration-300">
+                    Return to Home Page
+                </a>
+            </div>
+
+        </section>
+        </div>
+
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+                <div class="mb-4 md:mb-0">
+                    <a href="./index.html" class="text-xl font-bold text-white flex items-center">
+                        Scheduler Training Hub
+                    </a>
+                    <p class="text-gray-400 text-sm mt-1">Empowering your scheduling expertise</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 SchedulerMaster Pro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initializing AOS and Feather Icons
+            AOS.init({ duration: 600, easing: 'ease-out-quad', once: true });
+            feather.replace();
+
+            // Mobile menu toggle logic is not strictly needed for a maintenance page 
+            // but is kept as a placeholder if you re-introduce navigation.
+            const menuButton = document.getElementById('mobile-menu-button');
+            const modal = document.getElementById('mobile-menu-modal');
+            if (menuButton) {
+                menuButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    modal.classList.toggle('hidden');
+                });
+            }
+            document.addEventListener('click', (e) => {
+                if (!modal.classList.contains('hidden') && !modal.contains(e.target) && !menuButton.contains(e.target)) {
+                    modal.classList.add('hidden');
+                }
+            });
+        }); 
+    </script>
+</body>
+</html>

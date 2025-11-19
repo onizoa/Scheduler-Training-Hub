@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Scheduler Module: Cancel an Appointment</title>
+
+  <!-- NEW: Google Sans Font Import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- END NEW -->
+
+  <style>
+    /* Base styles from nest child.html */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Google Sans", sans-serif; 
+      background-color: #f8f9fb;
+      color: #222;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .page-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      animation: fadeInUp 0.7s ease-out backwards;
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .page-header p {
+      margin-top: 0.5rem;
+      color: #555;
+      font-size: 1rem;
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      background: #000;
+    }
+    .video-wrapper iframe,
+    .video-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .description-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .description-card h2 {
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-bottom: 0.8rem;
+    }
+    .description-card p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    .description-card ul {
+      margin: 0.8rem 0 0 1.5rem;
+      color: #444;
+    }
+    .description-card li {
+      margin-bottom: 0.4rem;
+    }
+    /* Responsive */
+    @media (max-width: 720px) {
+      .page-container { padding: 1.5rem 1rem 3rem; }
+      .page-header h1 { font-size: 1.6rem; }
+      .description-card { padding: 1rem 1.2rem; }
+    }
+
+    /* ===== MODERN GLOBAL SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+    width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+    background: transparent; /* No background on the track */
+    }
+
+    ::-webkit-scrollbar-thumb {
+    background-color: #d1d5db; /* Light gray thumb */
+    border-radius: 20px;
+    /* Create a small border effect */
+    border: 3px solid #ffffff; 
+    background-clip: content-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+    background-color: #9ca3af; /* Darker gray on hover */
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- ===== TITLE ===== -->
+    <div class="page-header">
+      <h1>Cancelling an Appointment</h1>
+    </div>
+
+    <!-- ===== VIDEO ===== -->
+    <div class="video-wrapper">
+      <iframe src="../videos/online-cancel-appt.mp4" 
+              title="Add New Vehicle Video" 
+              allowfullscreen
+              allow="autoplay">
+      </iframe>
+    </div>
+
+    <!--===== DESCRIPTION =====-->
+    <div class="description-card">
+      <h2>Take Notes</h2>
+      <ul>
+        <li>Make sure to send a <strong>'HOT ALERT'</strong> to the Dealership using <strong>IO</strong> so they are informed about the cancellation request.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

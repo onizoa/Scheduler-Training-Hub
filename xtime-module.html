@@ -260,16 +260,19 @@
 
     /* ===== HEADER (Unchanged) ===== */
     header {
-    background: #fff;
-    padding: 1.25rem 1.5rem; /* CHANGED: Increased padding */
-    font-weight: 600; /* CHANGED: Was 'bold' */
-    font-size: 1.5rem; /* CHANGED: Was 16px, now matches 'text-2xl' */
-    /* REPLACED border-bottom with box-shadow */
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    display: flex;
-    align-items: center;
-    position: relative;
-    z-index: 5;
+      background: #fff;
+      padding: 1.25rem 1.5rem;
+      font-weight: 600;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+                  0 2px 4px -2px rgb(0 0 0 / 0.1);
+      display: flex;
+      align-items: center;
+
+      /* 👇 MAKE IT STICKY */
+      position: sticky;
+      top: 0;
+      z-index: 999;
     }
 
     /* ===== BURGER ICON (Unchanged) ===== */
@@ -547,4 +550,5 @@
     }
   </script>
 </body>
+
 </html>

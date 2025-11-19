@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoloop Scheduler: Trainee Workflow Guide</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <style>
+        :root {
+            /* Using a strong blue/primary color for Autoloop emphasis */
+            --primary-blue: #1e40af; /* Changed to a standard vibrant blue for 'Autoloop' */
+        }
+        body {
+            /* Applied Google Sans font */
+            font-family: 'Google Sans', sans-serif;
+        }
+        /* ADDED: Smooth scrolling behavior for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* IMPROVED: Increased border thickness and refined margin for the section marker */
+        .text-section {
+            border-left: 5px solid var(--primary-blue);
+            padding-left: 1.75rem; /* Increased padding */
+            margin-left: 0.25rem; /* Slight horizontal offset for visual balance */
+        }
+        .topic-heading {
+            color: var(--primary-blue);
+        }
+        .main-card {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+
+    <div id="main-content" class="flex-grow">
+
+        <section class="container mx-auto px-4 pt-16 pb-12 sm:pb-16 flex flex-col items-center justify-center gap-12 text-center">
+            <div class="lg:w-3/4" data-aos="fade-down">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    Autoloop Scheduler: Trainee Workflow Guide
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Welcome! This guide outlines the core functions and mandatory procedures you will use daily in the **Autoloop Scheduler** to manage service appointments, customer data, and optimize shop efficiency.
+                </p>
+                <a href="#workflow" class="mt-8 inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-10 py-3.5 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01] hover:shadow-xl">
+                    Start Learning Workflow
+                    <i data-feather="arrow-down" class="ml-2 w-5 h-5"></i>
+                </a>
+            </div>
+        </section>
+
+        <section id="workflow" class="container mx-auto px-4 py-16">
+            <div class="bg-white rounded-xl main-card border border-gray-100 p-6 sm:p-10 lg:p-12 lg:px-12 xl:px-24">
+
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-10 pb-5 border-b-4 border-gray-100">Autoloop Core Training Modules</h2>
+
+                <div class="mb-12" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="lock" class="mr-3 w-6 h-6"></i> 1. System Access
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>Login & Logout:</strong> This critical first step ensures system security and license availability. You will learn the proper procedure to **log in** with your credentials and how to securely **log out** when finished working.</p>
+                    </div>
+                </div>
+
+                <div class="mb-12" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="calendar" class="mr-3 w-6 h-6"></i> 2. Scheduling Operations
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>New Appointment:</strong> Your primary function. Learn the step-by-step process for booking service time, including confirming customer and vehicle data, detailing the service request, and assigning the appointment to an optimal **time slot** based on live shop capacity.</p>
+                        <p class="text-gray-700"><strong>Rescheduling:</strong> Understand how to efficiently modify an existing booking. Correct **rescheduling** immediately updates the calendar, freeing up the old slot and securing the new one.</p>
+                        <p class="text-gray-700"><strong>Canceling:</strong> Learn the required steps to properly **cancel** an appointment. This action ensures the reserved service time is instantly released back into the available inventory.</p>
+                    </div>
+                </div>
+
+                <div class="mb-0" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="database" class="mr-3 w-6 h-6"></i> 3. Customer & Vehicle Data
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>New Customer:</strong> For first-time clients, this module guides you through creating a complete and accurate **customer profile**, which is the required foundation for all service transactions.</p>
+                        <p class="text-gray-700"><strong>Add Vehicle:</strong> Learn to maintain precise records by **adding new vehicles** to a customer's profile. Accurate vehicle association is key for correct service planning.</p>
+                        <p class="text-gray-700"><strong>Vehicle History:</strong> You will learn how to access the integrated **Vehicle History**. This allows you to quickly review a vehicle's past service, recommended future work, and repair orders to provide knowledgeable customer advice during the booking process.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ duration: 600, easing: 'ease-out-quad', once: true });
+            feather.replace();
+        });
+    </script>
+</body>
+</html>

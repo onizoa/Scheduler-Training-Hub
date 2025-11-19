@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Scheduler: Trainee Workflow Guide</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <style>
+        :root {
+            /* Using a vibrant blue/primary color for Online Scheduler emphasis */
+            --primary-blue: #007bff;
+            --alert-red: #dc3545; /* Bootstrap red for the crucial alert note */
+        }
+        body {
+            /* Applied Google Sans font */
+            font-family: 'Google Sans', sans-serif;
+        }
+        /* ADDED: Smooth scrolling behavior for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* IMPROVED: Increased border thickness and refined margin for the section marker */
+        .text-section {
+            border-left: 5px solid var(--primary-blue);
+            padding-left: 1.75rem; /* Increased padding */
+            margin-left: 0.25rem; /* Slight horizontal offset for visual balance */
+        }
+        .topic-heading {
+            color: var(--primary-blue);
+        }
+        .main-card {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.03);
+        }
+        .hot-alert-box {
+            border: 2px solid var(--alert-red);
+            background-color: #ffeaea;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            color: var(--alert-red);
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+
+    <div id="main-content" class="flex-grow">
+
+        <section class="container mx-auto px-4 pt-16 pb-12 sm:pb-16 flex flex-col items-center justify-center gap-12 text-center">
+            <div class="lg:w-3/4" data-aos="fade-down">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    Online Scheduler: Trainee Workflow Guide
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Welcome! This comprehensive guide provides the necessary training to effectively manage service bookings, customer data, and scheduling changes within the **Online Scheduler** platform.
+                </p>
+                <a href="#workflow" class="mt-8 inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-10 py-3.5 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01] hover:shadow-xl">
+                    Start Learning Workflow
+                    <i data-feather="arrow-down" class="ml-2 w-5 h-5"></i>
+                </a>
+            </div>
+        </section>
+
+        <section id="workflow" class="container mx-auto px-4 py-16">
+            <div class="bg-white rounded-xl main-card border border-gray-100 p-6 sm:p-10 lg:p-12 lg:px-12 xl:px-24">
+
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-10 pb-5 border-b-4 border-gray-100">Online Scheduler Core Training Modules</h2>
+
+                <div class="mb-12" data-aos="fade-up">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="monitor" class="mr-3 w-6 h-6"></i> 1. System Access
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>Access Website:</strong> The first step is navigating to the correct **Online Scheduler website** and successfully logging in to begin managing appointments.</p>
+                    </div>
+                </div>
+
+                <div class="mb-12" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="users" class="mr-3 w-6 h-6"></i> 2. Customer & Vehicle Records
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>New Customer:</strong> Learn the procedure for accurately creating a complete profile for any first-time client not yet in the system.</p>
+                        <p class="text-gray-700"><strong>Add Vehicle:</strong> Understand how to associate a new vehicle correctly with an existing or new customer profile, ensuring service details are always accurate.</p>
+                    </div>
+                </div>
+
+                <div class="mb-12" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold topic-heading mb-4 flex items-center border-b border-blue-100 pb-2">
+                        <i data-feather="calendar" class="mr-3 w-6 h-6"></i> 3. Scheduling Operations
+                    </h3>
+                    <div class="text-section space-y-5">
+                        <p class="text-gray-700"><strong>New Appointment:</strong> Master the workflow for booking service time, including service selection, time slot assignment, and final confirmation.</p>
+                        <p class="text-gray-700"><strong>Reschedule:</strong> Learn how to efficiently move an existing appointment to a new date or time, updating the calendar instantly.</p>
+                        <p class="text-gray-700"><strong>Canceling:</strong> Understand the correct procedure for removing an appointment from the schedule, which immediately frees up the time slot for other customers.</p>
+
+                        <div class="hot-alert-box">
+                            <h4 class="font-extrabold text-lg flex items-center mb-2">
+                                <i data-feather="alert-triangle" class="mr-2 w-5 h-5"></i> CRITICAL STEP: Hot Alert Requirement
+                            </h4>
+                            <p class="text-sm">For both **Reschedule** and **Canceling** modules, sending a **Hot Alert** to the Dealer is a **mandatory and crucial step** to ensure immediate notification and proper documentation of the schedule change.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({ duration: 600, easing: 'ease-out-quad', once: true });
+            feather.replace();
+        });
+    </script>
+</body>
+</html>

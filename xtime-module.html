@@ -6,7 +6,6 @@
   <title>Xtime Module</title>
   <link rel="icon" type="image/png" href="./images/STH icon.png">
 
-    <!-- Using Google Sans font for a professional, consistent look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -109,7 +108,7 @@
       margin-left: -1.5rem;
       margin-right: -1rem;
       /* Re-apply internal padding to align text */
-      padding: 0.75rem 1rem 0.75rem 1.5rem;
+      padding: 0.75rem 1rem 0.75rem 1.5rem; /* ORIGINAL PADDING-LEFT: 1.5rem */
       /* --- END FULL-WIDTH --- */
 
       /* Appearance */
@@ -144,7 +143,7 @@
         display: flex;
         align-items: flex-start;
         position: relative;
-        padding-left: 2.5rem; /* Space for icon (1.5rem) + gap (1rem) */
+        padding-left: 2.5rem; /* Space for icon (1.5rem) + gap (1rem) -> This is the target alignment */
         padding-bottom: 1.5rem; /* space between items */
         cursor: pointer;
     }
@@ -276,6 +275,7 @@
       z-index: 999;
     }
 
+
     /* ===== BURGER ICON (Unchanged) ===== */
     .burger {
       background: #ffffff; /* CHANGED */
@@ -333,6 +333,89 @@
         display: flex;
       }
     }
+    
+    /* ===== ADDITION: SEPARATOR LINK STYLE (MODIFIED FOR ALIGNMENT AND SPACING) ===== */
+    .sidebar-separator-link {
+        /* Style to match the full-width layout of the back button */
+        margin-left: -1.5rem;
+        margin-right: -1rem;
+        padding-top: 1rem;
+        /* Visual separation */
+        border-top: 1px solid #e0e0e0;
+        margin-top: 2.5rem; /* Space above the separator line */
+        flex-shrink: 0;
+        
+        /* FIX: Add spacing below the topics section */
+        padding-bottom: 0.5rem; 
+    }
+
+    /* FIX: ALIGNMENT FOR KNOWLEDGE TEST AND HOME BUTTONS */
+    /* Overrides the original 1.5rem padding-left of .sidebar-back-button
+       to match the stepper's 2.5rem text offset for correct alignment. */
+
+    /*.sidebar-separator-link */
+    
+    a.sidebar-back-button,
+    a[href="index.html"].sidebar-back-button {
+        padding-left: 2.5rem !important; 
+    }
+
+    /* Fix spacing & alignment */
+    .sidebar-separator-link .step-item {
+    padding-left: 2.5rem;
+    }
+
+    .sidebar-separator-link {
+    margin-top: 2rem;
+    padding-top: 24px;
+    padding-left: 0.6rem !important;
+    border-top: 1px solid #e0e0e0;
+    }
+
+    .sidebar-separator-link svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    }
+    /* REMOVE connecting line above Knowledge Test */
+    .knowledge-test-item::before {
+    display: none !important;
+    }
+
+    /* Fix spacing */
+    .knowledge-test-item {
+    margin-top: 0.8rem;
+    padding-bottom: 0;
+    }
+
+    /* Make Feather icon visible (overrides display:none) */
+    .award-icon {
+    display: block !important;
+    width: 0.8rem;
+    height: 0.8rem;
+    color: #64748b;      /* default gray */
+    stroke: #64748b;     /* feather stroke color */
+    transition: all 0.3s ease;
+    }
+
+    /* When Knowledge Test is ACTIVE */
+    .step-item.active .award-icon {
+    stroke: white !important;
+    color: white !important;
+    }
+
+    /* OPTIONAL: when Complete */
+    .step-item.complete .award-icon {
+    stroke: white !important;
+    color: white !important;
+    }
+
+    /* Separator line between main topics and Knowledge Test */
+    .step-separator {
+    border-top: 1px solid #e0e0e0;
+    margin: 2rem 0 1.1rem 0; /* left indent = matches step-item labels */
+    }
+
+
   </style>
 </head>
 <body>
@@ -370,36 +453,27 @@
           <span class="step-label">Dealership Selection</span>
         </div>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-new-appt.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">4</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">New Appointment</span>
-        </div>
-
         <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-new-customer.html')">
           <div class="step-icon">
-            <span class="step-icon-number">5</span>
+            <span class="step-icon-number">4</span>
             <div class="step-icon-dot"></div>
             <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
           </div>
           <span class="step-label">New Customer</span>
         </div>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-add-del-vehicle.html')">
+        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-new-appt.html')">
           <div class="step-icon">
-            <span class="step-icon-number">6</span>
+            <span class="step-icon-number">5</span>
             <div class="step-icon-dot"></div>
             <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
           </div>
-          <span class="step-label">Add/Delete Vehicle</span>
+          <span class="step-label">New Appointment</span>
         </div>
 
         <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-resched-appt.html')">
           <div class="step-icon">
-            <span class="step-icon-number">7</span>
+            <span class="step-icon-number">6</span>
             <div class="step-icon-dot"></div>
             <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
           </div>
@@ -408,7 +482,7 @@
 
         <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-cancel-appt.html')">
           <div class="step-icon">
-            <span class="step-icon-number">8</span>
+            <span class="step-icon-number">7</span>
             <div class="step-icon-dot"></div>
             <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
           </div>
@@ -417,11 +491,20 @@
 
         <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-dms-appt.html')">
           <div class="step-icon">
-            <span class="step-icon-number">9</span>
+            <span class="step-icon-number">8</span>
             <div class="step-icon-dot"></div>
             <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
           </div>
           <span class="step-label">DMS Appointment</span>
+        </div>
+
+        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-add-del-vehicle.html')">
+          <div class="step-icon">
+            <span class="step-icon-number">9</span>
+            <div class="step-icon-dot"></div>
+            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <span class="step-label">Add/Delete Vehicle</span>
         </div>
 
         <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-ro-history.html')">
@@ -440,20 +523,30 @@
             <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
           </div>
           <span class="step-label">Workbook</span>
-        </div>
-
-        <!-- 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-kc.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">12</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">Knowledge Check</span>
-        </div>
-        -->
-
+        </div>        
       </div>
+
+        <!-- SEPARATOR LINE -->
+        <div class="step-separator"></div>
+
+        <!-- KNOWLEDGE TEST (proper alignment + no top connector line) -->
+        <div class="step-item inactive knowledge-test-item"
+            onclick="loadPage(event, './xtime/xtime-knowledge-check.html')">
+
+            <div class="step-icon">
+                <!-- Feather Award Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="award-icon"
+                    width="18" height="18" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 18 17 23 15.79 13.88"></polyline>
+                </svg>
+            </div>
+
+            <span class="step-label">Knowledge Test</span>
+        </div>
+
       <div id="vertical-stepper-container"></div>
 
         <a href="index.html" class="sidebar-back-button">
@@ -508,7 +601,7 @@
     // ===== JAVASCRIPT (MODIFIED) =====
     
     // Get all step items once
-    const allStepItems = document.querySelectorAll("#vertical-stepper-container .step-item");
+    const allStepItems = document.querySelectorAll(".step-item");
 
     // Load iframe pages dynamically
     function loadPage(event, page) {
@@ -551,6 +644,4 @@
     }
   </script>
 </body>
-
 </html>
-

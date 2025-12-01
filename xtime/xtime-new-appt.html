@@ -89,94 +89,11 @@
     .description-card li {
       margin-bottom: 0.4rem;
     }
-    
-    /* ----- Carousel Styles ----- */
-    .video-carousel-wrapper {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      background: #000;
-    }
-    .video-carousel-slides {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
-    }
-    .video-slide {
-      min-width: 100%;
-      position: relative;
-    }
-    .video-slide-content {
-      position: relative;
-      padding-bottom: 56.25%; /* 16:9 */
-      height: 0;
-    }
-    .video-slide-content iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .slide-caption {
-      text-align: center;
-      padding: 1rem;
-      background: #f1f5f9;
-      color: #333;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      background-color: rgba(255, 255, 255, 0.8);
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      transition: background-color 0.2s;
-    }
-    .carousel-btn:hover {
-      background-color: rgba(255, 255, 255, 1);
-    }
-    .carousel-btn.prev {
-      left: 1rem;
-    }
-    .carousel-btn.next {
-      right: 1rem;
-    }
-    .carousel-btn svg {
-      width: 24px;
-      height: 24px;
-      stroke: #333;
-      stroke-width: 3;
-    }
-
     /* Responsive */
     @media (max-width: 720px) {
       .page-container { padding: 1.5rem 1rem 3rem; }
       .page-header h1 { font-size: 1.6rem; }
       .description-card { padding: 1rem 1.2rem; }
-      .carousel-btn {
-        width: 32px;
-        height: 32px;
-      }
-      .carousel-btn svg {
-        width: 20px;
-        height: 20px;
-      }
-      .slide-caption {
-        font-size: 0.8rem;
-      }
     }
 
     /* ===== MODERN GLOBAL SCROLLBAR ===== */
@@ -209,89 +126,17 @@
       <p>Follow these steps to create a new customer appointment.</p>
     </div>
 
-    <!-- ===== VIDEO CAROUSEL ===== -->
-    <div class="video-carousel-wrapper">
-      <div class="video-carousel-slides">
-        <!-- Slide 1 -->
-        <div class="video-slide" data-slide="0">
-          <div class="video-slide-content">
-            <iframe src="about:blank" data-src="../videos/New Appt part 1.mp4" title="New Appointment: Step 1" allowfullscreen sandbox="allow-same-origin allow-fullscreen"></iframe>
-          </div>
-          <div class="slide-caption">Step 1: Select Dealership then Click <strong>New Appointment</strong></div>
-        </div>
-        <!-- Slide 2 -->
-        <div class="video-slide" data-slide="1">
-          <div class="video-slide-content">
-            <iframe src="about:blank" data-src="../videos/New Appt part 2.mp4" title="New Appointment: Step 2" allowfullscreen></iframe>
-          </div>
-          <div class="slide-caption">Step 2: Search for the customer using <strong>Phone number, Name, Email, Vin, or Confirmation Code.</strong></div>
-        </div>
-        <!-- Slide 3 -->
-        <div class="video-slide" data-slide="2">
-          <div class="video-slide-content">
-            <iframe src="about:blank" data-src="../videos/New Appt part 3.mp4" title="New Appointment: Step 3" allowfullscreen></iframe>
-          </div>
-          <div class="slide-caption">Step 3: Verify the <strong>Customer</strong> and their <strong>Vehicle.</strong></div>
-        </div>
-        <!-- Slide 4 -->
-        <div class="video-slide" data-slide="3">
-          <div class="video-slide-content">
-            <iframe src="about:blank" data-src="../videos/New Appt part 4.mp4" title="New Appointment: Step 4" allowfullscreen></iframe>
-          </div>
-          <div class="slide-caption">Step 4: Choose the correct <strong>Service package.</strong></div>
-        </div>
-        <!-- Slide 5 -->
-        <div class="video-slide" data-slide="4">
-          <div class="video-slide-content">
-            <iframe src="about:blank" data-src="../videos/New Appt part 5.mp4" title="New Appointment: Step 5" allowfullscreen></iframe>
-          </div>
-          <div class="slide-caption">Step 5: Select the <strong>Advisor</strong></div>
-        </div>
-        <!-- Slide 6 -->
-        <div class="video-slide" data-slide="5">
-          <div class="video-slide-content">
-            <iframe src="about:blank" data-src="../videos/New Appt part 6.mp4" title="New Appointment: Step 6" allowfullscreen></iframe>
-          </div>
-          <div class="slide-caption">Step 6: Choose the correct <strong>Transportation</strong></div>
-        </div>
-        <!-- Slide 7 -->
-        <div class="video-slide" data-slide="6">
-          <div class="video-slide-content">
-            <iframe src="about:blank" data-src="../videos/New Appt part 7.mp4" title="New Appointment: Step 7" allowfullscreen></iframe>
-          </div>
-          <div class="slide-caption">Step 7: Choose the <strong>Date</strong> and <strong>Time</strong> of the appointment</div>
-        </div>
-        <!-- Slide 8 -->
-        <div class="video-slide" data-slide="7">
-          <div class="video-slide-content">
-            <iframe src="about:blank" data-src="../videos/New Appt part 8.mp4" title="New Appointment: Step 8" allowfullscreen></iframe>
-          </div>
-          <div class="slide-caption">Step 8: Confirm how the customer wants to get their <strong>Appointment Confirmation</strong>.</div>
-        </div>
-        <!-- Slide 9 -->
-        <div class="video-slide" data-slide="8">
-          <div class="video-slide-content">
-            <iframe src="about:blank" data-src="../videos/New Appt part 9.mp4" title="New Appointment: Step 9" allowfullscreen></iframe>
-          </div>
-          <div class="slide-caption">Step 9: Review all details then <strong>Book the appointment.</strong></div>
-        </div>
-      </div>
-      
-      <!-- Chevrons -->
-      <button class="carousel-btn prev" aria-label="Previous Video">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <button class="carousel-btn next" aria-label="Next Video">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
+    <!-- ===== VIDEO ===== -->
+    <div class="video-wrapper">
+      <iframe src="../videos/New Appt.mp4" 
+              title="New Appointment Video" 
+              allowfullscreen
+              allow="autoplay">
+      </iframe>
     </div>
 
     <!-- ===== DESCRIPTION ===== -->
-    <div class="description-card" style="margin-top: 2rem;">
+    <div class="description-card">
       <h2>Take Notes</h2>
       <ul>
         <li>Searching using the <strong>Phone number</strong> is the fastest way to look for the customer's information</li>
@@ -300,59 +145,5 @@
       </ul>
     </div>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const slidesContainer = document.querySelector('.video-carousel-slides');
-      const slides = document.querySelectorAll('.video-slide');
-      const prevBtn = document.querySelector('.carousel-btn.prev');
-      const nextBtn = document.querySelector('.carousel-btn.next');
-      
-      let currentSlide = 0;
-      const totalSlides = slides.length;
-
-      if (totalSlides <= 1) {
-        prevBtn.style.display = 'none';
-        nextBtn.style.display = 'none';
-        return;
-      }
-
-      function goToSlide(slideIndex) {
-        currentSlide = (slideIndex + totalSlides) % totalSlides;
-        
-        // Loop through ALL slides
-        slides.forEach((slide, index) => {
-          const iframe = slide.querySelector('iframe');
-          if (!iframe) return; // safety check
-
-          if (index === currentSlide) {
-            // This is the slide we want to see.
-            // Set its src from its data-src attribute.
-            if (iframe.src !== iframe.dataset.src) {
-              iframe.src = iframe.dataset.src;
-            }
-          } else {
-            // This is a hidden slide.
-            // Set its src to blank to stop any video.
-            iframe.src = 'about:blank';
-          }
-        });
-
-        // Move the carousel
-        slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
-      }
-
-      prevBtn.addEventListener('click', () => {
-        goToSlide(currentSlide - 1);
-      });
-
-      nextBtn.addEventListener('click', () => {
-        goToSlide(currentSlide + 1);
-      });
-
-      // Initialize
-      goToSlide(0);
-    });
-  </script>
 </body>
 </html>

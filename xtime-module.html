@@ -1,647 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Xtime Module</title>
-  <link rel="icon" type="image/png" href="./images/STH icon.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xtime Module</title>
+    <link rel="icon" type="image/png" href="./images/STH-icon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    
-    /* ===== FADE-IN ANIMATION ===== */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
 
-    /* Apply it to your element */
-    .fade-in {
-      opacity: 0;              /* Start invisible */
-      animation: fadeIn 1.5s ease-in forwards;  /* Duration + easing */
-    }
-    /* ===== RESET ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
-    html, body {
-      height: 100%;
-      font-family: 'Google Sans', sans-serif;
-      background-color: #f5f6fa;
-      overflow: hidden;
-    }
+    <link rel="stylesheet" href="./components/xtime-style.css">
 
-    /* ===== LAYOUT ===== */
-    .container {
-      display: flex;
-      height: 100vh;
-      width: 100%;
-      overflow: hidden;
-    }
-
-    /* ===== MODERN GLOBAL SCROLLBAR ===== */
-    ::-webkit-scrollbar {
-    width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-    background: transparent; /* No background on the track */
-    }
-
-    ::-webkit-scrollbar-thumb {
-    background-color: #d1d5db; /* Light gray thumb */
-    border-radius: 20px;
-    /* Create a small border effect */
-    border: 3px solid #ffffff; 
-    background-clip: content-box;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-    background-color: #9ca3af; /* Darker gray on hover */
-    }
-
-    /* ===== SIDEBAR (Retained original layout/color) ===== */
-    .sidebar {
-      width: 260px;
-      background-color: #ffffff; /* CHANGED */
-      color: #1f2937; /* CHANGED */
-      padding: 1.5rem 1rem 1rem 1.5rem; /* Adjusted padding for stepper */
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      z-index: 10;
-      border-right: 1px solid #e0e0e0; /* ADDED */
-      overflow-y: auto;
-    }
-
-    .sidebar h2 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 3.5rem; /* CHANGED: Increased from 1.5rem */
-    padding-left: 0.5rem; /* Align with stepper content */
-    }
-
-    /* ===== SIDEBAR BACK BUTTON (STICKY & FULL-WIDTH) ===== */
-    .sidebar-back-button {
-      /* Spacing & Layout */
-      display: flex;
-      align-items: center;
-      gap: 0.75rem; 
-      margin-top: auto; /* Pushes button to the bottom */
-      
-      /* --- STICKY POSITIONING --- */
-      position: sticky;
-      /* Stick to the bottom padding edge, not the content edge */
-      bottom: -1rem; 
-      background-color: #ffffff; 
-      /* --- END STICKY --- */
-
-      /* --- FULL-WIDTH LAYOUT --- */
-      /* Negative margins to break out of sidebar's padding */
-      margin-left: -1.5rem;
-      margin-right: -1rem;
-      /* Re-apply internal padding to align text */
-      padding: 0.75rem 1rem 0.75rem 1.5rem; /* ORIGINAL PADDING-LEFT: 1.5rem */
-      /* --- END FULL-WIDTH --- */
-
-      /* Appearance */
-      color: #4b5563; 
-      font-weight: 500;
-      font-size: 1.05rem;
-      text-decoration: none;
-      border-radius: 0; /* REMOVED border radius */
-      transition: background-color 0.2s ease, color 0.2s ease;
-      flex-shrink: 0; 
-    }
-
-    .sidebar-back-button:hover {
-      background-color: #f3f4f6;
-      color: #1f2937;
-    }
-
-    .sidebar-back-button svg {
-      flex-shrink: 0;
-    }
-
-    /* ===== START: NEW STEPPER STYLES ===== */
-    /* --- Copied from results.html and adapted for dark theme --- */
-    :root {
-      /* Stepper colors (Adapted for light theme) */
-      --stepper-active-color: #3b82f6; /* bg-blue-500 */
-      --stepper-inactive-color: #e2e8f0; /* CHANGED: bg-slate-200 */
-      --stepper-active-ring: #dbeafe; /* CHANGED: bg-blue-100 */
-    }
-
-    .step-item {
-        display: flex;
-        align-items: flex-start;
-        position: relative;
-        padding-left: 2.5rem; /* Space for icon (1.5rem) + gap (1rem) -> This is the target alignment */
-        padding-bottom: 1.5rem; /* space between items */
-        cursor: pointer;
-    }
-    .step-item:last-child {
-        padding-bottom: 0;
-    }
-    
-    /* The vertical connecting line */
-    .step-item::before {
-        content: '';
-        position: absolute;
-        left: 0.75rem; /* Centered with 1.5rem icon */
-        top: 1.5rem; /* Start below the icon */
-        bottom: -0.5rem; /* Connect to next item's top */
-        width: 2px;
-        background-color: var(--stepper-inactive-color);
-        transition: background-color 0.3s ease;
-    }
-    .step-item:last-child::before {
-        display: none; /* No line after the last item */
-    }
-
-    /* The icon/indicator */
-    .step-icon {
-        display: flex;
-        flex-shrink: 0;
-        align-items: center;
-        justify-content: center;
-        width: 1.5rem; /* 24px */
-        height: 1.5rem; /* 24px */
-        border-radius: 9999px;
-        background-color: var(--stepper-inactive-color);
-        color: #64748b; /* CHANGED: text-slate-500 */
-        position: absolute;
-        left: 0;
-        top: 0;
-        transition: all 0.3s ease;
-    }
-    
-    /* Text Label */
-    .step-label {
-        color: #64748b; /* CHANGED: text-slate-500 */
-        font-weight: 500;
-        transition: all 0.3s ease;
-        font-size: 1.05rem; /* ADDED: A bit larger than default */
-    }
-    .step-item:hover .step-label {
-        color: #334155; /* CHANGED: text-slate-700 */
-    }
-    .step-item:hover .step-icon {
-        /* This dark-theme hover effect is no longer needed. 
-          You can delete the rule. */
-    }
-
-
-    /* --- STATES --- */
-    .step-icon-number,
-    .step-icon-dot,
-    .step-icon-check {
-        display: none;
-    }
-
-    /* Inactive State (Default) */
-    .step-item.inactive .step-icon-number {
-        display: block;
-        font-size: 0.75rem; /* 12px */
-        font-weight: 600;
-    }
-
-    /* Active State */
-    .step-item.active .step-icon {
-        background-color: var(--stepper-active-color);
-        box-shadow: 0 0 0 4px var(--stepper-active-ring); 
-    }
-    .step-item.active .step-icon-dot {
-        display: block;
-        width: 0.5rem; /* 8px */
-        height: 0.5rem; /* 8px */
-        background-color: white;
-        border-radius: 9999px;
-    }
-    .step-item.active .step-label {
-        color: var(--stepper-active-color);
-        font-weight: 600;
-    }
-
-    /* Complete State (We'll use 'inactive' for all non-active items) */
-    .step-item.complete .step-icon {
-        background-color: var(--stepper-active-color);
-        color: white;
-    }
-    .step-item.complete .step-icon-check {
-        display: block;
-        width: 0.875rem; /* 14px */
-        height: 0.875rem; /* 14px */
-    }
-    .step-item.complete .step-label {
-        color: #1f2937; /* CHANGED: text-gray-800 */
-        font-weight: 600;
-    }
-    .step-item.complete::before {
-         background-color: var(--stepper-active-color);
-    }
-    /* ===== END: NEW STEPPER STYLES ===== */
-
-
-    /* ===== MAIN CONTENT (Unchanged) ===== */
-    .main-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* ===== HEADER (Unchanged) ===== */
-    header {
-      background: #fff;
-      padding: 1.25rem 1.5rem;
-      font-weight: 600;
-      font-size: 1.5rem;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-                  0 2px 4px -2px rgb(0 0 0 / 0.1);
-      display: flex;
-      align-items: center;
-
-      /* 👇 MAKE IT STICKY */
-      position: sticky;
-      top: 0;
-      z-index: 999;
-    }
-
-
-    /* ===== BURGER ICON (Unchanged) ===== */
-    .burger {
-      background: #ffffff; /* CHANGED */
-      border: 1px solid #e0e0e0; /* CHANGED */
-      color: #333; /* CHANGED */
-      font-size: 22px;
-      cursor: pointer;
-      width: 38px;
-      height: 38px;
-      border-radius: 6px;
-      display: none; /* Hidden on desktop */
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s;
-      margin-right: 1rem;
-    }
-
-    .burger:hover {
-      background: #f5f6fa; /* CHANGED */
-    }
-
-    /* ===== IFRAME WRAPPER (Unchanged) ===== */
-    .iframe-wrapper {
-      position: relative;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      overflow: auto;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    /* ===== RESPONSIVE (Unchanged) ===== */
-    @media (max-width: 900px) {
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        transform: translateX(-100%);
-        z-index: 100;
-      }
-
-      .sidebar.active {
-        transform: translateX(0);
-      }
-
-      .burger {
-        display: flex;
-      }
-    }
-    
-    /* ===== ADDITION: SEPARATOR LINK STYLE (MODIFIED FOR ALIGNMENT AND SPACING) ===== */
-    .sidebar-separator-link {
-        /* Style to match the full-width layout of the back button */
-        margin-left: -1.5rem;
-        margin-right: -1rem;
-        padding-top: 1rem;
-        /* Visual separation */
-        border-top: 1px solid #e0e0e0;
-        margin-top: 2.5rem; /* Space above the separator line */
-        flex-shrink: 0;
-        
-        /* FIX: Add spacing below the topics section */
-        padding-bottom: 0.5rem; 
-    }
-
-    /* FIX: ALIGNMENT FOR KNOWLEDGE TEST AND HOME BUTTONS */
-    /* Overrides the original 1.5rem padding-left of .sidebar-back-button
-       to match the stepper's 2.5rem text offset for correct alignment. */
-
-    /*.sidebar-separator-link */
-    
-    a.sidebar-back-button,
-    a[href="index.html"].sidebar-back-button {
-        padding-left: 2.5rem !important; 
-    }
-
-    /* Fix spacing & alignment */
-    .sidebar-separator-link .step-item {
-    padding-left: 2.5rem;
-    }
-
-    .sidebar-separator-link {
-    margin-top: 2rem;
-    padding-top: 24px;
-    padding-left: 0.6rem !important;
-    border-top: 1px solid #e0e0e0;
-    }
-
-    .sidebar-separator-link svg {
-    width: 1.2rem;
-    height: 1.2rem;
-    }
-    /* REMOVE connecting line above Knowledge Test */
-    .knowledge-test-item::before {
-    display: none !important;
-    }
-
-    /* Fix spacing */
-    .knowledge-test-item {
-    margin-top: 0.8rem;
-    padding-bottom: 0;
-    }
-
-    /* Make Feather icon visible (overrides display:none) */
-    .award-icon {
-    display: block !important;
-    width: 0.8rem;
-    height: 0.8rem;
-    color: #64748b;      /* default gray */
-    stroke: #64748b;     /* feather stroke color */
-    transition: all 0.3s ease;
-    }
-
-    /* When Knowledge Test is ACTIVE */
-    .step-item.active .award-icon {
-    stroke: white !important;
-    color: white !important;
-    }
-
-    /* OPTIONAL: when Complete */
-    .step-item.complete .award-icon {
-    stroke: white !important;
-    color: white !important;
-    }
-
-    /* Separator line between main topics and Knowledge Test */
-    .step-separator {
-    border-top: 1px solid #e0e0e0;
-    margin: 2rem 0 1.1rem 0; /* left indent = matches step-item labels */
-    }
-
-
-  </style>
 </head>
-<body>
-  <div class="container">
-    
-    <aside class="sidebar" id="sidebar">
-      <h2>Topics: </h2>
-      
-      <div id="vertical-stepper-container">
-        
-        <div class="step-item active" onclick="loadPage(event, './xtime/xtime-intro.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">1</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">Introduction</span>
+
+<body class="font-inter bg-white text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50 transition-all duration-300 hover:shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold flex items-center">
+                <span class="text-primary">Scheduler</span><span class="text-secondary">TrainingHub</span>
+            </a>
+            <a href="index.html"
+                class="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium hover:bg-primary/20 transition flex items-center gap-2">
+                <i data-feather="arrow-left"></i>
+                Modules
+            </a>
         </div>
+    </nav>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-login.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">2</span> 
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">Loggin in</span>
+    <main class="flex-grow">
+
+        <section class="relative overflow-hidden">
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 -skew-y-3 transform origin-top-left">
+            </div>
+            <div class="container mx-auto px-6 py-28 relative z-10">
+                <div class="max-w-3xl mx-auto text-center">
+                    <div class="inline-block mb-6 px-4 py-2 bg-white rounded-full shadow-md">
+                        <span class="text-sm font-semibold text-primary">Xtime Module</span>
+                    </div>
+                    <h1 class="text-5xl md:text-6xl font-bold mb-4 leading-tight">
+                        <span
+                            class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary font-extrabold">Master</span>
+                        the Scheduler
+                    </h1>
+                    <div class="flex justify-center items-center text-gray-600 mb-8 font-medium">
+                        <i data-feather="clock" class="w-4 h-4 mr-1 text-secondary"></i>
+                        <span>Approximate Time: 35 min</span>
+                    </div>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-16">
+                        Learn the complete Xtime appointment flow through interactive elements and visual storytelling.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20" id="booking-flow">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold mb-4">Appointment Booking Flow</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Follow the journey from customer search to final
+                        confirmation</p>
+                </div>
+
+                <div class="timeline-container relative">
+                    <div
+                        class="absolute left-1/2 h-full w-1 bg-gradient-to-b from-primary to-secondary transform -translate-x-1/2">
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-8">
+                        <div class="timeline-row grid md:grid-cols-2 gap-8">
+                            <div class="timeline-card left" data-aos="fade-right">
+                                <div class="timeline-content">
+                                    <div class="timeline-number">1</div>
+                                    <div class="timeline-details">
+                                        <h3 class="text-xl font-bold mb-2">Search Customer</h3>
+                                        <p class="text-gray-600">Begin by locating the customer in the system using
+                                            name, phone, or email.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="timeline-card right" data-aos="fade-left" data-aos-delay="100">
+                                <div class="timeline-content">
+                                    <div class="timeline-number">2</div>
+                                    <div class="timeline-details">
+                                        <h3 class="text-xl font-bold mb-2">Select Vehicle</h3>
+                                        <p class="text-gray-600">Choose the correct vehicle from the customer's profile
+                                            or add a new one.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-row grid md:grid-cols-2 gap-8">
+                            <div class="timeline-card left" data-aos="fade-right" data-aos-delay="200">
+                                <div class="timeline-content">
+                                    <div class="timeline-number">3</div>
+                                    <div class="timeline-details">
+                                        <h3 class="text-xl font-bold mb-2">Add Services</h3>
+                                        <p class="text-gray-600">Select the required services from the menu or create
+                                            custom service requests.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="timeline-card right" data-aos="fade-left" data-aos-delay="300">
+                                <div class="timeline-content">
+                                    <div class="timeline-number">4</div>
+                                    <div class="timeline-details">
+                                        <h3 class="text-xl font-bold mb-2">Pick Advisor & Transportation</h3>
+                                        <p class="text-gray-600">Assign a service advisor and select transportation
+                                            options if needed.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-row grid md:grid-cols-2 gap-8">
+                            <div class="timeline-card left" data-aos="fade-right" data-aos-delay="400">
+                                <div class="timeline-content">
+                                    <div class="timeline-number">5</div>
+                                    <div class="timeline-details">
+                                        <h3 class="text-xl font-bold mb-2">Pick Date & Time</h3>
+                                        <p class="text-gray-600">Choose an available time slot that works for both the
+                                            shop and customer.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="timeline-card right" data-aos="fade-left" data-aos-delay="500">
+                                <div class="timeline-content">
+                                    <div class="timeline-number">6</div>
+                                    <div class="timeline-details">
+                                        <h3 class="text-xl font-bold mb-2">Confirm</h3>
+                                        <p class="text-gray-600">Review all details and finalize the appointment with
+                                            the customer.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gradient-to-r from-primary to-secondary">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="text-3xl font-bold text-white mb-6">Video tutorials</h2>
+                    <p class="text-white/90 mb-2">Short, focused videos covering key workflows.</p>
+                    <div class="flex justify-center items-center text-white mb-8">
+                        <i data-feather="clock" class="w-4 h-4 mr-1 text-secondary"></i>
+                        <span>Approximate Time: 10 min</span>
+                    </div>
+                    <button id="openPlayer"
+                        class="inline-block px-8 py-4 bg-white text-primary font-bold rounded-full shadow-lg hover:bg-gray-100 transition transform hover:-translate-y-1 hover:shadow-xl">
+                        Start Watching
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gray-50" id="shops">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold mb-4">Service Shop Types</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Understanding the different shop configurations and their
+                        purposes
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+
+                    <div class="shop-card" data-aos="fade-up">
+                        <div class="shop-icon bg-primary/10">
+                            <i data-feather="zap" class="text-primary"></i>
+                        </div>
+                        <h3 class="shop-title text-primary">Express Shop</h3>
+                        <p class="shop-description">Handles <strong>Regular Maintenance</strong> such as Oil Changes,
+                            Tire
+                            rotations, Cabin Air Filter replacement, Engine Air Filter replacement, etc.</p>
+                        <div class="shop-tag">Quick Service</div>
+                    </div>
+
+                    <div class="shop-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="shop-icon bg-primary/10">
+                            <i data-feather="tool" class="text-primary"></i>
+                        </div>
+                        <h3 class="shop-title text-primary">Main Shop</h3>
+                        <p class="shop-description">Dedicated to any type of <strong>Diagnostic</strong> or
+                            <strong>Heavy/Major
+                                Repair</strong>, and all <strong>Recalls</strong>.
+                        </p>
+                        <div class="shop-tag">Complex Repairs</div>
+                    </div>
+
+                    <div class="shop-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="shop-icon bg-primary/10">
+                            <i data-feather="truck" class="text-primary"></i>
+                        </div>
+                        <h3 class="shop-title text-primary">Body Shop</h3>
+                        <p class="shop-description">A certified location for collision repairs, dents, paint missing,
+                            and
+                            frame/chassis work.</p>
+                        <div class="shop-tag">Collision Center</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20" id="transportation">
+            <div class="container mx-auto px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold mb-4">Transportation Options</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Various ways to accommodate customers during service
+                        visits</p>
+                </div>
+
+                <div class="transportation-grid">
+                    <div class="transportation-card" data-aos="fade-up">
+                        <div class="transportation-content">
+                            <h3 class="transportation-title">Shuttle</h3>
+                            <p class="transportation-description">Generally a service provided by the service department
+                                to cater the
+                                customer home, or to a business while their vehicle is being worked on.</p>
+                        </div>
+                    </div>
+
+                    <div class="transportation-card" data-aos="fade-up" data-aos-delay="50">
+                        <div class="transportation-content">
+                            <h3 class="transportation-title">Loaner</h3>
+                            <p class="transportation-description">Temporary replacement vehicle paid by
+                                <strong>Warranty</strong> to
+                                accommodate a customer for the inconvenience of bringing in their vehicle for repairs.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="transportation-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="transportation-content">
+                            <h3 class="transportation-title">Rental</h3>
+                            <p class="transportation-description">Temporary replacement vehicles for repairs during a
+                                service that are
+                                paid for <strong>by the customer</strong>.</p>
+                        </div>
+                    </div>
+
+                    <div class="transportation-card" data-aos="fade-up" data-aos-delay="150">
+                        <div class="transportation-content">
+                            <h3 class="transportation-title">Valet</h3>
+                            <p class="transportation-description">When two advisors (or representatives) use a company
+                                vehicle to pick
+                                up the customer's vehicle at their house for service.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gradient-to-r from-primary to-secondary">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="text-3xl font-bold text-white mb-6">Ready to Test Your Knowledge?</h2>
+                    <p class="text-white/90 mb-8">You've mastered the Xtime fundamentals. Click below to take the final assessment.</p>
+                    <button id="openAssessment"
+                        class="inline-block px-8 py-4 bg-white text-primary font-bold rounded-full shadow-lg hover:bg-gray-100 transition transform hover:-translate-y-1 hover:shadow-xl">
+                        Start Assessment
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <span class="text-primary">Scheduler</span><span class="text-secondary">TrainingHub</span>
+                    </h3>
+                    <p class="text-gray-400 mb-9">Empowering your scheduling expertise.</p>
+                    <img src="./images/DeaerFocus logo.png" alt="Company Logo" class="h-16 w-auto">
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Modules</h4>
+                    <ul class="space-y-2">
+                        <li><a href="xtime-module.html" class="text-gray-400 hover:text-white transition">Xtime</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">CDK</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Autoloop</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Online</a></li>
+                    </ul>
+                </div>
+
+                <!--
+                <div>
+                    <h4 class="font-bold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i data-feather="youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                -->
+
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 SchedulerTrainingHub. All rights reserved.</p>
+            </div>
         </div>
+    </footer>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-delership-select.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">3</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">Dealership Selection</span>
-        </div>
+    <div class="video-overlay" id="overlay">
+        <div class="video-player">
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-new-customer.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">4</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">New Customer</span>
-        </div>
+            <aside class="playlist">
+                <h3>Video Playlist</h3>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-new-appt.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">5</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">New Appointment</span>
-        </div>
+                <div class="video-item active" data-src="./videos/Xtime-login.mp4">
+                    Xtime Login
+                    <span>Length 00:23</span>
+                </div>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-resched-appt.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">6</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">Rescheduling</span>
-        </div>
+                <div class="video-item" data-src="./videos/Dealership Selection.mp4">
+                    Dealership Selection
+                    <span>Length 00:14</span>
+                </div>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-cancel-appt.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">7</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">Canceling</span>
-        </div>
+                <div class="video-item" data-src="./videos/Add new customer.mp4">
+                    New Customer
+                    <span>Length 00:35</span>
+                </div>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-dms-appt.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">8</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">DMS Appointment</span>
-        </div>
+                <div class="video-item" data-src="./videos/New Appt.mp4">
+                    New Appointment
+                    <span>Length 02:41</span>
+                </div>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-add-del-vehicle.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">9</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">Add/Delete Vehicle</span>
-        </div>
+                <div class="video-item" data-src="./videos/Resched-appt.mp4">
+                    Reschedule Appointment
+                    <span>Length 0:45</span>
+                </div>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-ro-history.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">10</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">RO History</span>
-        </div>
+                <div class="video-item" data-src="./videos/Cancel-appt.mp4">
+                    Cancel Appointment
+                    <span>Length 0:30</span>
+                </div>
 
-        <div class="step-item inactive" onclick="loadPage(event, './xtime/xtime-workbook.html')">
-          <div class="step-icon">
-            <span class="step-icon-number">11</span>
-            <div class="step-icon-dot"></div>
-            <svg class="step-icon-check" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-          </div>
-          <span class="step-label">Workbook</span>
-        </div>        
-      </div>
+                <div class="video-item" data-src="./videos/DMS-appt.mp4">
+                    DMS Appointment
+                    <span>Length 0:42</span>
+                </div>
 
-        <!-- SEPARATOR LINE -->
-        <div class="step-separator"></div>
+                <div class="video-item" data-src="./videos/Add new vehicle.mp4">
+                    Add Vehicle
+                    <span>Length 0:49</span>
+                </div>
 
-        <!-- KNOWLEDGE TEST (proper alignment + no top connector line) -->
-        <div class="step-item inactive knowledge-test-item"
-            onclick="loadPage(event, './xtime/xtime-knowledge-check.html')">
+                <div class="video-item" data-src="./videos/Remove vehicle.mp4">
+                    Remove Vehicle
+                    <span>Length 0:38</span>
+                </div>
 
-            <div class="step-icon">
-                <!-- Feather Award Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="award-icon"
-                    width="18" height="18" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    viewBox="0 0 24 24">
-                <circle cx="12" cy="8" r="7"></circle>
-                <polyline points="8.21 13.89 7 23 12 18 17 23 15.79 13.88"></polyline>
-                </svg>
+                <div class="video-item" data-src="./videos/RO-history.mp4">
+                    RO history
+                    <span>Length 0:34</span>
+                </div>
+
+                <div class="video-item" data-src="./videos/Workbook.mp4">
+                    Workbook
+                    <span>Length 0:32</span>
+                </div>
+            </aside>
+
+            <div class="player-main">
+                <div class="player-header">
+                    <button class="close-btn" id="closePlayer">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+
+                <video id="video" src="./videos/Xtime-login.mp4"></video>
+
+                <div class="controls">
+                    <button id="playPause"><i data-feather="play"></i></button>
+
+                    <div class="progress" id="progress">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+
+                    <span class="time-display text-xs" id="timeDisplay">00:00 / 00:00</span>
+
+                    <button id="mute"><i data-feather="volume-2"></i></button>
+                    <button id="fullscreen"><i data-feather="maximize-2"></i></button>
+                </div>
             </div>
 
-            <span class="step-label">Knowledge Test</span>
+        </div>
+        
+        <div class="custom-modal-overlay hidden" id="warningModal">
+            <div class="custom-modal-content">
+                <h4 class="text-lg font-semibold text-gray-800">Video Access Blocked</h4>
+                <p class="text-gray-600 mt-2">Please finish the previous video before moving to this one.</p>
+                <button class="modal-close-btn bg-primary text-white hover:bg-primary/90 transition-colors" id="closeWarningModal">
+                    Close
+                </button>
+            </div>
+        </div>
         </div>
 
-      <div id="vertical-stepper-container"></div>
-
-        <a href="index.html" class="sidebar-back-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            <span>Home page</span>
-        </a>
-
-    </aside>
-
-    <div class="main-content">
-      <header>
-        <button class="burger" id="burger">&#9776;</button>
-        Xtime Scheduler
-      </header>
-
-      <div class="iframe-wrapper" id="iframeWrapper">
-        <iframe id="contentFrame" src="./xtime/xtime-intro.html"></iframe>
-      </div>
+    <div class="assessment-overlay" id="assessment-overlay">
+        <div class="assessment-form-container">
+            <div class="assessment-header">
+                <h3 class="text-xl font-bold text-white">Xtime Module Assessment</h3>
+                <button class="close-btn" id="closeAssessment">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSebirDYg0xVfZvbmnExukJLNtoSpkai48p0-KhRdSWCFkWWyA/viewform?embedded=true"
+                width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">
+                Loading…
+            </iframe>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const burger = document.getElementById("burger");
-    const sidebar = document.getElementById("sidebar");
-    const contentFrame = document.getElementById("contentFrame");
-
-    // Toggle sidebar visibility (Unchanged)
-    burger.addEventListener("click", () => {
-      sidebar.classList.toggle("active");
-    });
-
-    // Hide sidebar when clicking outside (mobile) (Unchanged)
-    document.addEventListener("click", (e) => {
-      if (
-        window.innerWidth <= 900 &&
-        !sidebar.contains(e.target) &&
-        !burger.contains(e.target)
-      ) {
-        sidebar.classList.remove("active");
-      }
-    });
-
-    // Reset on resize (Unchanged)
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 900) {
-        sidebar.classList.remove("active");
-      }
-    });
-
-    // ===== JAVASCRIPT (MODIFIED) =====
-    
-    // Get all step items once
-    const allStepItems = document.querySelectorAll(".step-item");
-
-    // Load iframe pages dynamically
-    function loadPage(event, page) {
-      event.preventDefault();
-      contentFrame.src = page;
-      
-      // Get the step-item that was clicked
-      const clickedItem = event.currentTarget;
-
-      // Find the index of the clicked item
-      let clickedIndex = -1;
-      allStepItems.forEach((item, index) => {
-        if (item === clickedItem) {
-          clickedIndex = index;
-        }
-      });
-
-      if (clickedIndex === -1) return; // Exit if not found
-
-      // Loop over ALL step-items and apply new logic
-      allStepItems.forEach((item, index) => {
-        // Remove all state classes first
-        item.classList.remove("active", "inactive", "complete");
-
-        // Apply logic from results.html:
-        // - index < clickedIndex -> complete
-        // - index == clickedIndex -> active
-        // - index > clickedIndex -> inactive
-        if (index < clickedIndex) {
-            item.classList.add("complete");
-        } else if (index === clickedIndex) {
-            item.classList.add("active");
-        } else {
-            item.classList.add("inactive");
-        }
-      });
-
-      // Hide sidebar on mobile after clicking a link
-      if (window.innerWidth <= 900) sidebar.classList.remove("active");
-    }
-  </script>
+    <script src="./components/xtime-script.js"></script>
 </body>
+
 </html>

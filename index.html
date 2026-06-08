@@ -1,277 +1,951 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scheduler Synapse Sparkles</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/feather-icons"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DealerFocus — Transfer QA Coaching Form</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .bg-gradient-mesh {
-            background: linear-gradient(135deg, #f3f0ff 0%, #fff 50%, #fff7ed 100%);
-        }
+  :root {
+    --navy: #1a2a4a;
+    --navy-light: #243355;
+    --red: #c0392b;
+    --red-light: #e74c3c;
+    --green: #1e7e4a;
+    --green-light: #27ae60;
+    --gold: #d4a017;
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --border: #dde1e9;
+    --text: #1c2333;
+    --muted: #5a6478;
+    --pass-bg: #eafaf1;
+    --fail-bg: #fdf0ee;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(26,42,74,0.08);
+  }
 
-        .text-gradient {
-            background: linear-gradient(to right, #6366f1, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
 
-        .btn-gradient {
-            background: linear-gradient(to right, #6366f1, #4f46e5);
-            transition: all 0.3s ease;
-        }
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--red);
+  }
+  .header-brand {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .logo-box {
+    background: white;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+  }
+  .logo-box span { color: var(--red); }
+  .header-title {
+    color: white;
+    font-size: 13px;
+    font-weight: 400;
+    opacity: 0.75;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .live-score-badge {
+    background: var(--red);
+    color: white;
+    border-radius: 8px;
+    padding: 8px 18px;
+    text-align: center;
+  }
+  .live-score-badge .score-val {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .live-score-badge .score-lbl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
 
-        .btn-gradient:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-        }
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
 
-        .full-width-gradient {
-            background: linear-gradient(to right, #6366f1, #f59e0b);
-            position: relative;
-            overflow: hidden;
-        }
+  /* META INFO CARD */
+  .meta-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px 24px;
+    margin-bottom: 22px;
+  }
+  .meta-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .meta-field label {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .meta-field input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    background: #fbfcfd;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .meta-field input:focus { border-color: var(--navy); }
 
-        .full-width-gradient::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-        }
+  /* SECTION */
+  .section {
+    margin-bottom: 18px;
+  }
+  .section-header {
+    background: var(--navy);
+    color: white;
+    padding: 10px 16px;
+    border-radius: var(--radius) var(--radius) 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-header .section-pts {
+    margin-left: auto;
+    font-size: 11px;
+    opacity: 0.7;
+    font-weight: 400;
+  }
 
-        .feature-card {
-            transition: all 0.3s ease;
-        }
+  /* QA ROW */
+  .qa-rows {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .qa-row {
+    display: grid;
+    grid-template-columns: 26px 1fr 120px 80px;
+    align-items: start;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    transition: background 0.1s;
+  }
+  .qa-row:last-child { border-bottom: none; }
+  .qa-row:hover { background: #fafbfc; }
+  .qa-row.scored-pass { background: var(--pass-bg); }
+  .qa-row.scored-fail { background: #fffaf9; }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
+  .row-num {
+    width: 24px; height: 24px;
+    background: var(--navy-light);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .row-text {
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--text);
+  }
+  .row-text .criteria-note {
+    display: block;
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .row-pts {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 3px;
+  }
+  .row-pts strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    font-family: 'IBM Plex Mono', monospace;
+  }
 
-        .stat-item {
-            position: relative;
-        }
+  /* SCORE BUTTONS */
+  .score-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .score-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.15s;
+    text-align: center;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+  .score-btn.yes {
+    background: #eafaf1;
+    border-color: #a9dfbf;
+    color: var(--green);
+  }
+  .score-btn.yes:hover, .score-btn.yes.active {
+    background: var(--green-light);
+    border-color: var(--green);
+    color: white;
+  }
+  .score-btn.no {
+    background: #fdf0ee;
+    border-color: #f5b7b1;
+    color: var(--red);
+  }
+  .score-btn.no:hover, .score-btn.no.active {
+    background: var(--red-light);
+    border-color: var(--red);
+    color: white;
+  }
+  .score-btn.na {
+    background: #f4f5f7;
+    border-color: var(--border);
+    color: var(--muted);
+    font-size: 11px;
+  }
+  .score-btn.na:hover, .score-btn.na.active {
+    background: #dde1e9;
+    color: var(--text);
+  }
 
-        .stat-item::after {
-            content: '';
-            position: absolute;
-            right: -1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 50%;
-            width: 1px;
-            background: rgba(0, 0, 0, 0.1);
-        }
+  /* ZERO TOLERANCE */
+  .zero-tol-row {
+    display: grid;
+    grid-template-columns: 26px 1fr 120px;
+    align-items: start;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .zero-tol-row:last-child { border-bottom: none; }
+  .zero-tag {
+    display: inline-block;
+    background: #c0392b;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .zero-fail-btn {
+    padding: 7px 10px;
+    background: #fdf0ee;
+    border: 1.5px solid #f5b7b1;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .zero-fail-btn:hover, .zero-fail-btn.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+  }
+  .zero-pass-btn {
+    padding: 7px 10px;
+    background: #eafaf1;
+    border: 1.5px solid #a9dfbf;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green);
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+    transition: all 0.15s;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  .zero-pass-btn:hover, .zero-pass-btn.active {
+    background: var(--green-light);
+    border-color: var(--green-light);
+    color: white;
+  }
 
-        .stat-item:last-child::after {
-            display: none;
-        }
+  /* REASON + NOTES */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .notes-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .notes-header {
+    background: var(--navy);
+    color: white;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .notes-card textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 14px 16px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    resize: vertical;
+    min-height: 90px;
+    background: transparent;
+    line-height: 1.6;
+  }
 
-        @media (max-width: 768px) {
-            .stat-item::after {
-                display: none;
-            }
-        }
-    </style>
+  /* RESULT BANNER */
+  .result-banner {
+    margin-top: 22px;
+    border-radius: var(--radius);
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid transparent;
+  }
+  .result-banner.pass {
+    background: #eafaf1;
+    border-color: #27ae60;
+  }
+  .result-banner.fail {
+    background: #fdf0ee;
+    border-color: #e74c3c;
+  }
+  .result-banner.pending {
+    background: #f4f5f7;
+    border-color: var(--border);
+  }
+  .result-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .result-grade {
+    font-size: 48px;
+    font-weight: 600;
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1;
+  }
+  .result-banner.pass .result-grade { color: var(--green); }
+  .result-banner.fail .result-grade { color: var(--red); }
+  .result-banner.pending .result-grade { color: var(--muted); }
+  .result-status {
+    font-size: 13px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .result-banner.pass .result-status { color: var(--green); }
+  .result-banner.fail .result-status { color: var(--red); }
+
+  /* SUBMIT */
+  .actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+  .btn-reset {
+    padding: 10px 22px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    background: white;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-reset:hover { border-color: var(--navy); color: var(--navy); }
+  .btn-print {
+    padding: 10px 22px;
+    border: 1.5px solid var(--navy);
+    border-radius: 7px;
+    background: var(--navy);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-print:hover { background: var(--navy-light); }
+
+  .autofail-banner {
+    display: none;
+    background: #c0392b;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 8px;
+    text-align: center;
+  }
+  .autofail-banner.show { display: block; }
+
+  .progress-bar-wrap {
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--navy);
+    transition: width 0.3s;
+  }
+  .progress-bar-fill.pass { background: var(--green-light); }
+  .progress-bar-fill.fail { background: var(--red-light); }
+
+  @media print {
+    .header { break-inside: avoid; }
+    .actions { display: none; }
+    body { background: white; }
+  }
+</style>
 </head>
+<body>
 
-<body class="bg-white antialiased">
+<div class="header">
+  <div class="header-brand">
+    <div class="logo-box">Dealer<span>Focus</span></div>
+    <div>
+      <div style="color:white;font-size:15px;font-weight:600;">Transfer Call — QA Coaching Form</div>
+      <div class="header-title">Agent Self-Audit &amp; Coaching Tool</div>
+    </div>
+  </div>
+  <div class="live-score-badge">
+    <div class="score-val" id="live-score">0</div>
+    <div class="score-lbl">/ 100 pts</div>
+  </div>
+</div>
 
-    <nav class="container mx-auto px-6 py-6 flex justify-between items-center">
-        <div class="flex items-center space-x-1">
-            <span class="text-blue-600 font-bold text-2xl">Scheduler</span>
-            <span class="text-orange-400 font-bold text-2xl">TrainingHub</span>
+<div class="main">
+
+  <!-- META INFO -->
+  <div class="meta-card">
+    <div class="meta-title">Call Information</div>
+    <div class="meta-grid">
+      <div class="meta-field">
+        <label>Agent Name</label>
+        <input type="text" id="agent-name" placeholder="Enter full name">
+      </div>
+      <div class="meta-field">
+        <label>Call Date</label>
+        <input type="date" id="call-date">
+      </div>
+      <div class="meta-field">
+        <label>Customer Name</label>
+        <input type="text" id="cust-name" placeholder="Customer full name">
+      </div>
+      <div class="meta-field">
+        <label>Customer Phone #</label>
+        <input type="text" id="cust-phone" placeholder="(555) 000-0000">
+      </div>
+      <div class="meta-field">
+        <label>Dealership Name</label>
+        <input type="text" id="dealer-name" placeholder="Dealership">
+      </div>
+      <div class="meta-field">
+        <label>Call Disposition</label>
+        <input type="text" id="disposition" placeholder="e.g. Warm Transfer – Service">
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: CALL FLOW -->
+  <div class="section">
+    <div class="section-header">
+      <span>1 — Call Flow Procedure</span>
+      <span class="section-pts" id="s1-pts">0 / 20 pts</span>
+    </div>
+    <div class="qa-rows">
+      <div class="qa-row" id="row-1">
+        <div class="row-num">1</div>
+        <div class="row-text">
+          Agent used proper branding — announced the dealership name?
         </div>
-    </nav>
-
-    <section class="bg-gradient-mesh py-24">
-        <div class="container mx-auto px-6 text-center">
-            <div class="max-w-4xl mx-auto">
-                <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
-                    <span class="text-gradient">Master Scheduling</span>
-                    <br>in Minutes
-                </h1>
-                <p class="text-gray-500 text-xl mb-10">
-                    Bite-sized, interactive lessons designed for the modern learner.
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="./sign.html"
-                        class="btn-gradient text-white px-8 py-4 rounded-full flex items-center justify-center font-semibold text-lg hover:shadow-xl">
-                        Start Learning Now <i data-feather="arrow-right" class="ml-3 w-5 h-5"></i>
-                    </a>
-                    <a href="#how-it-works"
-                        class="bg-white border border-gray-200 text-gray-700 px-8 py-4 rounded-full flex items-center justify-center font-semibold text-lg hover:bg-gray-50 transition-colors">
-                        See How It Works
-                    </a>
-                </div>
-            </div>
+        <div class="row-pts"><strong>10</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(1,10,'yes')">Yes — Full Points</button>
+          <button class="score-btn no" onclick="score(1,0,'no')">No — 0 Points</button>
         </div>
-    </section>
-
-    <section class="py-16 border-b border-gray-100 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-wrap justify-center stat-item-container">
-                <div class="stat-item px-8 py-4 text-center">
-                    <div class="text-4xl font-bold text-indigo-600">95%</div>
-                    <div class="text-sm text-gray-500 uppercase tracking-widest mt-2">Completion</div>
-                </div>
-                <div class="stat-item px-8 py-4 text-center">
-                    <div class="text-4xl font-bold text-orange-400">10x</div>
-                    <div class="text-sm text-gray-500 uppercase tracking-widest mt-2">Faster</div>
-                </div>
-                <div class="stat-item px-8 py-4 text-center">
-                    <div class="text-4xl font-bold text-indigo-600">35min</div>
-                    <div class="text-sm text-gray-500 uppercase tracking-widest mt-2">Avg Lesson</div>
-                </div>
-                <div class="stat-item px-8 py-4 text-center">
-                    <div class="text-4xl font-bold text-orange-400">100%</div>
-                    <div class="text-sm text-gray-500 uppercase tracking-widest mt-2">Satisfaction</div>
-                </div>
-            </div>
+      </div>
+      <div class="qa-row" id="row-2">
+        <div class="row-num">2</div>
+        <div class="row-text">
+          Agent introduced themselves by name?
         </div>
-    </section>
-
-    <section id="how-it-works" class="py-24 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="text-center max-w-2xl mx-auto mb-20">
-                <h2 class="text-4xl font-bold mb-6">Transform Your Skills in 3 Simple Steps</h2>
-                <p class="text-gray-500 text-lg">Our proven method makes mastering scheduling tools effortless and
-                    effective.</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="feature-card bg-gray-50 p-10 rounded-2xl text-center hover:bg-white">
-                    <div
-                        class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-2xl shadow-inner">
-                        1</div>
-                    <h3 class="font-bold text-xl mb-4">Pick Your Module</h3>
-                    <p class="text-gray-500 leading-relaxed">Choose from our library of scheduling tools. We cover all
-                        the major platforms.</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-10 rounded-2xl text-center hover:bg-white">
-                    <div
-                        class="w-16 h-16 bg-orange-100 text-orange-400 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-2xl shadow-inner">
-                        2</div>
-                    <h3 class="font-bold text-xl mb-4">Interactive Learning</h3>
-                    <p class="text-gray-500 leading-relaxed">Engage with short, focused lessons that respect your time
-                        and attention span.</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-10 rounded-2xl text-center hover:bg-white">
-                    <div
-                        class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-2xl shadow-inner">
-                        3</div>
-                    <h3 class="font-bold text-xl mb-4">Achieve Mastery</h3>
-                    <p class="text-gray-500 leading-relaxed">Earn your certification and show off your new scheduling
-                        superpowers!</p>
-                </div>
-            </div>
+        <div class="row-pts"><strong>10</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(2,10,'yes')">Yes — Full Points</button>
+          <button class="score-btn no" onclick="score(2,0,'no')">No — 0 Points</button>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
 
-    <section class="full-width-gradient py-28 text-center relative">
-        <div class="absolute inset-0 opacity-10"
-            style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==')">
+  <!-- SECTION 2: BODY OF THE CALL -->
+  <div class="section">
+    <div class="section-header">
+      <span>2 — Body of the Call</span>
+      <span class="section-pts" id="s2-pts">0 / 24 pts</span>
+    </div>
+    <div class="qa-rows">
+      <div class="qa-row" id="row-3">
+        <div class="row-num">3</div>
+        <div class="row-text">
+          Agent asked the customer the reason for the transfer?
         </div>
-        <div class="container mx-auto px-6 relative z-10">
-            <h2 class="text-4xl font-bold text-white mb-6">Ready to Revolutionize Your Scheduling Skills?</h2>
-            <p class="text-white/90 text-xl mb-10 max-w-2xl mx-auto">Join thousands of automotive professionals who have
-                transformed their scheduling efficiency with our platform.</p>
-            <a href="sign.html"
-                class="bg-white text-indigo-600 px-10 py-4 rounded-full font-bold text-lg inline-flex items-center hover:shadow-xl transition-all">
-                Get Started<i data-feather="arrow-right" class="ml-3 w-5 h-5"></i>
-            </a>
+        <div class="row-pts"><strong>8</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(3,8,'yes')">Yes — Full Points</button>
+          <button class="score-btn no" onclick="score(3,0,'no')">No — 0 Points</button>
         </div>
-    </section>
-
-    <section class="py-24 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="text-center max-w-2xl mx-auto mb-20">
-                <h2 class="text-4xl font-bold mb-6">Why Scheduler Training Hub</h2>
-                <p class="text-gray-500 text-lg">Designed exclusively for automotive service professionals by industry
-                    experts.</p>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="feature-card bg-gray-50 p-8 rounded-xl text-center hover:bg-white">
-                    <div class="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i data-feather="zap" class="w-6 h-6 text-indigo-600"></i>
-                    </div>
-                    <h4 class="font-bold text-lg mb-3">Quick Lessons</h4>
-                    <p class="text-sm text-gray-500">10-40 minute modules designed for busy professionals</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-8 rounded-xl text-center hover:bg-white">
-                    <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i data-feather="clock" class="w-6 h-6 text-orange-400"></i>
-                    </div>
-                    <h4 class="font-bold text-lg mb-3">Learn Anytime</h4>
-                    <p class="text-sm text-gray-500">24/7 access from any device with progress sync</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-8 rounded-xl text-center hover:bg-white">
-                    <div class="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i data-feather="award" class="w-6 h-6 text-indigo-600"></i>
-                    </div>
-                    <h4 class="font-bold text-lg mb-3">Get Certified</h4>
-                    <p class="text-sm text-gray-500">Industry-recognized certificates for your resume</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-8 rounded-xl text-center hover:bg-white">
-                    <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i data-feather="users" class="w-6 h-6 text-green-500"></i>
-                    </div>
-                    <h4 class="font-bold text-lg mb-3">Team Training</h4>
-                    <p class="text-sm text-gray-500">Comprehensive analytics for team progress tracking</p>
-                </div>
-            </div>
+      </div>
+      <div class="qa-row" id="row-4">
+        <div class="row-num">4</div>
+        <div class="row-text">
+          Agent asked for the customer's name to address them properly?
         </div>
-        <div class="text-center max-w-2xl mx-auto mb-20"></div>
-    </section>
+        <div class="row-pts"><strong>8</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(4,8,'yes')">Yes — Full Points</button>
+          <button class="score-btn no" onclick="score(4,0,'no')">No — 0 Points</button>
+        </div>
+      </div>
+      <div class="qa-row" id="row-5">
+        <div class="row-num">5</div>
+        <div class="row-text">
+          Agent introduced the customer to Service/Parts before transferring?
+        </div>
+        <div class="row-pts"><strong>8</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(5,8,'yes')">Yes — Full Points</button>
+          <button class="score-btn no" onclick="score(5,0,'no')">No — 0 Points</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <div id="footer-container"></div>
+  <!-- SECTION 3: SYSTEM PROCESS -->
+  <div class="section">
+    <div class="section-header">
+      <span>3 — System Process Accuracy</span>
+      <span class="section-pts" id="s3-pts">0 / 21 pts</span>
+    </div>
+    <div class="qa-rows">
+      <div class="qa-row" id="row-6">
+        <div class="row-num">6</div>
+        <div class="row-text">
+          Warm transfer: agent used proper protocol?
+          <span class="criteria-note" style="color:#c0392b;font-weight:500;">Hold 3 rings — wait for someone to answer before releasing</span>
+        </div>
+        <div class="row-pts"><strong>8</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(6,8,'yes')">Yes — Full Points</button>
+          <button class="score-btn no" onclick="score(6,0,'no')">No — 0 Points</button>
+        </div>
+      </div>
+      <div class="qa-row" id="row-7">
+        <div class="row-num">7</div>
+        <div class="row-text">
+          Input correct data in software?
+          <span class="criteria-note">First and last name + phone number entered accurately</span>
+        </div>
+        <div class="row-pts"><strong>5</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(7,5,'yes')">Yes — Full Points</button>
+          <button class="score-btn no" onclick="score(7,0,'no')">No — 0 Points</button>
+        </div>
+      </div>
+      <div class="qa-row" id="row-8">
+        <div class="row-num">8</div>
+        <div class="row-text">
+          Correct call disposition selected in the system?
+        </div>
+        <div class="row-pts"><strong>8</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(8,8,'yes')">Yes — Full Points</button>
+          <button class="score-btn no" onclick="score(8,0,'no')">No — 0 Points</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        feather.replace();
+  <!-- SECTION 4: CALL MANAGEMENT SKILLS -->
+  <div class="section">
+    <div class="section-header">
+      <span>4 — Call Management Skills</span>
+      <span class="section-pts" id="s4-pts">0 / 35 pts</span>
+    </div>
+    <div class="qa-rows">
+      <div class="qa-row" id="row-9">
+        <div class="row-num">9</div>
+        <div class="row-text">
+          <strong>Hold Procedure</strong>
+          <span class="criteria-note">Set expectation before placing on hold; explained reason for silence</span>
+        </div>
+        <div class="row-pts"><strong>5</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(9,5,'yes')">Yes</button>
+          <button class="score-btn no" onclick="score(9,0,'no')">No</button>
+          <button class="score-btn na" onclick="score(9,'na','na')">N/A</button>
+        </div>
+      </div>
+      <div class="qa-row" id="row-10">
+        <div class="row-num">10</div>
+        <div class="row-text">
+          <strong>Communication &amp; Delivery</strong>
+          <span class="criteria-note">Enunciates clearly; avoids jargon; speaks with fluidity</span>
+        </div>
+        <div class="row-pts"><strong>5</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(10,5,'yes')">Yes</button>
+          <button class="score-btn no" onclick="score(10,0,'no')">No</button>
+          <button class="score-btn na" onclick="score(10,3,'na')">Partial</button>
+        </div>
+      </div>
+      <div class="qa-row" id="row-11">
+        <div class="row-num">11</div>
+        <div class="row-text">
+          <strong>Empathy</strong>
+          <span class="criteria-note">Acknowledged customer's emotion appropriately</span>
+        </div>
+        <div class="row-pts"><strong>5</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(11,5,'yes')">Yes</button>
+          <button class="score-btn no" onclick="score(11,0,'no')">No</button>
+          <button class="score-btn na" onclick="score(11,3,'na')">Partial</button>
+        </div>
+      </div>
+      <div class="qa-row" id="row-12">
+        <div class="row-num">12</div>
+        <div class="row-text">
+          <strong>Active Listening</strong>
+          <span class="criteria-note">Avoided repetition; showed attention to detail</span>
+        </div>
+        <div class="row-pts"><strong>5</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(12,5,'yes')">Yes</button>
+          <button class="score-btn no" onclick="score(12,0,'no')">No</button>
+          <button class="score-btn na" onclick="score(12,3,'na')">Partial</button>
+        </div>
+      </div>
+      <div class="qa-row" id="row-13">
+        <div class="row-num">13</div>
+        <div class="row-text">
+          <strong>Tone of Voice</strong>
+          <span class="criteria-note">Sounded accommodating and willing to help</span>
+        </div>
+        <div class="row-pts"><strong>5</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(13,5,'yes')">Yes</button>
+          <button class="score-btn no" onclick="score(13,0,'no')">No</button>
+          <button class="score-btn na" onclick="score(13,3,'na')">Partial</button>
+        </div>
+      </div>
+      <div class="qa-row" id="row-14">
+        <div class="row-num">14</div>
+        <div class="row-text">
+          <strong>Efficiency</strong>
+          <span class="criteria-note">Was concise in delivering resolution to customer's concern</span>
+        </div>
+        <div class="row-pts"><strong>5</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(14,5,'yes')">Yes</button>
+          <button class="score-btn no" onclick="score(14,0,'no')">No</button>
+          <button class="score-btn na" onclick="score(14,3,'na')">Partial</button>
+        </div>
+      </div>
+      <div class="qa-row" id="row-15">
+        <div class="row-num">15</div>
+        <div class="row-text">
+          <strong>Confidence</strong>
+          <span class="criteria-note">Sounded certain and accurate; assured the customer</span>
+        </div>
+        <div class="row-pts"><strong>5</strong> pts</div>
+        <div class="score-btns">
+          <button class="score-btn yes" onclick="score(15,5,'yes')">Yes</button>
+          <button class="score-btn no" onclick="score(15,0,'no')">No</button>
+          <button class="score-btn na" onclick="score(15,3,'na')">Partial</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        // Simple animation for stats
-        document.addEventListener('DOMContentLoaded', function () {
-            const statItems = document.querySelectorAll('.stat-item');
-            statItems.forEach((item, index) => {
-                item.style.transitionDelay = `${index * 100}ms`;
-                item.classList.add('opacity-0', 'translate-y-4');
-            });
+  <!-- SECTION 5: ZERO TOLERANCE -->
+  <div class="section">
+    <div class="section-header" style="background:#c0392b;">
+      <span>5 — Zero Tolerance Behavior</span>
+      <span class="section-pts">Auto Fail / PIP Enrollment if triggered</span>
+    </div>
+    <div class="qa-rows">
+      <div class="zero-tol-row" id="row-16">
+        <div class="row-num" style="background:#c0392b;">16</div>
+        <div class="row-text">
+          <span class="zero-tag">Rudeness</span>
+          <span class="criteria-note">Used profanity or condescending statement; condescending tone; consistently interrupted customer</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <button class="zero-pass-btn" id="zt-16-pass" onclick="zeroTol(16,'pass')">Not observed</button>
+          <button class="zero-fail-btn" id="zt-16-fail" onclick="zeroTol(16,'fail')">AUTO FAIL</button>
+        </div>
+      </div>
+      <div class="zero-tol-row" id="row-17">
+        <div class="row-num" style="background:#c0392b;">17</div>
+        <div class="row-text">
+          <span class="zero-tag">Service Fail</span>
+          <span class="criteria-note">Booked when policy says Do Not Book (or vice versa); incorrect appt date/time; failure to confirm transportation option; or no appointment scheduled</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <button class="zero-pass-btn" id="zt-17-pass" onclick="zeroTol(17,'pass')">Not observed</button>
+          <button class="zero-fail-btn" id="zt-17-fail" onclick="zeroTol(17,'fail')">AUTO FAIL</button>
+        </div>
+      </div>
+      <div class="zero-tol-row" style="border-bottom:none;" id="row-18">
+        <div class="row-num" style="background:#c0392b;">18</div>
+        <div class="row-text">
+          <span class="zero-tag">Call Avoidance</span>
+          <span class="criteria-note">Disconnecting calls intentionally</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <button class="zero-pass-btn" id="zt-18-pass" onclick="zeroTol(18,'pass')">Not observed</button>
+          <button class="zero-fail-btn" id="zt-18-fail" onclick="zeroTol(18,'fail')">AUTO FAIL</button>
+        </div>
+      </div>
+    </div>
+    <div class="autofail-banner" id="autofail-banner">
+      ⚠ AUTO FAIL TRIGGERED — This call requires PIP enrollment review
+    </div>
+  </div>
 
-            setTimeout(() => {
-                statItems.forEach(item => {
-                    item.classList.remove('opacity-0', 'translate-y-4');
-                });
-            }, 500);
-        });
-    </script>
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
-    <script type="module">
-        import { initializeFooter } from "./components/main-footer.js";
-        initializeFooter();
-    </script>
+  <!-- BOTTOM: REASON + NOTES -->
+  <div class="bottom-grid">
+    <div class="notes-card">
+      <div class="notes-header">Reason for Call</div>
+      <textarea id="reason-call" placeholder="Brief summary of what the customer called about..."></textarea>
+    </div>
+    <div class="notes-card">
+      <div class="notes-header">Agent Work-On (Coaching Notes)</div>
+      <textarea id="agent-workon" placeholder="Areas for improvement identified during this coaching session..."></textarea>
+    </div>
+  </div>
 
+  <!-- RESULT BANNER -->
+  <div class="result-banner pending" id="result-banner">
+    <div>
+      <div class="result-label">Final Grade</div>
+      <div class="result-grade" id="final-grade">—%</div>
+      <div class="result-status" id="result-status">Complete all items above</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Passing threshold: 85%</div>
+      <div class="progress-bar-wrap" style="width:220px;">
+        <div class="progress-bar-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px;" id="pts-label">0 / 100 pts scored</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-reset" onclick="resetForm()">Reset Form</button>
+    <button class="btn-print" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+</div>
+
+<script>
+const scores = {};
+const maxPts = {1:10,2:10,3:8,4:8,5:8,6:8,7:5,8:8,9:5,10:5,11:5,12:5,13:5,14:5,15:5};
+const zeroTols = {16:'pending',17:'pending',18:'pending'};
+let autoFail = false;
+
+const sectionRows = {
+  s1: [1,2],
+  s2: [3,4,5],
+  s3: [6,7,8],
+  s4: [9,10,11,12,13,14,15]
+};
+
+function score(row, pts, type) {
+  scores[row] = (pts === 'na') ? pts : pts;
+  const rowEl = document.getElementById('row-' + row);
+  rowEl.classList.remove('scored-pass','scored-fail');
+  if (type === 'yes') rowEl.classList.add('scored-pass');
+  else if (type === 'no') rowEl.classList.add('scored-fail');
+  const btns = rowEl.querySelectorAll('.score-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  recalc();
+}
+
+function zeroTol(row, result) {
+  zeroTols[row] = result;
+  const passBtn = document.getElementById('zt-' + row + '-pass');
+  const failBtn = document.getElementById('zt-' + row + '-fail');
+  passBtn.classList.remove('active');
+  failBtn.classList.remove('active');
+  if (result === 'pass') passBtn.classList.add('active');
+  else failBtn.classList.add('active');
+  recalc();
+}
+
+function recalc() {
+  let total = 0;
+  for (let r in scores) {
+    const v = scores[r];
+    if (typeof v === 'number') total += v;
+  }
+  document.getElementById('live-score').textContent = total;
+
+  // Section totals
+  for (let s in sectionRows) {
+    let st = 0;
+    let smax = 0;
+    sectionRows[s].forEach(r => {
+      smax += maxPts[r];
+      if (typeof scores[r] === 'number') st += scores[r];
+    });
+    const el = document.getElementById(s + '-pts');
+    if (el) el.textContent = st + ' / ' + smax + ' pts';
+  }
+
+  // Auto fail check
+  autoFail = Object.values(zeroTols).some(v => v === 'fail');
+  const banner = document.getElementById('autofail-banner');
+  banner.classList.toggle('show', autoFail);
+
+  // Grade
+  const pct = autoFail ? 0 : Math.round((total / 100) * 100);
+  const gradeEl = document.getElementById('final-grade');
+  const statusEl = document.getElementById('result-status');
+  const bannerEl = document.getElementById('result-banner');
+  const fillEl = document.getElementById('prog-fill');
+  const ptsLabel = document.getElementById('pts-label');
+
+  const answered = Object.keys(scores).length + Object.values(zeroTols).filter(v => v !== 'pending').length;
+  const totalItems = 15 + 3;
+
+  gradeEl.textContent = pct + '%';
+  ptsLabel.textContent = total + ' / 100 pts scored';
+  fillEl.style.width = pct + '%';
+
+  bannerEl.classList.remove('pass','fail','pending');
+  fillEl.classList.remove('pass','fail');
+
+  if (autoFail) {
+    bannerEl.classList.add('fail');
+    fillEl.classList.add('fail');
+    statusEl.textContent = '⚠ Auto Fail — PIP enrollment required';
+  } else if (answered < totalItems) {
+    bannerEl.classList.add('pending');
+    statusEl.textContent = 'In progress — ' + answered + ' of ' + totalItems + ' items answered';
+  } else if (pct >= 85) {
+    bannerEl.classList.add('pass');
+    fillEl.classList.add('pass');
+    statusEl.textContent = '✓ Passing — Great work!';
+  } else {
+    bannerEl.classList.add('fail');
+    fillEl.classList.add('fail');
+    statusEl.textContent = 'Below passing — Coaching required';
+  }
+}
+
+function resetForm() {
+  if (!confirm('Reset all scores and start over?')) return;
+  for (let k in scores) delete scores[k];
+  for (let k in zeroTols) zeroTols[k] = 'pending';
+  autoFail = false;
+  document.querySelectorAll('.score-btn,.zero-pass-btn,.zero-fail-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.qa-row').forEach(r => r.classList.remove('scored-pass','scored-fail'));
+  document.querySelectorAll('input[type=text],input[type=date],textarea').forEach(el => el.value = '');
+  document.getElementById('autofail-banner').classList.remove('show');
+  document.getElementById('live-score').textContent = '0';
+  document.getElementById('final-grade').textContent = '—%';
+  document.getElementById('result-status').textContent = 'Complete all items above';
+  document.getElementById('result-banner').className = 'result-banner pending';
+  document.getElementById('prog-fill').style.width = '0%';
+  document.getElementById('pts-label').textContent = '0 / 100 pts scored';
+  ['s1','s2','s3','s4'].forEach(s => {
+    const el = document.getElementById(s + '-pts');
+    const max = sectionRows[s].reduce((a,r) => a + maxPts[r], 0);
+    if (el) el.textContent = '0 / ' + max + ' pts';
+  });
+}
+</script>
 </body>
-
 </html>

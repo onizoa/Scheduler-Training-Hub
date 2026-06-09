@@ -470,11 +470,115 @@
   .progress-bar-fill.pass { background: var(--green-light); }
   .progress-bar-fill.fail { background: var(--red-light); }
 
-  @media print {
-    .header { break-inside: avoid; }
-    .actions { display: none; }
-    body { background: white; }
+  
+@media print {
+
+  body{
+    background:#fff !important;
+    color:#000 !important;
+    font-size:11pt;
   }
+
+  .actions,
+  .score-btn,
+  .score-btns,
+  .zero-pass-btn,
+  .zero-fail-btn,
+  .live-score-badge{
+    display:none !important;
+  }
+
+  .header{
+    background:#fff !important;
+    color:#000 !important;
+    box-shadow:none !important;
+    border-bottom:3px solid #16213e !important;
+    padding:12px 0 !important;
+    margin-bottom:15px !important;
+  }
+
+  .header::after{
+    content:"DEALERFOCUS QUALITY ASSURANCE REPORT";
+    display:block;
+    font-size:22pt;
+    font-weight:700;
+    color:#16213e;
+    margin-top:10px;
+  }
+
+  .meta-card,
+  .section,
+  .notes-card,
+  .result-banner{
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+    box-shadow:none !important;
+    border:1px solid #cbd5e1 !important;
+  }
+
+  .section-header{
+    background:#16213e !important;
+    color:#fff !important;
+  }
+
+  .qa-row,
+  .zero-tol-row{
+    display:grid !important;
+    grid-template-columns:40px 1fr 120px !important;
+  }
+
+  .row-num{
+    background:#16213e !important;
+    color:#fff !important;
+  }
+
+  .qa-row.scored-pass{
+    border-left:6px solid #16a34a !important;
+  }
+
+  .qa-row.scored-fail{
+    border-left:6px solid #dc2626 !important;
+  }
+
+  .result-banner{
+    margin-top:25px !important;
+    border:2px solid #16213e !important;
+    background:#f8fafc !important;
+  }
+
+  .result-grade{
+    font-size:64px !important;
+    color:#16213e !important;
+  }
+
+  .notes-card textarea{
+    min-height:120px !important;
+    border-top:1px solid #e2e8f0 !important;
+  }
+
+  .autofail-banner{
+    border:2px solid #dc2626 !important;
+    background:#fff !important;
+    color:#dc2626 !important;
+  }
+
+  .meta-field input,
+  .notes-card textarea{
+    border:none !important;
+    background:transparent !important;
+    color:#000 !important;
+  }
+
+  .progress-bar-wrap{
+    border:1px solid #cbd5e1 !important;
+  }
+
+  @page{
+    margin:0.6in;
+    size:auto;
+  }
+}
+
 
 :root{
   --navy:#16213e;

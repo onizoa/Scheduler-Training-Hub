@@ -83,7 +83,7 @@ window.handleRegistration = async (e) => {
         module_display_name: moduleName,
 
         completion: false,
-        lastUpdated: serverTimestamp(),
+        lastUpdated: null,
         score: 0,
 
       });

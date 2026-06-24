@@ -2492,7 +2492,16 @@
                 );
 
             if (savedProgress) {
-                progressState = JSON.parse(savedProgress);
+
+                const loaded = JSON.parse(savedProgress);
+
+                progressState = {
+                    ...progressState,
+                    ...loaded,
+                    videosWatched: Array.isArray(loaded.videosWatched)
+                        ? loaded.videosWatched.slice(0, 11)
+                        : Array(11).fill(false)
+                };
             }
 
             renderPlaylistCards();
@@ -3139,28 +3148,53 @@
         }
 
         function updateOverallProgress() {
-            let totalSteps = 13; // 11 videos + 1 policy quiz + 1 navigation simulator
-            let completedSteps = 0;
+            const watchedVideos =
+                Array.isArray(progressState.videosWatched)
+                    ? progressState.videosWatched.slice(0, 11)
+                    : [];
 
-            completedSteps += progressState.videosWatched.filter(Boolean).length;
-            if (progressState.policyQuizCompleted) completedSteps++;
-            if (progressState.navigationCompleted) completedSteps++;
+            const completedVideos =
+                watchedVideos.filter(Boolean).length;
 
-            const overallPct = Math.round((completedSteps / totalSteps) * 100);
+            const completedSteps =
+                completedVideos +
+                (progressState.policyQuizCompleted ? 1 : 0) +
+                (progressState.navigationCompleted ? 1 : 0);
 
-            document.getElementById('hub-progress-text').innerText = `${overallPct}%`;
-            document.getElementById('hub-progress-bar').style.width = `${overallPct}%`;
+            const totalSteps = 13;
 
-            const assessmentTab = document.getElementById('tab-assessment');
-            const lockedBadge = document.getElementById('exam-locked-badge');
+            const overallPct = Math.min(
+                100,
+                Math.round((completedSteps / totalSteps) * 100)
+            );
+
+            document.getElementById('hub-progress-text').innerText =
+                `${overallPct}%`;
+
+            document.getElementById('hub-progress-bar').style.width =
+                `${overallPct}%`;
+
+            const assessmentTab =
+                document.getElementById('tab-assessment');
+
+            const lockedBadge =
+                document.getElementById('exam-locked-badge');
 
             if (checkAssessmentUnlocked()) {
                 assessmentTab.style.opacity = '1';
                 assessmentTab.style.cursor = 'pointer';
-                if (lockedBadge) lockedBadge.style.display = 'none';
+
+                if (lockedBadge) {
+                    lockedBadge.style.display = 'none';
+                }
+
             } else {
+
                 assessmentTab.style.opacity = '0.6';
-                if (lockedBadge) lockedBadge.style.display = 'inline-flex';
+
+                if (lockedBadge) {
+                    lockedBadge.style.display = 'inline-flex';
+                }
             }
         }
 

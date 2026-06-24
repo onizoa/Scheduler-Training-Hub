@@ -85,6 +85,7 @@ window.handleRegistration = async (e) => {
         completion: false,
         lastUpdated: null,
         score: 0,
+        status: 'Incomplete',
 
       });
     });

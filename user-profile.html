@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Scheduler Training Hub</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ["Inter", "sans-serif"] },
+                    colors: { primary: "#5146e5" }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ==========================================================================
+           THEME DESIGN SYSTEM (Extracted from Xtime Hub)
+           ========================================================================== */
+
+        /* --- Light Theme (Default System) --- */
+        :root {
+            --bg-main: #f4f6f9;
+            --bg-surface: #ffffff;
+            --bg-surface-elevated: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-tertiary: #94a3b8;
+
+            /* Xtime Indigo Branding Tokens */
+            --google-blue: #6366f1;
+            --google-blue-hover: #4f46e5;
+            --google-blue-alpha: rgba(99, 102, 241, 0.08);
+
+            /* Semantic Status Accents */
+            --accent-green: #10b981;
+            --accent-green-hover: #059669;
+            --accent-green-alpha: rgba(16, 185, 129, 0.1);
+
+            --accent-red: #ef4444;
+            --accent-red-alpha: rgba(239, 68, 68, 0.1);
+
+            --accent-yellow: #f59e0b;
+            --accent-yellow-alpha: rgba(245, 158, 11, 0.15);
+
+            /* Borders & Interaction states */
+            --border-color: #e2e8f0;
+            --border-color-hover: #cbd5e1;
+            --border-focus: #6366f1;
+
+            /* Shadow Profiles */
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+            --shadow-glow: 0 0 15px rgba(99, 102, 241, 0.2);
+
+            /* Glassmorphism Configuration */
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(226, 232, 240, 0.8);
+            --glass-blur: blur(16px);
+
+            /* Typography & Sizing Defaults */
+            --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --border-radius-sm: 6px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+        }
+
+        /* --- Dark Theme Overrides --- */
+        [data-theme="dark"] {
+            --bg-main: #0b0f19;
+            --bg-surface: #131c2e;
+            --bg-surface-elevated: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-tertiary: #64748b;
+
+            /* Dark Indigo Variants */
+            --google-blue: #818cf8;
+            --google-blue-hover: #a5b4fc;
+            --google-blue-alpha: rgba(99, 102, 241, 0.15);
+
+            /* Dark Semantic Statuses */
+            --accent-green: #34d399;
+            --accent-green-hover: #6ee7b7;
+            --accent-green-alpha: rgba(16, 185, 129, 0.15);
+
+            --accent-red: #f87171;
+            --accent-red-alpha: rgba(239, 68, 68, 0.15);
+
+            --accent-yellow: #fbbf24;
+            --accent-yellow-alpha: rgba(245, 158, 11, 0.2);
+
+            /* Dark Borders & Interaction states */
+            --border-color: #1e293b;
+            --border-color-hover: #334155;
+            --border-focus: #818cf8;
+
+            /* Dark Shadow Tuning */
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+            --shadow-glow: 0 0 20px rgba(129, 140, 248, 0.3);
+
+            /* Dark Glassmorphism Rules */
+            --glass-bg: rgba(19, 28, 46, 0.8);
+            --glass-border: rgba(30, 41, 59, 0.8);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- Theme-Aware Component Enforcements --- */
+        h1,
+        h3,
+        h4 {
+            color: var(--text-primary) !important;
+        }
+
+        .profile-banner {
+            height: 150px;
+            background: linear-gradient(90deg, var(--bg-surface-elevated), var(--bg-main));
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-avatar {
+            width: 96px;
+            height: 96px;
+            background: var(--google-blue);
+            border: 4px solid var(--bg-surface);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .training-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            background: var(--bg-surface);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .training-header {
+            height: 58px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .module-row {
+            min-height: 72px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .module-row:hover {
+            background: var(--google-blue-alpha);
+        }
+
+        .module-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--google-blue);
+        }
+
+        .primary-btn {
+            height: 30px;
+            background: var(--google-blue);
+            border-radius: var(--border-radius-sm);
+            font-size: 11px;
+            font-weight: 700;
+            transition: background-color 0.2s;
+        }
+
+        .primary-btn:hover:not(:disabled) {
+            background: var(--google-blue-hover);
+        }
+
+        .secondary-btn {
+            height: 30px;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+    </style>
+
+    <script>
+        // Inline layout lock initialization script to prevent page background flash
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+</head>
+
+<body>
+
+    <div id="header-container"></div>
+
+    <main class="min-h-[75vh] pb-24">
+        <div class="profile-banner"></div>
+
+        <div class="max-w-[1250px] mx-auto px-6 -mt-12 relative z-10">
+            <div class="flex items-center gap-6 mb-10">
+                <div id="profile-avatar"
+                    class="profile-avatar rounded-full flex items-center justify-center text-white text-3xl font-bold flex-shrink-0">
+                </div>
+                <div>
+                    <h1 id="profile-full-name" class="text-2xl font-bold tracking-tight mb-1">Loading...</h1>
+                    <div class="flex items-center gap-5 text-xs style-neutral-spec">
+                        <div class="flex items-center gap-2" style="color: var(--text-secondary);">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <path d="m22 6-10 7L2 6" />
+                            </svg>
+                            <span id="profile-email"></span>
+                        </div>
+                        <div class="flex items-center gap-2" style="color: var(--text-secondary);">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <rect x="3" y="4" width="18" height="18" rx="2" />
+                                <path d="M16 2v4M8 2v4M3 10h18" />
+                            </svg>
+                            <span>Joined: <span id="profile-joined-date">--</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="training-card">
+                <div class="training-header px-5 flex items-center justify-between">
+                    <h3 class="text-sm font-bold">My Training Journey</h3>
+                    <p class="text-[11px] font-medium" style="color: var(--text-tertiary);">View progress and download
+                        certificates</p>
+                </div>
+                <div id="profile-modules-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script type="module">
+        import { auth, db } from "./components/firebase-init.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { initializeLogout } from "./components/logout.js";
+
+        /**
+         * System Layout Core Architecture Config Set Definitions
+         */
+        const CONFIG = {
+            MODULE_REGISTRY: [
+                { name: "CDK Scheduler", status: "active", slug: "cdk", est: "45 MIN", initial: "C" },
+                { name: "Xtime Scheduler", status: "active", slug: "xtime", est: "35 MIN", initial: "X" },
+                { name: "Autoloop Scheduler", status: "inactive", slug: "autoloop", est: "-- MIN", initial: "A" },
+                { name: "Dealerlogix Scheduler", status: "inactive", slug: "dealerlogix", est: "-- MIN", initial: "D" },
+                { name: "MyKaarma Scheduler", status: "inactive", slug: "myKaarma", est: "-- MIN", initial: "M" },
+                { name: "Online Scheduler", status: "inactive", slug: "online scheduler", est: "-- MIN", initial: "O" },
+                { name: "Tekion Scheduler", status: "inactive", slug: "tekion", est: "-- MIN", initial: "T" },
+                { name: "Wi Advisor Scheduler", status: "inactive", slug: "wi advisor", est: "-- MIN", initial: "W" }
+            ],
+            ROUTING: {
+                UNAUTHENTICATED_REDIRECT: "sign.html",
+                PROFILE_HOME: "user-profile.html"
+            }
+        };
+
+        /**
+         * Global Component Layout Template Builders Subsystem
+         */
+        const ComponentRenderer = {
+            renderHeader() {
+                const headerHTML = `
+                <nav class="sticky top-0 z-50 border-b border-solid" style="background: var(--bg-surface); border-color: var(--border-color);">
+                    <div class="max-w-[1600px] mx-auto px-6 py-4 flex justify-between items-center">
+                        <a href="index.html" class="text-2xl font-bold flex leading-8">
+                            <span class="text-indigo-600">Scheduler</span>
+                            <span class="text-amber-500">TrainingHub</span>
+                        </a>
+                        <div class="flex items-center gap-x-3 relative">
+                            <div id="profile-trigger" class="flex items-center gap-x-2 pl-2 pr-3 py-2 border border-transparent rounded-full hover:opacity-80 cursor-pointer transition-all">
+                                <span class="relative flex h-8 w-8 overflow-hidden rounded-full">
+                                    <span class="bg-indigo-600 text-gray-50 flex h-full w-full items-center justify-center text-xs font-bold" id="user-initials"></span>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color: var(--text-secondary);"><path d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+                            </div>
+                            <div id="profile-dropdown" class="hidden absolute right-0 top-full mt-2 w-64 border rounded-xl shadow-xl z-50 overflow-hidden" style="background: var(--bg-surface); border-color: var(--border-color);">
+                                <div class="p-4 border-b bg-neutral-50/50" style="border-color: var(--border-color);">
+                                    <p id="dropdown-full-name" class="font-bold truncate" style="color: var(--text-primary);">Loading...</p>
+                                    <p id="dropdown-email" class="text-sm truncate" style="color: var(--text-secondary);">Loading...</p>
+                                </div>
+                                <div class="p-2 flex flex-col gap-y-0.5">
+                                    <button id="user-profile-btn" class="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors" style="color: var(--text-primary);">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                        My Profile
+                                    </button>
+                                    
+                                    <button id="themeToggleBtn" class="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors" style="color: var(--text-primary);">
+                                        <svg id="theme-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="w-4 h-4"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                                        <svg id="theme-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="w-4 h-4" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                                        <span>Switch Theme</span>
+                                    </button>
+                                    
+                                    <div class="h-px my-1" style="background-color: var(--border-color);"></div>
+                                    <button id="logout-btn" class="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" /></svg>
+                                        Log Out
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>`;
+
+                const container = document.getElementById('header-container');
+                if (container) container.innerHTML = headerHTML;
+                this.bindHeaderEvents();
+                this.initializeThemeEngine(); // Safely connect engine elements inside the pipeline
+            },
+
+            renderFooter() {
+                const footerHTML = `
+                <footer class="border-t" style="background-color: #111827; border-color: rgba(255,255,255,0.1);">
+                    <div class="max-w-screen-xl mx-auto px-6 py-12">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                            <div class="md:col-span-2">
+                                <div class="text-xl font-bold mb-4">
+                                    <span class="text-indigo-400">Scheduler</span>
+                                    <span class="text-white">TrainingHub</span>
+                                </div>
+                                <p class="text-gray-400 text-sm leading-5 max-w-md mb-6">Empowering your scheduling expertise.</p>
+                                <img src="./images/DeaerFocus logo.png" alt="Company Logo" class="h-16 w-auto">
+                            </div>
+                        </div>
+                        <div class="text-gray-500 text-sm text-center mt-8 pt-8" style="border-top: 1px solid rgba(255,255,255,0.1);">
+                            <p>© 2025 Scheduler Training Hub. All rights reserved.</p>
+                        </div>
+                    </div>
+                </footer>`;
+
+                const container = document.getElementById('footer-container');
+                if (container) container.innerHTML = footerHTML;
+            },
+
+            bindHeaderEvents() {
+                const profileBtn = document.getElementById('user-profile-btn');
+                if (profileBtn) {
+                    profileBtn.addEventListener('click', () => {
+                        window.location.href = CONFIG.ROUTING.PROFILE_HOME;
+                    });
+                }
+
+                const trigger = document.getElementById('profile-trigger');
+                const dropdown = document.getElementById('profile-dropdown');
+
+                if (trigger && dropdown) {
+                    document.addEventListener('click', (e) => {
+                        const isClickInsideTrigger = trigger.contains(e.target);
+                        const isClickInsideDropdown = dropdown.contains(e.target);
+
+                        if (isClickInsideTrigger) {
+                            dropdown.classList.toggle('hidden');
+                        } else if (!isClickInsideDropdown) {
+                            dropdown.classList.add('hidden');
+                        }
+                    });
+                }
+            },
+
+            initializeThemeEngine() {
+                const themeToggleBtn = document.getElementById('themeToggleBtn');
+                const themeMoon = document.getElementById('theme-moon');
+                const themeSun = document.getElementById('theme-sun');
+
+                // 1. Sync UI layout options with active setup configuration state
+                const activeTheme = document.documentElement.getAttribute('data-theme') || 'light';
+                updateThemeUI(activeTheme);
+
+                // 2. Register operational mouse interaction click hooks
+                if (themeToggleBtn) {
+                    themeToggleBtn.addEventListener('click', () => {
+                        const currentTheme = document.documentElement.getAttribute('data-theme');
+                        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                        document.documentElement.setAttribute('data-theme', newTheme);
+                        localStorage.setItem('theme', newTheme);
+                        updateThemeUI(newTheme);
+                    });
+                }
+
+                function updateThemeUI(theme) {
+                    if (!themeMoon || !themeSun) return;
+                    if (theme === 'dark') {
+                        themeMoon.style.display = 'none';
+                        themeSun.style.display = 'block';
+                    } else {
+                        themeMoon.style.display = 'block';
+                        themeSun.style.display = 'none';
+                    }
+                }
+            }
+        };
+
+        /**
+         * Core Utility Transformation Methods
+         */
+        const Formatters = {
+            formatTimestamp(firestoreTimestamp) {
+                if (!firestoreTimestamp || typeof firestoreTimestamp.toDate !== 'function') return '--';
+                return firestoreTimestamp.toDate().toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric"
+                });
+            }
+        };
+
+        /**
+         * View State Modification Engines
+         */
+        const DOMHydrator = {
+            hydrateProfileHeader(userEmail, accountData) {
+                const fName = accountData.firstName || "";
+                const lName = accountData.lastName || "";
+                const fullName = `${fName} ${lName}`.trim() || "User Account";
+                const initials = ((fName[0] || "") + (lName[0] || "")).toUpperCase() || "U";
+
+                // Map elements securely
+                this.safeSetText("profile-full-name", fullName);
+                this.safeSetText("profile-email", userEmail);
+                this.safeSetText("profile-avatar", initials);
+                this.safeSetText("user-initials", initials);
+                this.safeSetText("dropdown-full-name", fullName);
+                this.safeSetText("dropdown-email", userEmail);
+
+                if (accountData.createdAt) {
+                    this.safeSetText("profile-joined-date", Formatters.formatTimestamp(accountData.createdAt));
+                }
+            },
+
+            hydrateModuleList(modules) {
+                const container = document.getElementById("profile-modules-list");
+                if (!container) return;
+
+                const fragment = document.createDocumentFragment();
+
+                modules.forEach(module => {
+                    const isActive = module.status === "active";
+                    const row = document.createElement("div");
+                    row.className = `module-row px-5 flex items-center gap-5 ${!isActive ? 'opacity-40' : ''}`;
+
+                    const parsedScore = module.score !== undefined ? module.score : '--';
+                    const completeDateString = isActive ? "-- -- ----" : "-- -- ----";
+
+                    row.innerHTML = `
+                        <div class="flex items-center gap-4 w-[280px]">
+                            <div class="module-icon flex items-center justify-center text-white font-bold">
+                                ${module.initial}
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold">${module.name}</h4>
+                                <p class="text-[9px] font-bold" style="color: var(--text-tertiary);">ESTIMATED: ${module.est}</p>
+                            </div>
+                        </div>
+                        <div class="w-[160px]">
+                            <p class="text-[9px] uppercase font-bold" style="color: var(--text-tertiary);">COMPLETED DATE</p>
+                            <p class="text-xs font-bold" style="color: var(--text-secondary);">${completeDateString}</p>
+                        </div>
+                        <div class="w-[120px]">
+                            <p class="text-[9px] uppercase font-bold" style="color: var(--text-tertiary);">SCORE</p>
+                            <p class="text-xs font-bold" style="color: var(--text-secondary);">${parsedScore}</p>
+                        </div>
+                        <div class="ml-auto flex gap-2">
+                            <button disabled class="secondary-btn px-5">Certificate</button>
+                            <button class="primary-btn px-6 text-white navigation-trigger">
+                                ${isActive ? "Open Module" : "Coming Soon"}
+                            </button>
+                        </div>
+                    `;
+
+                    if (isActive) {
+                        const navBtn = row.querySelector('.navigation-trigger');
+                        if (navBtn) {
+                            navBtn.addEventListener('click', () => {
+                                window.location.href = `${module.slug}-module.html`;
+                            });
+                        }
+                    }
+
+                    fragment.appendChild(row);
+                });
+
+                container.innerHTML = "";
+                container.appendChild(fragment);
+            },
+
+            safeSetText(elementId, text) {
+                const element = document.getElementById(elementId);
+                if (element) element.textContent = text;
+            }
+        };
+
+        /**
+         * Core Page Life-Cycle Pipeline Initialization Entry Point
+         */
+        function initApp() {
+            ComponentRenderer.renderHeader();
+            ComponentRenderer.renderFooter();
+            initializeLogout();
+
+            // Establish Auth Listening Node
+            onAuthStateChanged(auth, async (user) => {
+                if (!user) {
+                    window.location.href = CONFIG.ROUTING.UNAUTHENTICATED_REDIRECT;
+                    return;
+                }
+
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    if (userDoc.exists()) {
+                        DOMHydrator.hydrateProfileHeader(user.email, userDoc.data());
+                    }
+                    DOMHydrator.hydrateModuleList(CONFIG.MODULE_REGISTRY);
+                } catch (error) {
+                    console.error("Database initialization failed cleanly:", error);
+                }
+            });
+        }
+
+        // Run application
+        initApp();
+    </script>
+</body>
+
+</html>

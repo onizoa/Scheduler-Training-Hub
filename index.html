@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduler Synapse Sparkles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .bg-gradient-mesh {
+            background: linear-gradient(135deg, #f3f0ff 0%, #fff 50%, #fff7ed 100%);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #6366f1, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(to right, #6366f1, #4f46e5);
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        .full-width-gradient {
+            background: linear-gradient(to right, #6366f1, #f59e0b);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .full-width-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item {
+            position: relative;
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            right: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 50%;
+            width: 1px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item:last-child::after {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .stat-item::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-white antialiased">
+
+    <nav class="container mx-auto px-6 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-1">
+            <span class="text-blue-600 font-bold text-2xl">Scheduler</span>
+            <span class="text-orange-400 font-bold text-2xl">TrainingHub</span>
+        </div>
+    </nav>
+
+    <section class="bg-gradient-mesh py-24">
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+                    <span class="text-gradient">Master Scheduling</span>
+                    <br>in Minutes
+                </h1>
+                <p class="text-gray-500 text-xl mb-10">
+                    Bite-sized, interactive lessons designed for the modern learner.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="./sign.html"
+                        class="btn-gradient text-white px-8 py-4 rounded-full flex items-center justify-center font-semibold text-lg hover:shadow-xl">
+                        Start Learning Now <i data-feather="arrow-right" class="ml-3 w-5 h-5"></i>
+                    </a>
+                    <a href="#how-it-works"
+                        class="bg-white border border-gray-200 text-gray-700 px-8 py-4 rounded-full flex items-center justify-center font-semibold text-lg hover:bg-gray-50 transition-colors">
+                        See How It Works
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 border-b border-gray-100 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap justify-center stat-item-container">
+                <div class="stat-item px-8 py-4 text-center">
+                    <div class="text-4xl font-bold text-indigo-600">95%</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-widest mt-2">Completion</div>
+                </div>
+                <div class="stat-item px-8 py-4 text-center">
+                    <div class="text-4xl font-bold text-orange-400">10x</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-widest mt-2">Faster</div>
+                </div>
+                <div class="stat-item px-8 py-4 text-center">
+                    <div class="text-4xl font-bold text-indigo-600">35min</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-widest mt-2">Avg Lesson</div>
+                </div>
+                <div class="stat-item px-8 py-4 text-center">
+                    <div class="text-4xl font-bold text-orange-400">100%</div>
+                    <div class="text-sm text-gray-500 uppercase tracking-widest mt-2">Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-20">
+                <h2 class="text-4xl font-bold mb-6">Transform Your Skills in 3 Simple Steps</h2>
+                <p class="text-gray-500 text-lg">Our proven method makes mastering scheduling tools effortless and
+                    effective.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="feature-card bg-gray-50 p-10 rounded-2xl text-center hover:bg-white">
+                    <div
+                        class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-2xl shadow-inner">
+                        1</div>
+                    <h3 class="font-bold text-xl mb-4">Pick Your Module</h3>
+                    <p class="text-gray-500 leading-relaxed">Choose from our library of scheduling tools. We cover all
+                        the major platforms.</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-10 rounded-2xl text-center hover:bg-white">
+                    <div
+                        class="w-16 h-16 bg-orange-100 text-orange-400 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-2xl shadow-inner">
+                        2</div>
+                    <h3 class="font-bold text-xl mb-4">Interactive Learning</h3>
+                    <p class="text-gray-500 leading-relaxed">Engage with short, focused lessons that respect your time
+                        and attention span.</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-10 rounded-2xl text-center hover:bg-white">
+                    <div
+                        class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 font-bold text-2xl shadow-inner">
+                        3</div>
+                    <h3 class="font-bold text-xl mb-4">Achieve Mastery</h3>
+                    <p class="text-gray-500 leading-relaxed">Earn your certification and show off your new scheduling
+                        superpowers!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="full-width-gradient py-28 text-center relative">
+        <div class="absolute inset-0 opacity-10"
+            style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==')">
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl font-bold text-white mb-6">Ready to Revolutionize Your Scheduling Skills?</h2>
+            <p class="text-white/90 text-xl mb-10 max-w-2xl mx-auto">Join thousands of automotive professionals who have
+                transformed their scheduling efficiency with our platform.</p>
+            <a href="sign.html"
+                class="bg-white text-indigo-600 px-10 py-4 rounded-full font-bold text-lg inline-flex items-center hover:shadow-xl transition-all">
+                Get Started<i data-feather="arrow-right" class="ml-3 w-5 h-5"></i>
+            </a>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-20">
+                <h2 class="text-4xl font-bold mb-6">Why Scheduler Training Hub</h2>
+                <p class="text-gray-500 text-lg">Designed exclusively for automotive service professionals by industry
+                    experts.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="feature-card bg-gray-50 p-8 rounded-xl text-center hover:bg-white">
+                    <div class="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="zap" class="w-6 h-6 text-indigo-600"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-3">Quick Lessons</h4>
+                    <p class="text-sm text-gray-500">10-40 minute modules designed for busy professionals</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-8 rounded-xl text-center hover:bg-white">
+                    <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="clock" class="w-6 h-6 text-orange-400"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-3">Learn Anytime</h4>
+                    <p class="text-sm text-gray-500">24/7 access from any device with progress sync</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-8 rounded-xl text-center hover:bg-white">
+                    <div class="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="award" class="w-6 h-6 text-indigo-600"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-3">Get Certified</h4>
+                    <p class="text-sm text-gray-500">Industry-recognized certificates for your resume</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-8 rounded-xl text-center hover:bg-white">
+                    <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-feather="users" class="w-6 h-6 text-green-500"></i>
+                    </div>
+                    <h4 class="font-bold text-lg mb-3">Team Training</h4>
+                    <p class="text-sm text-gray-500">Comprehensive analytics for team progress tracking</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center max-w-2xl mx-auto mb-20"></div>
+    </section>
+
+    <div id="footer-container"></div>
+
+    <script>
+        feather.replace();
+
+        // Simple animation for stats
+        document.addEventListener('DOMContentLoaded', function () {
+            const statItems = document.querySelectorAll('.stat-item');
+            statItems.forEach((item, index) => {
+                item.style.transitionDelay = `${index * 100}ms`;
+                item.classList.add('opacity-0', 'translate-y-4');
+            });
+
+            setTimeout(() => {
+                statItems.forEach(item => {
+                    item.classList.remove('opacity-0', 'translate-y-4');
+                });
+            }, 500);
+        });
+    </script>
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    <script type="module">
+        import { initializeFooter } from "./components/main-footer.js";
+        initializeFooter();
+    </script>
+
+</body>
+
+</html>

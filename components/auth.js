@@ -81,13 +81,11 @@ window.handleRegistration = async (e) => {
       batch.set(modRef, {
         module_id: data.module_id || moduleDoc.id, // Fallback to doc ID if module_id field is missing
         module_display_name: moduleName,
-        progress: 0,
+
         completion: false,
         lastUpdated: serverTimestamp(),
         score: 0,
-        Qitems: 40,
-        Citems: 0,
-        watchedVideos: {}
+
       });
     });
 

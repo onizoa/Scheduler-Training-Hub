@@ -254,6 +254,32 @@
 
     <div id="footer-container"></div>
 
+    <!-- Certificate Modal -->
+    <div id="cert-modal" class="hidden fixed inset-0 z-[999] flex items-center justify-center"
+        style="background:rgba(0,0,0,0.65);">
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl flex flex-col items-center"
+            style="background:var(--bg-surface);max-width:700px;width:95%;padding:28px 28px 22px;">
+            <button id="cert-modal-close" class="absolute top-3 right-4 text-2xl font-bold"
+                style="color:var(--text-tertiary);">&times;</button>
+            <h3 class="text-sm font-bold mb-4" style="color:var(--text-primary);">Certificate of Completion</h3>
+            <canvas id="cert-canvas" width="680" height="480"
+                style="border-radius:12px;max-width:100%;box-shadow:0 4px 24px rgba(0,0,0,0.12);"></canvas>
+            <div class="flex gap-3 mt-5">
+                <button id="cert-download-btn" class="primary-btn px-8 text-white flex items-center gap-2"
+                    style="height:36px;font-size:12px;">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download Certificate
+                </button>
+                <button id="cert-modal-close-2" class="secondary-btn px-6"
+                    style="height:36px;font-size:12px;">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { auth, db } from "./components/firebase-init.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -265,7 +291,7 @@
          */
         const CONFIG = {
             MODULE_REGISTRY: [
-                { name: "CDK Scheduler", status: "active", slug: "cdk", est: "45 MIN", initial: "C" },
+                { name: "CDK Scheduler", status: "active", slug: "cdk", est: "35 MIN", initial: "C" },
                 { name: "Xtime Scheduler", status: "active", slug: "xtime", est: "35 MIN", initial: "X" },
                 { name: "Autoloop Scheduler", status: "inactive", slug: "autoloop", est: "-- MIN", initial: "A" },
                 { name: "Dealerlogix Scheduler", status: "inactive", slug: "dealerlogix", est: "-- MIN", initial: "D" },
@@ -278,6 +304,12 @@
                 UNAUTHENTICATED_REDIRECT: "sign.html",
                 PROFILE_HOME: "user-profile.html"
             }
+        };
+
+        //--- Module mapping ---
+        const MODULE_FIREBASE_MAP = {
+            cdk: "CDK",
+            xtime: "Xtime"
         };
 
         /**
@@ -460,44 +492,113 @@
                 const fragment = document.createDocumentFragment();
 
                 modules.forEach(module => {
-                    const isActive = module.status === "active";
-                    const row = document.createElement("div");
-                    row.className = `module-row px-5 flex items-center gap-5 ${!isActive ? 'opacity-40' : ''}`;
 
-                    const parsedScore = module.score !== undefined ? module.score : '--';
-                    const completeDateString = isActive ? "-- -- ----" : "-- -- ----";
+                    const isActive = module.status === "active";
+
+                    const completionDate =
+                        module.lastUpdated
+                            ? Formatters.formatTimestamp(module.lastUpdated)
+                            : "-- -- ----";
+
+                    const score =
+                        module.score !== undefined
+                            ? module.score
+                            : "--";
+
+                    const remarks =
+                        module.firebaseStatus || "—";
+
+                    const completed =
+                        module.completion === true ||
+                        module.firebaseStatus === "Completed";
+
+                    const row = document.createElement("div");
+
+                    row.className =
+                        `module-row px-5 flex items-center gap-5 ${!isActive ? 'opacity-40' : ''}`;
 
                     row.innerHTML = `
                         <div class="flex items-center gap-4 w-[280px]">
                             <div class="module-icon flex items-center justify-center text-white font-bold">
                                 ${module.initial}
                             </div>
+
                             <div>
                                 <h4 class="text-xs font-bold">${module.name}</h4>
-                                <p class="text-[9px] font-bold" style="color: var(--text-tertiary);">ESTIMATED: ${module.est}</p>
+                                <p class="text-[9px] font-bold"
+                                style="color: var(--text-tertiary);">
+                                ESTIMATED: ${module.est}
+                                </p>
                             </div>
                         </div>
+
                         <div class="w-[160px]">
-                            <p class="text-[9px] uppercase font-bold" style="color: var(--text-tertiary);">COMPLETED DATE</p>
-                            <p class="text-xs font-bold" style="color: var(--text-secondary);">${completeDateString}</p>
+                            <p class="text-[9px] uppercase font-bold"
+                            style="color: var(--text-tertiary);">
+                            COMPLETION DATE
+                            </p>
+
+                            <p class="text-xs font-bold"
+                            style="color: var(--text-secondary);">
+                            ${completionDate}
+                            </p>
                         </div>
+
                         <div class="w-[120px]">
-                            <p class="text-[9px] uppercase font-bold" style="color: var(--text-tertiary);">SCORE</p>
-                            <p class="text-xs font-bold" style="color: var(--text-secondary);">${parsedScore}</p>
+                            <p class="text-[9px] uppercase font-bold"
+                            style="color: var(--text-tertiary);">
+                            SCORE
+                            </p>
+
+                            <p class="text-xs font-bold"
+                            style="color: var(--text-secondary);">
+                            ${score}
+                            </p>
                         </div>
+
+                        <div class="w-[180px]">
+                            <p class="text-[9px] uppercase font-bold"
+                            style="color: var(--text-tertiary);">
+                            REMARKS
+                            </p>
+
+                            <p class="text-xs font-bold"
+                            style="color: var(--text-secondary);">
+                            ${remarks}
+                            </p>
+                        </div>
+
                         <div class="ml-auto flex gap-2">
-                            <button disabled class="secondary-btn px-5">Certificate</button>
-                            <button class="primary-btn px-6 text-white navigation-trigger">
+                            <button
+                                class="secondary-btn px-5 certificate-btn"
+                                ${completed ? "" : "disabled"}>
+                                Certificate
+                            </button>
+
+                            <button
+                                class="primary-btn px-6 text-white navigation-trigger">
                                 ${isActive ? "Open Module" : "Coming Soon"}
                             </button>
                         </div>
                     `;
 
                     if (isActive) {
-                        const navBtn = row.querySelector('.navigation-trigger');
-                        if (navBtn) {
-                            navBtn.addEventListener('click', () => {
-                                window.location.href = `${module.slug}-module.html`;
+
+                        const navBtn =
+                            row.querySelector(".navigation-trigger");
+
+                        navBtn?.addEventListener("click", () => {
+                            window.location.href =
+                                `${module.slug}-module.html`;
+                        });
+
+                        if (completed) {
+
+                            const certBtn =
+                                row.querySelector(".certificate-btn");
+
+                            certBtn?.addEventListener("click", () => {
+                                openCertificateModal(module);
                             });
                         }
                     }
@@ -526,18 +627,100 @@
             // Establish Auth Listening Node
             onAuthStateChanged(auth, async (user) => {
                 if (!user) {
-                    window.location.href = CONFIG.ROUTING.UNAUTHENTICATED_REDIRECT;
+                    window.location.href =
+                        CONFIG.ROUTING.UNAUTHENTICATED_REDIRECT;
                     return;
-                }
+                } try {
 
-                try {
-                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    const userDoc =
+                        await getDoc(doc(db, "users", user.uid));
+
                     if (userDoc.exists()) {
-                        DOMHydrator.hydrateProfileHeader(user.email, userDoc.data());
+                        DOMHydrator.hydrateProfileHeader(
+                            user.email,
+                            userDoc.data()
+                        );
                     }
-                    DOMHydrator.hydrateModuleList(CONFIG.MODULE_REGISTRY);
+                    // ============================================
+                    // Load Module Results from Firebase
+                    // ============================================
+                    const modulesWithResults = [];
+                    for (const module of CONFIG.MODULE_REGISTRY) {
+
+                        // Only pull Firebase data for active modules
+                        if (module.status !== "active") {
+                            modulesWithResults.push(module);
+                            continue;
+                        }
+
+                        const firebaseModuleName =
+                            MODULE_FIREBASE_MAP[module.slug];
+
+                        if (!firebaseModuleName) {
+                            modulesWithResults.push(module);
+                            continue;
+                        }
+
+                        try {
+
+                            const moduleRef = doc(
+                                db,
+                                "module_progress",
+                                user.uid,
+                                "modules",
+                                firebaseModuleName
+                            );
+
+                            const moduleSnap =
+                                await getDoc(moduleRef);
+
+                            if (moduleSnap.exists()) {
+
+                                const moduleData =
+                                    moduleSnap.data();
+
+                                modulesWithResults.push({
+                                    ...module,
+
+                                    completion:
+                                        moduleData.completion,
+
+                                    lastUpdated:
+                                        moduleData.lastUpdated,
+
+                                    score:
+                                        moduleData.score,
+
+                                    firebaseStatus:
+                                        moduleData.status
+                                });
+
+                            } else {
+
+                                modulesWithResults.push(module);
+                            }
+
+                        } catch (err) {
+
+                            console.error(
+                                `Failed loading ${firebaseModuleName}`,
+                                err
+                            );
+
+                            modulesWithResults.push(module);
+                        }
+                    }
+
+                    DOMHydrator.hydrateModuleList(
+                        modulesWithResults
+                    );
+
                 } catch (error) {
-                    console.error("Database initialization failed cleanly:", error);
+
+                    console.error(
+                        "Database initialization failed cleanly:",
+                        error
+                    );
                 }
             });
         }

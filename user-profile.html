@@ -197,6 +197,263 @@
             color: var(--text-secondary);
             font-size: 11px;
         }
+
+        .secondary-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .secondary-btn.active {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+            color: white;
+            font-weight: 700;
+        }
+
+        /*Certificate style*/
+        .certificate-card {
+
+            background:
+                linear-gradient(135deg,
+                    #0f172a 0%,
+                    #1e293b 100%);
+
+            border: 8px double #e2e8f0;
+            border-radius: 12px;
+
+            padding: 40px;
+
+            color: white;
+            text-align: center;
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, .5);
+
+            position: relative;
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            min-height: 520px;
+        }
+
+        .certificate-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                radial-gradient(circle at center,
+                    rgba(59, 130, 246, .15) 0%,
+                    transparent 60%);
+
+            pointer-events: none;
+        }
+
+        .cert-header {
+
+            font-size: 12px;
+            font-weight: 600;
+
+            color: var(--google-blue);
+
+            text-transform: uppercase;
+            letter-spacing: 2px;
+
+            margin-top: 18px;
+        }
+
+        .cert-title {
+
+            font-size: 28px;
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            background:
+                linear-gradient(to right,
+                    #ffffff,
+                    #94a3b8);
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            margin-top: 18px;
+        }
+
+        .cert-subtitle {
+
+            font-size: 14px;
+
+            color: #94a3b8;
+
+            margin-top: 12px;
+        }
+
+        .cert-name-cdk {
+
+            font-size: 32px;
+            font-weight: 700;
+
+            color: #3b82f6;
+
+            margin-top: 40px;
+
+            border-bottom:
+                2px solid rgba(255, 255, 255, .1);
+
+            width: 80%;
+
+            padding-bottom: 8px;
+        }
+
+        .cert-name-xtime {
+
+            font-size: 32px;
+            font-weight: 700;
+
+            color: #818cf8;
+
+            margin-top: 40px;
+
+            border-bottom:
+                2px solid rgba(255, 255, 255, .1);
+
+            width: 80%;
+
+            padding-bottom: 8px;
+
+            text-shadow:
+                0 0 10px rgba(99, 102, 241, .4);
+        }
+
+        .cert-text {
+
+            margin-top: 36px;
+
+            max-width: 560px;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+
+            color: #cbd5e1;
+        }
+
+        .cert-meta-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            width: 80%;
+
+            margin-top: 42px;
+
+            border-top:
+                1px solid rgba(255, 255, 255, .08);
+
+            padding-top: 16px;
+        }
+
+        .cert-meta-label {
+
+            font-size: 9px;
+
+            text-transform: uppercase;
+        }
+
+        .cert-meta-value {
+
+            font-weight: 600;
+            color: white;
+        }
+
+        .cert-seal-cdk {
+
+            width: 60px;
+            height: 60px;
+
+            background:
+                radial-gradient(circle,
+                    #f59e0b 0%,
+                    #d97706 100%);
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px dashed white;
+
+            color: white;
+            font-weight: 700;
+
+            box-shadow:
+                0 0 15px rgba(245, 158, 11, .5);
+
+            transform: rotate(-10deg);
+        }
+
+        .cert-seal-xtime {
+
+            width: 60px;
+            height: 60px;
+
+            background:
+                radial-gradient(circle,
+                    #6366f1 0%,
+                    #4338ca 100%);
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px dashed white;
+
+            color: white;
+            font-weight: 700;
+
+            box-shadow:
+                0 0 15px rgba(99, 102, 241, .5);
+
+            transform: rotate(-10deg);
+        }
+
+        @media print {
+
+            body * {
+                visibility: hidden !important;
+            }
+
+            #certificate-print-area,
+            #certificate-print-area * {
+                visibility: visible !important;
+            }
+
+            #certificate-print-area {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+
+                width: 100% !important;
+                height: auto !important;
+
+                margin: 0 !important;
+                padding: 0 !important;
+
+                background: white !important;
+            }
+
+        }
     </style>
 
     <script>
@@ -262,10 +519,9 @@
             <button id="cert-modal-close" class="absolute top-3 right-4 text-2xl font-bold"
                 style="color:var(--text-tertiary);">&times;</button>
             <h3 class="text-sm font-bold mb-4" style="color:var(--text-primary);">Certificate of Completion</h3>
-            <canvas id="cert-canvas" width="680" height="480"
-                style="border-radius:12px;max-width:100%;box-shadow:0 4px 24px rgba(0,0,0,0.12);"></canvas>
+            <div id="profile-certificate-container"></div>
             <div class="flex gap-3 mt-5">
-                <button id="cert-download-btn" class="primary-btn px-8 text-white flex items-center gap-2"
+                <!--<button id="cert-download-btn" class="primary-btn px-8 text-white flex items-center gap-2"
                     style="height:36px;font-size:12px;">
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -273,8 +529,8 @@
                         <line x1="12" y1="15" x2="12" y2="3" />
                     </svg>
                     Download Certificate
-                </button>
-                <button id="cert-modal-close-2" class="secondary-btn px-6"
+                </button>-->
+                <button id="cert-modal-close-2" class="primary-btn px-6"
                     style="height:36px;font-size:12px;">Close</button>
             </div>
         </div>
@@ -570,7 +826,7 @@
 
                         <div class="ml-auto flex gap-2">
                             <button
-                                class="secondary-btn px-5 certificate-btn"
+                                class="secondary-btn px-5 certificate-btn ${completed ? "active" : ""}"
                                 ${completed ? "" : "disabled"}>
                                 View Certificate
                             </button>
@@ -623,6 +879,11 @@
             ComponentRenderer.renderHeader();
             ComponentRenderer.renderFooter();
             initializeLogout();
+
+            document.getElementById("cert-download-btn")?.addEventListener("click", () => {
+                window.print();
+            });
+
 
             // Establish Auth Listening Node
             onAuthStateChanged(auth, async (user) => {
@@ -725,6 +986,164 @@
             });
         }
 
+        //---Certificate Modal---//
+        function openCertificateModal(module) {
+
+            const modal = document.getElementById("cert-modal");
+
+            modal.classList.remove("hidden");
+
+            const certContainer = document.getElementById(
+                "profile-certificate-container"
+            );
+
+            const userName = document.getElementById(
+                "profile-full-name"
+            )?.textContent || "Trainee";
+
+            certContainer.innerHTML =
+                buildCertificateHTML(
+                    module,
+                    userName,
+                    module.score || 0,
+                    module.lastUpdated
+                        ? Formatters.formatTimestamp(
+                            module.lastUpdated
+                        )
+                        : "--"
+                );
+        }
+
+        function closeCertificateModal() {
+
+            const modal =
+                document.getElementById("cert-modal");
+
+            if (!modal) return;
+
+            modal.classList.add("hidden");
+        }
+
+        document
+            .getElementById("cert-modal-close")
+            ?.addEventListener(
+                "click",
+                closeCertificateModal
+            );
+
+        document
+            .getElementById("cert-modal-close-2")
+            ?.addEventListener(
+                "click",
+                closeCertificateModal
+            );
+
+
+        function buildCertificateHTML(
+            module,
+            userName,
+            score,
+            completionDate
+        ) {
+
+            const isCDK =
+                module.slug === "cdk";
+
+            const verificationId =
+                isCDK
+                    ? `CDK-${Math.floor(10000 + Math.random() * 90000)
+                        .toString(16)
+                        .toUpperCase()}`
+                    : `XT-${Math.floor(10000 + Math.random() * 90000)
+                        .toString(16)
+                        .toUpperCase()}`;
+
+            const dealerText =
+                isCDK
+                    ? "has successfully completed all training modules, navigation simulations, and the dealer business policy examinations for Tarrytown Honda and Mike Piazza Honda."
+                    : "has successfully completed all training modules, navigation simulations, and the dealer business policy examinations for Hudson Honda and Warrenton Toyota.";
+
+            const sealText =
+                isCDK ? "CDK" : "XT";
+
+            const sealClass =
+                isCDK
+                    ? "cert-seal-cdk"
+                    : "cert-seal-xtime";
+
+            const nameClass =
+                isCDK
+                    ? "cert-name-cdk"
+                    : "cert-name-xtime";
+
+            return `
+                <div id="certificate-print-area">
+
+                    <div class="certificate-card">
+
+                        <div class="${sealClass}">
+                            ${sealText}
+                        </div>
+
+                        <div class="cert-header">
+                            CERTIFICATE OF COMPLETION
+                        </div>
+
+                        <div class="cert-title">
+                            ${module.name.toUpperCase()} COMPETENCY
+                        </div>
+
+                        <div class="cert-subtitle">
+                            PROFESSIONAL WORKFLOW & POLICY ASSESSMENT
+                        </div>
+
+                        <div class="${nameClass}">
+                            ${userName.toUpperCase()}
+                        </div>
+
+                        <div class="cert-text">
+                            ${dealerText}
+                        </div>
+
+                        <div class="cert-meta-row">
+
+                            <div>
+                                <div class="cert-meta-label">
+                                    DATE ISSUED
+                                </div>
+
+                                <div class="cert-meta-value">
+                                    ${completionDate}
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="cert-meta-label">
+                                    PASSING SCORE
+                                </div>
+
+                                <div class="cert-meta-value">
+                                    ${score}%
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="cert-meta-label">
+                                    VERIFICATION ID
+                                </div>
+
+                                <div class="cert-meta-value">
+                                    ${verificationId}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+        }
         // Run application
         initApp();
     </script>

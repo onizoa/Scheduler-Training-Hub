@@ -2327,7 +2327,7 @@
     <script type="module">
         import { auth, db } from "./components/firebase-init.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         async function loadCurrentUser() {
 
@@ -3344,7 +3344,13 @@
             const finalPercentage = Math.round((score / 10) * 100);
             progressState.finalExamScore = finalPercentage;
             progressState.finalExamPassed = finalPercentage >= 80;
+            // Save local progress
             saveProgress();
+            // Save Firebase module progress
+            saveCdkAssessmentResult(
+                finalPercentage,
+                finalPercentage >= 80
+            );
             updateOverallProgress();
 
             // Setup outcome panel
@@ -3481,6 +3487,58 @@
                 }
             }
         });
+
+        //--- Final Assessment submission ---
+        window.saveCdkAssessmentResult = async function (score, passed) {
+
+            const user = auth.currentUser;
+
+            if (!user) {
+                console.error("No authenticated user found.");
+                return;
+            }
+
+            const moduleRef = doc(
+                db,
+                "module_progress",
+                user.uid,
+                "modules",
+                "CDK"
+            );
+
+            try {
+
+                await setDoc(moduleRef, {
+
+                    completion: passed,
+                    lastUpdated: serverTimestamp(),
+                    module_display_name: "CDK",
+                    module_id: "M2",
+                    score: score,
+                    status: passed
+                        ? "Completed"
+                        : "Incomplete"
+
+                });
+
+                console.log(
+                    "Xtime assessment saved successfully",
+                    {
+                        score,
+                        passed
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Failed saving Xtime assessment:",
+                    error
+                );
+
+            }
+
+        };
     </script>
 </body>
 
